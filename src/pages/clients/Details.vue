@@ -24,7 +24,7 @@
 
 
               <q-card-section horizontal>
-                <img class="col w-40 aspect-1 object-cover object-center" :src="client.image" />
+                <img class="col w-32 aspect-2 object-cover object-center" :src="client.image" />
 
                 <q-card-section class=" overflow-hidden">
                   <div class="text-xl font-bold text-gray-900 sm:text-2xl mb-2">{{ client.name }}</div>
@@ -177,7 +177,7 @@
             </div>
           </div>
         </div>
-        <div
+        <!-- <div
           class="grid grid-cols-1 divide-y divide-gray-200 border-t border-gray-200 bg-gray-50 sm:grid-cols-6 sm:divide-y-0 sm:divide-x">
           <div class="px-6 py-2 text-center text-sm font-medium">
             <p class="text-gray-900">Heart: {{ status.heart_condition }}</p>
@@ -195,7 +195,7 @@
           <div class="px-6 py-2 text-center text-sm font-medium">
             <p class="text-gray-900">Heart: {{ status.heart_condition }}</p>
           </div>
-        </div>
+        </div> -->
       </div>
 
 

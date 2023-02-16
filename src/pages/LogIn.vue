@@ -119,10 +119,11 @@ function switchVisibility() {
   -->
 
   <q-layout view="lHh Lpr fff">
+<q-page-container>
 
-
-    <q-page class="window-height window-width row justify-center items-center"
-      style="background: linear-gradient(#8274C5, #5A4A9F);">
+  
+  <q-page class="window-height window-width row justify-center items-center"
+  style="background: linear-gradient(#8274C5, #5A4A9F);">
       <div class="column q-pa-lg">
         <div class="row">
           <q-card square class="shadow-24" style="width:400px;height:540px;">
@@ -132,7 +133,7 @@ function switchVisibility() {
             </q-card-section>
             <q-card-section>
               <q-fab color="primary" @click="switchTypeForm" icon="add" class="absolute -z-10"
-                style="top: 0; right: 12px; transform: translateY(-50%);">
+              style="top: 0; right: 12px; transform: translateY(-50%);">
                 <q-tooltip>
 
                   New User Registration
@@ -188,6 +189,7 @@ Password">
       </div>
 
     </q-page>
+  </q-page-container>
 
   </q-layout>
 
