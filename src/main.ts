@@ -36,6 +36,17 @@ app.config.globalProperties.$filters = {
     // return moment(date).format("dddd, MMMM Do YYYY");
     return moment(date).format("DD/MM/YYYY");
   },
+  dateTimeMoment(date: string, format: string = "YYYY-MM-DD HH:mm") {
+    // return moment(date).format("dddd, MMMM Do YYYY");
+    return moment(date).format(format);
+  },
+  addHours(
+    date: string,
+    hour: number = 2,
+    format: string = "YYYY-MM-DD HH:mm"
+  ) {
+    return moment(date).add(hour, "hours").format(format);
+  },
   reverse(items: string[]) {
     return items.slice().reverse();
   },
@@ -47,6 +58,7 @@ pinia.use(({ store }) => {
 
 app
   .provide("electron", (window as any).electronAPI)
+  .provide("filters", app.config.globalProperties.$filters)
   .use(Quasar, {})
   .use(pinia)
   .component("vue-cal", VueCal)

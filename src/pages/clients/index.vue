@@ -1,15 +1,15 @@
 <template>
     <div class="bg-white">
-        <div class="mx-auto max-w-7xl py-12 px-6 text-center lg:px-8 lg:py-16">
-            <div class="space-y-6 sm:space-y-8">
+        <div class="mx-auto max-w-7xl py-12 px-12 text-center lg:px-8 lg:py-16">
+            <div class="space-y-6 sm:space-y-8 ">
                 <div class="space-y-2 sm:mx-auto sm:max-w-xl sm:space-y-1 lg:max-w-5xl">
                     <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Clients</h2>
                     <!-- <p class="text-xl text-gray-500">Risus velit condimentum vitae tincidunt tincidunt. Mauris ridiculus
                         fusce amet urna nunc. Ut nisl ornare diam in.</p> -->
                 </div>
                 <ul role="list"
-                    class="mx-auto h-[32rem] overflow-y-auto grid grid-cols-2 gap-x-1 gap-y-2 sm:grid-cols-4 md:gap-x-2 lg:max-w-6xl lg:gap-x-4 lg:gap-y-2 xl:grid-cols-6">
-                    <li v-for="person in people" :key="person.name">
+                    class="mx-auto h-[32rem] overflow-y-auto grid  grid-cols-2 gap-x-1 gap-y-2 sm:grid-cols-5 md:gap-x-2 lg:max-w-6xl lg:gap-x-4 lg:gap-y-2">
+                    <!-- <li v-for="person in people" :key="person.id">
                         <div class="relative space-y-2">
                             <div class="absolute top-8 left-12 group flex items-end p-8">
                                 <button type="button"
@@ -26,7 +26,45 @@
                                 </div>
                             </div>
                         </div>
-                    </li>
+                    </li> -->
+                    <!-- <q-card v-for="person in people" :key="person.id" class=" p-0 justify-center flex"
+                        style="padding: 0;" flat bordered>
+
+                        <q-img src="https://cdn.quasar.dev/img/parallax2.jpg">
+                            <div class="absolute-bottom text-subtitle2 text-center">
+                                Title
+                            </div>
+                        </q-img>
+
+                        <q-card-section>
+                            <h6>{{ person.name }}</h6>
+                            <q-card-actions>
+                                <q-btn flat size="md" color="dark" icon="visibility"
+                                    @click="toggleQuickView(+person.id)"></q-btn>
+                                <q-btn size="md" flat color="dark" icon="open_in_new"
+                                    @click="navigateToClientDetails(+person.id)"></q-btn>
+                            </q-card-actions>
+                        </q-card-section>
+                    </q-card> -->
+                    <q-card v-for="person in people" :key="person.id" class="my-card" flat bordered>
+                        <q-card-section horizontal>
+
+                            <q-img class="col h-56 object-top" :src="person.image">
+                                <div class="absolute-bottom text-subtitle2 text-center backdrop-blur-sm cursor-pointer"
+                                    @click="navigateToClientDetails(+person.id)">
+                                    {{ person.name }}
+                                </div>
+                            </q-img>
+
+                            <q-card-actions vertical class="justify-around">
+                                <q-btn flat round color="red" icon="favorite" />
+                                <q-btn flat round color="accent" icon="visibility"
+                                    @click="toggleQuickView(+person.id)" />
+                                <q-btn flat round color="primary" icon="open_in_new"
+                                    @click="navigateToClientDetails(+person.id)" />
+                            </q-card-actions>
+                        </q-card-section>
+                    </q-card>
                 </ul>
             </div>
             <div class="w-full mt-4 ">
@@ -64,12 +102,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watchEffect, inject } from "vue"
+import { computed, ref, Ref, watchEffect, inject } from "vue"
 import axios from "axios"
+import { useRouter } from "vue-router"
 import { useClientStore } from "../../stores/client"
 
 const store = useClientStore()
 const clients = store.useClients
+const router = useRouter()
 
 const people = ref([])
 const peopleCount = ref(0)
@@ -84,7 +124,10 @@ const endIndex = computed(() => {
 const totalPages = computed(() => Math.ceil(peopleCount.value / pageSize.value))
 const { open, toggleQuickView } = inject("quickview")
 
-
+const navigateToClientDetails = (id: number) => {
+    router.push(`/clients/${id}`)
+    // toggleQuickView()
+}
 
 const maxPage = computed(() => {
     return peopleCount.value % pageSize.value < people.value.length

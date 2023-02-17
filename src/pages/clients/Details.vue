@@ -16,187 +16,6 @@
     <main v-if="client && details" class="py-4">
       <!-- Page header -->
 
-      <div class=" max-w-7xl mx-auto overflow-hidden rounded-lg bg-white shadow">
-        <h2 class="sr-only" id="profile-overview-title">Profile Overview</h2>
-        <div class="bg-white pr-6">
-          <div class="sm:flex sm:items-center sm:justify-between">
-            <q-card flat>
-
-
-              <q-card-section horizontal>
-                <img class="col w-32 aspect-2 object-cover object-center" :src="client.image" />
-
-                <q-card-section class=" overflow-hidden">
-                  <div class="text-xl font-bold text-gray-900 sm:text-2xl mb-2">{{ client.name }}</div>
-                  <q-item-label caption>Age: <span class="capitalize font-semibold text-zinc-900">{{
-                    client.age
-                  }}</span></q-item-label>
-                  <q-item-label caption>Sex: <span class="capitalize font-semibold text-zinc-900">{{
-                    client.gender
-                  }}</span>
-                  </q-item-label>
-                  <q-item-label caption>Height: <span class="capitalize font-semibold text-zinc-900">{{
-                    status.height
-                  }}</span>
-                  </q-item-label>
-                  <q-item-label caption>Weight: <span class="capitalize font-semibold text-zinc-900">{{
-                    status.weight
-                  }}</span>
-                  </q-item-label>
-                </q-card-section>
-                <q-card-actions vertical dense class="justify-around">
-                  <!-- <q-btn flat round color="red" icon="favorite" />
-                    <q-btn flat round color="accent" icon="bookmark" />
-                    <q-btn flat round color="primary" icon="share" /> -->
-                  <q-list>
-                    <q-item dense clickable>
-                      <q-item-section avatar>
-                        <q-icon color="red" name="favorite" />
-                      </q-item-section>
-                      <q-item-section>
-                        <q-item-label>Heart: <q-item-label caption class="text-green-600">{{
-                          status.heart_condition
-                        }}</q-item-label></q-item-label>
-                      </q-item-section>
-                    </q-item>
-                    <q-item dense clickable>
-                      <q-item-section avatar>
-                        <q-icon color="primary" name="bookmark" />
-                      </q-item-section>
-                      <q-item-section>
-                        <q-item-label>Bar XYZ: <q-item-label caption>30%</q-item-label></q-item-label>
-                      </q-item-section>
-                    </q-item>
-                    <q-item dense clickable>
-                      <q-item-section avatar>
-                        <q-icon color="green" name="share" />
-                      </q-item-section>
-                      <q-item-section>
-                        <q-item-label>Bar XYZ: <q-item-label caption>30%</q-item-label></q-item-label>
-                      </q-item-section>
-                    </q-item>
-                  </q-list>
-                </q-card-actions>
-                <q-card-actions vertical dense class="justify-around">
-                  <!-- <q-btn flat round color="red" icon="favorite" />
-                    <q-btn flat round color="accent" icon="bookmark" />
-                    <q-btn flat round color="primary" icon="share" /> -->
-                  <q-list>
-                    <q-item dense clickable>
-                      <q-item-section avatar>
-                        <q-icon color="red" name="favorite" />
-                      </q-item-section>
-                      <q-item-section>
-                        <q-item-label>Heart: <q-item-label caption class="text-green-600">{{
-                          status.heart_condition
-                        }}</q-item-label></q-item-label>
-                      </q-item-section>
-                    </q-item>
-                    <q-item dense clickable>
-                      <q-item-section avatar>
-                        <q-icon color="primary" name="bookmark" />
-                      </q-item-section>
-                      <q-item-section>
-                        <q-item-label>Bar XYZ: <q-item-label caption>30%</q-item-label></q-item-label>
-                      </q-item-section>
-                    </q-item>
-                    <q-item dense clickable>
-                      <q-item-section avatar>
-                        <q-icon color="green" name="share" />
-                      </q-item-section>
-                      <q-item-section>
-                        <q-item-label>Bar XYZ: <q-item-label caption>30%</q-item-label></q-item-label>
-                      </q-item-section>
-                    </q-item>
-                  </q-list>
-                </q-card-actions>
-              </q-card-section>
-            </q-card>
-            <q-separator spaced vertical />
-
-            <div class="sm:flex sm:space-x-5">
-
-              <!-- <div class="flex-shrink-0">
-                                <img class="mx-auto h-24 w-24 rounded-full object-cover object-top" :src="client.image"
-                                    alt="" />
-                            </div> -->
-              <!--
-                                {
-    "id": 1,
-    "heart_condition": "good",
-    "blood_sugar": 105,
-    "blood_pressure": "14/8",
-    "weight": 78.0,
-    "height": 176.0,
-    "smoking_status": false,
-    "alcohol_consumption": true,
-    "physical_activity": "None",
-    "notes": "He is cute, smiles most of the time, gorgous",
-    "client": 129
-}
-                             -->
-              <div class="mt-6 text-center sm:mt-0 sm:pt-1 sm:text-left sm:py-6">
-                <p class="text-xl font-bold text-gray-900 sm:text-2xl">{{ client.name }}</p>
-                <p class="text-sm font-medium text-gray-600">{{
-                  client.age + ' ' + client.gender
-                }} Weight: {{ status.weight }} Height:
-                  {{ status.height }}
-                </p>
-                <p class="text-md mt-2 font-medium text-gray-600">
-                  <span :class="[
-                    status.heart_condition === 'good'
-                      ? 'text-green-600'
-                      : 'text-red-600'
-                  ]">Heart: {{ status.heart_condition }}</span>
-                  {{ ' | ' }}
-                  <span :class="[
-                    status.blood_sugar >= 105
-                      ? 'text-green-600'
-                      : 'text-red-600'
-                  ]">Blood sugar: {{ status.blood_sugar }}</span>
-                  {{ ' | ' }}
-                  <span>Blood pressure: {{ status.blood_pressure }}</span>
-                  {{ ' | ' }}
-                  <span :class="[
-                    status.blood_sugar >= 105
-                      ? 'text-green-600'
-                      : 'text-red-600'
-                  ]">Blood sugar: {{ status.blood_sugar }}</span>
-                  {{ ' | ' }}
-                  <span :class="[
-                    status.blood_sugar >= 105
-                      ? 'text-green-600'
-                      : 'text-red-600'
-                  ]">Blood sugar: {{ status.blood_sugar }}</span>
-                </p>
-              </div>
-            </div>
-            <div class="mt-5 flex flex-col justify-center sm:mt-0">
-              <p class="text-gray-900 block">{{ client.email }}</p>
-              <p class="text-gray-900 block">{{ client.phone }}</p>
-            </div>
-          </div>
-        </div>
-        <!-- <div
-          class="grid grid-cols-1 divide-y divide-gray-200 border-t border-gray-200 bg-gray-50 sm:grid-cols-6 sm:divide-y-0 sm:divide-x">
-          <div class="px-6 py-2 text-center text-sm font-medium">
-            <p class="text-gray-900">Heart: {{ status.heart_condition }}</p>
-          </div>
-          <div class="px-6 py-2 text-center text-sm font-medium">
-            <p class="text-gray-900">Blood sugar: {{ status.blood_sugar }}</p>
-          </div>
-          <div class="px-6 py-2 text-center text-sm font-medium">
-            <p class="text-gray-900">Blood pressure: {{ status.blood_pressure }}</p>
-          </div>
-          <div class="px-6 py-2 text-center text-sm font-medium">
-            <p class="text-gray-900">Smoking Status: {{ status.smoking_status ? 'Smoking' : 'Not smoking' }}
-            </p>
-          </div>
-          <div class="px-6 py-2 text-center text-sm font-medium">
-            <p class="text-gray-900">Heart: {{ status.heart_condition }}</p>
-          </div>
-        </div> -->
-      </div>
 
 
 
@@ -213,6 +32,100 @@
               <div class="border-t border-gray-200 px-4 py-3 sm:px-6">
                 <dl class="grid grid-cols-1 gap-x-4 gap-y-8 divide-y sm:grid-cols-4">
                   <div class="sm:col-span-4">
+                    <div class=" max-w-7xl mx-auto overflow-hidden bg-white ">
+                      <q-card flat padding class="my-card" bordered>
+
+
+                        <q-card-section horizontal>
+                          <q-img :ratio="1" class="col  aspect-1  object-cover object-center" :src="client.image" />
+
+                          <q-card-section class=" overflow-hidden">
+                            <div class="text-xl font-bold text-gray-900 sm:text-2xl mb-2">{{ client.name }}</div>
+                            <q-item-label caption>Age: <span class="capitalize font-semibold text-zinc-900">{{
+                              client.age
+                            }}</span></q-item-label>
+                            <q-item-label caption>Sex: <span class="capitalize font-semibold text-zinc-900">{{
+                              client.gender
+                            }}</span>
+                            </q-item-label>
+                            <q-item-label caption>Height: <span class="capitalize font-semibold text-zinc-900">{{
+                              status.height
+                            }}</span>
+                            </q-item-label>
+                            <q-item-label caption>Weight: <span class="capitalize font-semibold text-zinc-900">{{
+                              status.weight
+                            }}</span>
+                            </q-item-label>
+                          </q-card-section>
+                          <q-card-actions vertical dense class="justify-around">
+                            <!-- <q-btn flat round color="red" icon="favorite" />
+      <q-btn flat round color="accent" icon="bookmark" />
+      <q-btn flat round color="primary" icon="share" /> -->
+                            <q-list>
+                              <q-item dense clickable>
+                                <q-item-section avatar>
+                                  <q-icon color="red" name="favorite" />
+                                </q-item-section>
+                                <q-item-section>
+                                  <q-item-label>Heart: <q-item-label caption class="text-green-600">{{
+                                    status.heart_condition
+                                  }}</q-item-label></q-item-label>
+                                </q-item-section>
+                              </q-item>
+                              <q-item dense clickable>
+                                <q-item-section avatar>
+                                  <q-icon color="primary" name="bookmark" />
+                                </q-item-section>
+                                <q-item-section>
+                                  <q-item-label>Bar XYZ: <q-item-label caption>30%</q-item-label></q-item-label>
+                                </q-item-section>
+                              </q-item>
+                              <q-item dense clickable>
+                                <q-item-section avatar>
+                                  <q-icon color="green" name="share" />
+                                </q-item-section>
+                                <q-item-section>
+                                  <q-item-label>Bar XYZ: <q-item-label caption>30%</q-item-label></q-item-label>
+                                </q-item-section>
+                              </q-item>
+                            </q-list>
+                          </q-card-actions>
+                          <q-card-actions vertical dense class="justify-around">
+                            <!-- <q-btn flat round color="red" icon="favorite" />
+      <q-btn flat round color="accent" icon="bookmark" />
+      <q-btn flat round color="primary" icon="share" /> -->
+                            <q-list>
+                              <q-item dense clickable>
+                                <q-item-section avatar>
+                                  <q-icon color="red" name="favorite" />
+                                </q-item-section>
+                                <q-item-section>
+                                  <q-item-label>Heart: <q-item-label caption class="text-green-600">{{
+                                    status.heart_condition
+                                  }}</q-item-label></q-item-label>
+                                </q-item-section>
+                              </q-item>
+                              <q-item dense clickable>
+                                <q-item-section avatar>
+                                  <q-icon color="primary" name="bookmark" />
+                                </q-item-section>
+                                <q-item-section>
+                                  <q-item-label>Bar XYZ: <q-item-label caption>30%</q-item-label></q-item-label>
+                                </q-item-section>
+                              </q-item>
+                              <q-item dense clickable>
+                                <q-item-section avatar>
+                                  <q-icon color="green" name="share" />
+                                </q-item-section>
+                                <q-item-section>
+                                  <q-item-label>Bar XYZ: <q-item-label caption>30%</q-item-label></q-item-label>
+                                </q-item-section>
+                              </q-item>
+                            </q-list>
+                          </q-card-actions>
+                        </q-card-section>
+                      </q-card>
+                    </div>
                     <Examination :examinations="examination" />
                   </div>
 
@@ -259,26 +172,35 @@
 
             <!-- Activity Feed -->
             <div class="mt-6 flow-root">
+              <q-btn color="red" icon="schedule" icon-right="add" label="Add an appointment" class="full-width"
+                @click="open = true" />
+              <Dialog v-model:start="startTime" v-model:end="endTime" @ok="addAppointment" v-model="open">
+
+              </Dialog>
+              <!-- <TimePicker /> -->
               <ul role="list" class="-mb-8">
-                <li v-for="(item, itemIdx) in timeline" :key="item.id">
+                <pre>
+                  {{ details.nextAppointment }}
+                </pre>
+                <li v-for="(item, itemIdx) in details.pastAppointments" :key="item.id">
                   <div class="relative pb-8">
                     <span v-if="itemIdx !== timeline.length - 1"
                       class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true" />
                     <div class="relative flex space-x-3">
                       <div>
-                        <span
-                          :class="[item.type.bgColorClass, 'h-8 w-8 rounded-full flex items-center justify-center ring-8 ring-white']">
-                          <component :is="item.type.icon" class="h-5 w-5 text-white" aria-hidden="true" />
+                        <!-- item.type.bgColorClass, -->
+                        <span :class="['h-8 w-8 rounded-full flex items-center justify-center ring-8 ring-white']">
+                          <component :is="HandThumbUpIcon" class="h-5 w-5 text-white" aria-hidden="true" />
                         </span>
                       </div>
                       <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                         <div>
                           <p class="text-sm text-gray-500">
-                            {{ item.content }} <a href="#" class="font-medium text-gray-900">{{ item.target }}</a>
+                            {{ item.client }} <a href="#" class="font-medium text-gray-900">-{{ item.client }}</a>
                           </p>
                         </div>
                         <div class="whitespace-nowrap text-right text-sm text-gray-500">
-                          <time :datetime="item.datetime">{{ item.date }}</time>
+                          <time :datetime="item.date">{{ item.date }}</time>
                         </div>
                       </div>
                     </div>
@@ -299,9 +221,11 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue"
+import { ref, onMounted, inject } from "vue"
 import Examinations from "../../components/Examinations.vue"
 import Examination from "../../components/Examination.vue"
+import TimePicker from "../../components/shared/TimePicker.vue"
+import Dialog from "../../components/shared/Dialog.vue"
 // import fetchClientData from "../../composables/useFetchClientDetails"
 import fetchClientAppointmentsData from "../../composables/useFetchAppointmentDetail"
 import fetchClientData from "../../composables/useFetchClientDetails"
@@ -348,6 +272,17 @@ const status = ref(null)
 const examination = ref(null)
 const attachments = ref([])
 const details = ref(null)
+
+
+const filters = inject("filters")
+const open = ref(false)
+const startTime = ref(filters.dateTimeMoment(new Date()))
+const endTime = ref(filters.addHours(new Date(), 2))
+const addAppointment = async () => {
+  console.log("Next appointment starts: ", startTime.value);
+  console.log("Next appointment ends: ", endTime.value);
+  // NOTE HERE
+};
 
 onMounted(async () => {
   const { client: clientData, status: statusData, attachments: attachmentsData, examination: examinationData, details: detailsData } = await fetchClientData(props.id);
@@ -428,79 +363,8 @@ const timeline = [
     datetime: '2020-10-04',
   },
 ]
-const comments = [
-  {
-    id: 1,
-    name: 'Leslie Alexander',
-    date: '4d ago',
-    imageId: '1494790108377-be9c29b29330',
-    body: 'Ducimus quas delectus ad maxime totam doloribus reiciendis ex. Tempore dolorem maiores. Similique voluptatibus tempore non ut.',
-  },
-  {
-    id: 2,
-    name: 'Michael Foster',
-    date: '4d ago',
-    imageId: '1519244703995-f4e0f30006d5',
-    body: 'Et ut autem. Voluptatem eum dolores sint necessitatibus quos. Quis eum qui dolorem accusantium voluptas voluptatem ipsum. Quo facere iusto quia accusamus veniam id explicabo et aut.',
-  },
-  {
-    id: 3,
-    name: 'Dries Vincent',
-    date: '4d ago',
-    imageId: '1506794778202-cad84cf45f1d',
-    body: 'Expedita consequatur sit ea voluptas quo ipsam recusandae. Ab sint et voluptatem repudiandae voluptatem et eveniet. Nihil quas consequatur autem. Perferendis rerum et.',
-  },
-]
 
-const stats = [
-  { label: 'Vacation days left', value: 12 },
-  { label: 'Sick days left', value: 4 },
-  { label: 'Personal days left', value: 2 },
-]
-const perks = [
-  {
-    name: 'Free returns',
-    imageUrl: 'https://tailwindui.com/img/ecommerce/icons/icon-returns-light.svg',
-    description: 'Soap',
-  },
-  {
-    name: 'Same day delivery',
-    imageUrl: 'https://tailwindui.com/img/ecommerce/icons/icon-calendar-light.svg',
-    description:
-      'Normal',
-  },
-  {
-    name: 'All year discount',
-    imageUrl: 'https://tailwindui.com/img/ecommerce/icons/icon-gift-card-light.svg',
-    description: 'Clasic',
-  },
-  {
-    name: 'For the planet',
-    imageUrl: 'https://tailwindui.com/img/ecommerce/icons/icon-planet-light.svg',
-    description: 'Type 2',
-  },
-  {
-    name: 'Free returns',
-    imageUrl: 'https://tailwindui.com/img/ecommerce/icons/icon-returns-light.svg',
-    description: 'Exceptional',
-  },
-  {
-    name: 'Same day delivery',
-    imageUrl: 'https://tailwindui.com/img/ecommerce/icons/icon-calendar-light.svg',
-    description:
-      'Type 1',
-  },
-  {
-    name: 'All year discount',
-    imageUrl: 'https://tailwindui.com/img/ecommerce/icons/icon-gift-card-light.svg',
-    description: 'Classic',
-  },
-  {
-    name: 'For the planet',
-    imageUrl: 'https://tailwindui.com/img/ecommerce/icons/icon-planet-light.svg',
-    description: 'Normal',
-  },
-]
+
 </script>
 
 <style scoped>

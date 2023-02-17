@@ -18,6 +18,7 @@ class AppointmentViewSet(viewsets.ModelViewSet):
     queryset = Appointment.objects.all()
     serializer_class = AppointmentSerializer
     filter_class = AppointmentFilter
+    # lookup_field = 'client'
 
     def filter_by_month(self):
         month_name = self.request.query_params.get('month', None)
@@ -72,7 +73,7 @@ class AppointmentViewSet(viewsets.ModelViewSet):
         return queryset
 
     def filter_by_client(self, queryset):
-        client_query = self.request.query_params.get('p', None)
+        client_query = self.request.query_params.get('client', None)
         if client_query is not None:
             queryset = queryset.filter(client=client_query)
         return queryset
