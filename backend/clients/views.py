@@ -4,7 +4,7 @@ from django_filters import rest_framework as filters
 
 from django.db.models import Q
 
-from rest_framework import permissions, viewsets
+from rest_framework import permissions, viewsets, generics
 
 
 # Create your views here.
@@ -14,7 +14,8 @@ from core.models import (
 )
 from .serializers import (
     AttachmentSerializer, ClientSerializer,
-    ClinicalExaminationSerializer, ClientHealthStatusSerializer
+    ClinicalExaminationSerializer, ClientHealthStatusSerializer,
+    ClientImageSerializer
 )
 from .pagination import ClientPagination
 
@@ -111,3 +112,14 @@ class ClientHealthStatusViewSet(viewsets.ModelViewSet):
     queryset = ClientHealthStatus.objects.all()
     serializer_class = ClientHealthStatusSerializer
     lookup_field = 'client'
+
+
+class ClientImageUpdateView(generics.RetrieveUpdateAPIView):
+    serializer_class = ClientImageSerializer
+    # permission_classes = [IsAuthenticated]
+    lookup_field = 'id'
+
+    def get_object(self):
+        kwarg_id = self.kwargs.get("id")
+        obj = Client.objects.get(id=kwarg_id)
+        return obj

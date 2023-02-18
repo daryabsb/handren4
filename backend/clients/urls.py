@@ -2,7 +2,9 @@ from django.urls import path, include
 from rest_framework import routers
 
 from .views import (
-    AttachmentViewSet, ClientViewSet, AllClientsViewSet, ClinicalExaminationViewset, ClientHealthStatusViewSet
+    AttachmentViewSet, ClientViewSet, AllClientsViewSet,
+    ClinicalExaminationViewset, ClientHealthStatusViewSet,
+    ClientImageUpdateView
 
 )
 
@@ -16,5 +18,6 @@ router.register('examinations', ClinicalExaminationViewset)
 
 urlpatterns = [
     path('', include(router.urls)),
-
+    path("<int:id>/image/", ClientImageUpdateView.as_view(),
+         name="client-image-update"),
 ]

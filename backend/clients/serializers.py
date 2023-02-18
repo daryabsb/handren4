@@ -1,5 +1,7 @@
 from django.contrib.auth import get_user_model, authenticate
 from rest_framework import serializers
+import base64
+from django.core.files.base import ContentFile
 from core.models import (
     Client, Attachment, ClinicalExamination, ClientHealthStatus
 )
@@ -61,3 +63,31 @@ class ClientHealthStatusSerializer(serializers.ModelSerializer):
         instance.notes = validated_data.get('notes', instance.notes)
         instance.save()
         return instance
+
+
+class ClientImageSerializer(serializers.ModelSerializer):
+    image = serializers.SerializerMethodField(read_only=True)
+    image_data = serializers.CharField(write_only=True, allow_null=True)
+
+    class Meta:
+        model = Client
+        # fields = ClientSerializer.Meta.fields + ['id', 'image', 'image_data']
+        fields = ("id", "image", 'image_data')
+        read_only_Fields = ('id',)
+
+    def get_image(self, obj):
+        if obj.image:
+            return obj.image.url
+        else:
+            return None
+
+    def update(self, instance, validated_data):
+        image_data = validated_data.pop('image_data', None)
+        if image_data is not None:
+            format, imgstr = image_data.split(';base64,')
+            ext = format.split('/')[-1]
+            data = ContentFile(base64.b64decode(imgstr),
+                               name=f"{instance.id}.{ext}")
+            instance.image.save(f"{instance.id}.{ext}", data, save=True)
+
+        return super().update(instance, validated_data)
