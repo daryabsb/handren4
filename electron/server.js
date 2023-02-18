@@ -8,7 +8,8 @@ export const startDjangoServer = () => {
   const djangoBackend = spawn(
     join(backendPath, "\\venv\\Scripts\\python.exe"),
 
-    [join(backendPath, "\\manage.py"), "runserver", "--noreload"]
+    // [join(backendPath, "\\manage.py"), "runserver", "--noreload"]
+    [join(backendPath, "\\manage.py"), "runserver"]
   );
   djangoBackend.stdout.on("data", (data) => {
     console.log(`stdout:\n${data}`);

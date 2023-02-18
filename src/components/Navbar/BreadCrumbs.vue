@@ -5,7 +5,6 @@
         <div class="mx-auto max-w-7xl px-4 sm:px-6">
             <div class="border-t border-gray-200 py-3">
                 <nav class="flex" aria-label="Breadcrumb">
-
                     <div v-if="$q.screen.gt.sm">
                         <!-- <div> -->
                         <ol role="list" class="flex items-center space-x-4">

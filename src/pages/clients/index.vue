@@ -9,50 +9,16 @@
                 </div>
                 <ul role="list"
                     class="mx-auto h-[32rem] overflow-y-auto grid  grid-cols-2 gap-x-1 gap-y-2 sm:grid-cols-5 md:gap-x-2 lg:max-w-6xl lg:gap-x-4 lg:gap-y-2">
-                    <!-- <li v-for="person in people" :key="person.id">
-                        <div class="relative space-y-2">
-                            <div class="absolute top-8 left-12 group flex items-end p-8">
-                                <button type="button"
-                                    class="relative z-10 w-full rounded-md bg-white bg-blend-multiply bg-opacity-30  px-2 text-sm text-gray-900 opacity-0 focus:opacity-100 group-hover:opacity-100"
-                                    @click="toggleQuickView(+person.id)">Quick View<span class="sr-only">,
-                                        {{ person.name }}</span></button>
-                            </div>
-                            <img class="mx-auto h-20 w-20 rounded-full lg:h-24 lg:w-24 object-cover object-top"
-                                :src="person.image" alt="" />
-                            <div class="space-y-1">
-                                <div class="text-xs font-medium lg:text-sm">
-                                    <h3>{{ person.name }}</h3>
-                                    <p class="text-indigo-600">{{ person.role }}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </li> -->
-                    <!-- <q-card v-for="person in people" :key="person.id" class=" p-0 justify-center flex"
-                        style="padding: 0;" flat bordered>
 
-                        <q-img src="https://cdn.quasar.dev/img/parallax2.jpg">
-                            <div class="absolute-bottom text-subtitle2 text-center">
-                                Title
-                            </div>
-                        </q-img>
-
-                        <q-card-section>
-                            <h6>{{ person.name }}</h6>
-                            <q-card-actions>
-                                <q-btn flat size="md" color="dark" icon="visibility"
-                                    @click="toggleQuickView(+person.id)"></q-btn>
-                                <q-btn size="md" flat color="dark" icon="open_in_new"
-                                    @click="navigateToClientDetails(+person.id)"></q-btn>
-                            </q-card-actions>
-                        </q-card-section>
-                    </q-card> -->
                     <q-card v-for="person in people" :key="person.id" class="my-card" flat bordered>
                         <q-card-section horizontal>
 
-                            <q-img class="col h-56 object-top" :src="person.image">
+                            <q-img class="col h-40 object-center" :src="person.image">
                                 <div class="absolute-bottom text-subtitle2 text-center backdrop-blur-sm cursor-pointer"
                                     @click="navigateToClientDetails(+person.id)">
+
                                     {{ person.name }}
+
                                 </div>
                             </q-img>
 
@@ -114,7 +80,7 @@ const router = useRouter()
 const people = ref([])
 const peopleCount = ref(0)
 const page = ref(1)
-const pageSize = ref(12)
+const pageSize = ref(15)
 
 const startIndex = computed(() => +(page.value - 1) * pageSize.value);
 const endIndex = computed(() => {

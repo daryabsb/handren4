@@ -34,11 +34,11 @@ export const useClientStore = defineStore("client", {
             (progressEvent.loaded * 100) / progressEvent.total
           );
 
-          console.log(
-            progressEvent,
-            // `+++ ${(progressEvent.bytes / progressEvent.bytes) * 100}`,
-            `msg +++ ${progressEvent.progress * 100}`
-          );
+          // console.log(
+          //   progressEvent,
+          //   // `+++ ${(progressEvent.bytes / progressEvent.bytes) * 100}`,
+          //   `msg +++ ${progressEvent.progress * 100}`
+          // );
         },
       };
     },

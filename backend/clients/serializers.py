@@ -1,3 +1,5 @@
+from io import BytesIO
+import imghdr
 from django.contrib.auth import get_user_model, authenticate
 from rest_framework import serializers
 import base64
@@ -66,28 +68,44 @@ class ClientHealthStatusSerializer(serializers.ModelSerializer):
 
 
 class ClientImageSerializer(serializers.ModelSerializer):
-    image = serializers.SerializerMethodField(read_only=True)
-    image_data = serializers.CharField(write_only=True, allow_null=True)
+    # image = serializers.SerializerMethodField()
+    # image_data = serializers.CharField(write_only=True, allow_null=True)
 
     class Meta:
         model = Client
         # fields = ClientSerializer.Meta.fields + ['id', 'image', 'image_data']
-        fields = ("id", "image", 'image_data')
+        fields = ("id", "image",)
         read_only_Fields = ('id',)
 
-    def get_image(self, obj):
-        if obj.image:
-            return obj.image.url
-        else:
-            return None
+    # def get_image(self, obj):
+    #     print("CHECK OBJ")
+    #     if obj.image:
+    #         print(obj.image)
+    #         return obj.image.url
+    #     else:
+    #
+    #         return None
 
     def update(self, instance, validated_data):
-        image_data = validated_data.pop('image_data', None)
+        image_data = validated_data.pop('image', None)
+        print("WHY THIS", image_data)
         if image_data is not None:
-            format, imgstr = image_data.split(';base64,')
-            ext = format.split('/')[-1]
-            data = ContentFile(base64.b64decode(imgstr),
-                               name=f"{instance.id}.{ext}")
+            if str(image_data).startswith('data:image'):
+                format, imgstr = image_data.split(';base64,')
+                ext = format.split('/')[-1]
+                data = base64.b64decode(imgstr)
+                print("data1", data)
+                data = BytesIO(data)
+            else:
+                image_data = image_data.read()
+                ext = imghdr.what(None, h=image_data)
+                data = BytesIO(image_data)
+
+            if ext is None:
+                # Invalid image format
+                raise ValueError("Invalid image format")
+
+            data = ContentFile(data.getvalue(), name=f"{instance.id}.{ext}")
             instance.image.save(f"{instance.id}.{ext}", data, save=True)
 
         return super().update(instance, validated_data)
