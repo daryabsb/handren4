@@ -32,9 +32,6 @@ const Router = createRouter({
   // quasar.conf.js -> build -> publicPath
   history: createHistory(process.env.VUE_ROUTER_BASE),
 });
-Router.back();
-
-console.log({ Router });
 
 Router.beforeEach((to) => {
   // ✅ This will work because the router starts its navigation after

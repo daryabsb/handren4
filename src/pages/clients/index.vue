@@ -5,7 +5,7 @@
                 <div class="space-y-2 sm:mx-auto sm:max-w-xl sm:space-y-1 lg:max-w-5xl">
                     <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Clients</h2>
                     <!-- <p class="text-xl text-gray-500">Risus velit condimentum vitae tincidunt tincidunt. Mauris ridiculus
-                        fusce amet urna nunc. Ut nisl ornare diam in.</p> -->
+                                                    fusce amet urna nunc. Ut nisl ornare diam in.</p> -->
                 </div>
                 <ul role="list"
                     class="mx-auto h-[32rem] overflow-y-auto grid  grid-cols-2 gap-x-1 gap-y-2 sm:grid-cols-5 md:gap-x-2 lg:max-w-6xl lg:gap-x-4 lg:gap-y-2">
@@ -24,8 +24,7 @@
 
                             <q-card-actions vertical class="justify-around">
                                 <q-btn flat round color="red" icon="favorite" />
-                                <q-btn flat round color="accent" icon="visibility"
-                                    @click="toggleQuickView(+person.id)" />
+                                <q-btn flat round color="accent" icon="visibility" @click="toggleQuickView(+person.id)" />
                                 <q-btn flat round color="primary" icon="open_in_new"
                                     @click="navigateToClientDetails(+person.id)" />
                             </q-card-actions>
@@ -36,11 +35,11 @@
             <div class="w-full mt-4 ">
                 <nav class="flex items-center justify-between border-t border-gray-200 bg-white px-4 pt-3 py-1 sm:px-6"
                     aria-label="Pagination">
-                    <div class="hidden sm:block">
+                    <div class="block">
                         <p class="text-sm text-gray-700">
                             Showing
                             {{ ' ' }}
-                            <span class="font-medium">{{ startIndex+ 1 }}</span>
+                            <span class="font-medium">{{ startIndex + 1 }}</span>
                             {{ ' ' }}
                             to
                             {{ ' ' }}
@@ -87,6 +86,8 @@ const endIndex = computed(() => {
     const end = +startIndex.value + +pageSize.value;
     return end > peopleCount.value ? peopleCount.value : end;
 });
+console.log(startIndex.value + 1);
+
 const totalPages = computed(() => Math.ceil(peopleCount.value / pageSize.value))
 const { open, toggleQuickView } = inject("quickview")
 

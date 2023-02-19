@@ -1,16 +1,15 @@
-<template><!-- <vue-image-upload-crop :crop-size="{ width: 500, height: 500 }"></vue-image-upload-crop> -->
-
+<template>
     <my-upload field="image" v-model="openUpload" method="put" @crop-success="cropSuccess"
         @crop-upload-success="cropUploadSuccess" @crop-upload-fail="cropUploadFail" :width="400" :height="400"
         :url="uploadUrl" :headers="token" langType="en" img-format="jpg" @srcFileSet="handleFile"></my-upload>
 </template>
+        <!-- :crop-size="{ width: 500, height: 500 }" -->
 
 <script setup lang="ts">
 import { computed, defineAsyncComponent, ref } from 'vue'
 import { useClientStore } from "@/stores/client.js";
 import { useUserStore } from "@/stores/user.js"
-import MyUpload from "vue-image-crop-upload"
-const sizeOf = require("image-size");
+// import MyUpload from "vue-image-crop-upload"
 // import myUpload from ;
 
 const baseUrl = ref('http://127.0.0.1:8000')
@@ -20,7 +19,7 @@ const config = store.useConfig;
 const token = userStore.useAuthHeader.headers
 
 
-// const MyUpload = defineAsyncComponent(() => import('vue-image-crop-upload'))
+const MyUpload = defineAsyncComponent(() => import('vue-image-crop-upload'))
 const props = defineProps<{
     open: boolean,
     url: string,
@@ -52,7 +51,6 @@ const headers = {
 const imageType = ref('png')
 const imgDataUrl = ref('') // the datebase64 url of created image
 function handleFile(fileName: string, fileType: string, fileSize: number) {
-    console.log(sizeOf(fileName));
 
     params.value.name = fileName;
     imageType.value = fileType;
@@ -86,8 +84,8 @@ function cropUploadSuccess(jsonData: any, field: any) {
     console.log('-------- upload success --------');
     // console.log(jsonData);
     // console.log('field: ' + field);
-    openUpload.value = false
     emit("updateImage", jsonData)
+    // openUpload.value = false
 }
 /**
  * upload fail
