@@ -1,4 +1,5 @@
-<template>
+<template><!-- <vue-image-upload-crop :crop-size="{ width: 500, height: 500 }"></vue-image-upload-crop> -->
+
     <my-upload field="image" v-model="openUpload" method="put" @crop-success="cropSuccess"
         @crop-upload-success="cropUploadSuccess" @crop-upload-fail="cropUploadFail" :width="400" :height="400"
         :url="uploadUrl" :headers="token" langType="en" img-format="jpg" @srcFileSet="handleFile"></my-upload>
