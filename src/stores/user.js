@@ -50,17 +50,17 @@ export const useUserStore = defineStore("user", {
       const user = await res.data;
       this.user = user;
       this.signedIn = true;
-      this.fetchAppointments();
+      // this.fetchAppointments();
     },
     async fetchAppointments() {
       const res = await axios.get(
-        "http://127.0.0.1:8000/clients/appointments/",
+        "http://127.0.0.1:8000/appointment/appointments/",
         this.useAuthHeader
       );
 
       const appointments = await res.data;
       this.appointments = appointments.results;
-      console.log("APPOINTMENTS", appointments.results);
+      // console.log("APPOINTMENTS", appointments.results);
       // this.signedIn = true;
     },
     async signUp(email, password) {

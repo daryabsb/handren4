@@ -5,7 +5,7 @@
                 <div class="space-y-2 sm:mx-auto sm:max-w-xl sm:space-y-1 lg:max-w-5xl">
                     <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Clients</h2>
                     <!-- <p class="text-xl text-gray-500">Risus velit condimentum vitae tincidunt tincidunt. Mauris ridiculus
-                                                    fusce amet urna nunc. Ut nisl ornare diam in.</p> -->
+                                                                                            fusce amet urna nunc. Ut nisl ornare diam in.</p> -->
                 </div>
                 <ul role="list"
                     class="mx-auto h-[32rem] overflow-y-auto grid  grid-cols-2 gap-x-1 gap-y-2 sm:grid-cols-5 md:gap-x-2 lg:max-w-6xl lg:gap-x-4 lg:gap-y-2">
@@ -15,7 +15,7 @@
 
                             <q-img class="col h-40 object-center" :src="person.image">
                                 <div class="absolute-bottom text-subtitle2 text-center backdrop-blur-sm cursor-pointer"
-                                    @click="navigateToClientDetails(+person.id)">
+                                    style="padding-block: .3em;" @click="navigateToClientDetails(+person.id)">
 
                                     {{ person.name }}
 

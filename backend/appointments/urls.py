@@ -3,11 +3,13 @@ from rest_framework import routers
 
 
 from .views import (
-    AppointmentViewSet, PrescriptionViewset, TreatmentViewset, MedicationViewset,
+    AppointmentViewSet, PrescriptionViewset, TreatmentViewset,
+    MedicationViewset, AllAppointmentViewSet,
 )
 
 router = routers.DefaultRouter()
 
+router.register('all', AllAppointmentViewSet)
 router.register('appointments', AppointmentViewSet)
 router.register('prescriptions', PrescriptionViewset)
 router.register('treatments', TreatmentViewset)

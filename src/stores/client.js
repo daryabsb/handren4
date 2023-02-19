@@ -46,20 +46,19 @@ export const useClientStore = defineStore("client", {
 
   actions: {
     async fetchClients() {
-      // localStorage.setItem("auth");
-      console.log("REACHED");
+      console.log("FRONT PAGE MOUNTED");
       try {
         const res = await axios.get(
           "http://127.0.0.1:8000/clients/all/",
           this.useConfig
         );
         this.clients = await res.data;
-        console.log(this.clients);
+        // console.log(this.clients);
       } catch (error) {
         console.log(error);
       }
 
-      console.log("FINITO");
+      // console.log("FINITO");
     },
     async fetchAppointments() {
       const res = await axios.get(

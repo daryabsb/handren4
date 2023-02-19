@@ -30,9 +30,10 @@
                           <q-card-section horizontal>
 
                             <q-img class="col  aspect-1  object-cover object-center" :src="client.image">
-                              <q-page-sticky position="top-right" :offset="[0, -70]">
-                                <q-btn size="xs" icon="add" color="primary" @click="toggleImageUpdate" />
-                              </q-page-sticky>
+
+                              <!-- <q-btn size="xs" icon="add" color="primary" @click="toggleImageUpdate" /> -->
+                              <ImageUpload :url="`/clients/${client.id}/image/`" @update-image="updateClient" />
+
                             </q-img>
 
 
@@ -57,8 +58,8 @@
                             </q-card-section>
                             <q-card-actions vertical dense class="justify-around">
                               <!-- <q-btn flat round color="red" icon="favorite" />
-                                                                          <q-btn flat round color="accent" icon="bookmark" />
-                                                                          <q-btn flat round color="primary" icon="share" /> -->
+                                                                                      <q-btn flat round color="accent" icon="bookmark" />
+                                                                                      <q-btn flat round color="primary" icon="share" /> -->
                               <q-list>
                                 <q-item dense clickable>
                                   <q-item-section avatar>
@@ -90,8 +91,8 @@
                             </q-card-actions>
                             <q-card-actions vertical dense class="justify-around">
                               <!-- <q-btn flat round color="red" icon="favorite" />
-                                                                          <q-btn flat round color="accent" icon="bookmark" />
-                                                                          <q-btn flat round color="primary" icon="share" /> -->
+                                                                                      <q-btn flat round color="accent" icon="bookmark" />
+                                                                                      <q-btn flat round color="primary" icon="share" /> -->
                               <q-list>
                                 <q-item dense clickable>
                                   <q-item-section avatar>
@@ -173,8 +174,8 @@
                 <!-- <TimePicker /> -->
                 <ul role="list" class="-mb-8">
                   <pre>
-                                                                                      {{ details.nextAppointment }}
-                                                                                    </pre>
+                                                                                                  {{ details.nextAppointment }}
+                                                                                                </pre>
                   <li v-for="(item, itemIdx) in details.pastAppointments" :key="item.id">
                     <div class="relative pb-8">
                       <span v-if="itemIdx !== details.pastAppointments - 1"
@@ -209,7 +210,6 @@
             </div>
           </section>
         </div>
-        <ImageUpload :url="`/clients/${client.id}/image/`" @update-image="updateClient" v-model:open="openImageUpdate" />
       </main>
     </div>
 </template>

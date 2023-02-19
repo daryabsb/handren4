@@ -14,6 +14,12 @@ from .serializers import (
 from .pagination import AppointmentPagination
 
 
+class AllAppointmentViewSet(viewsets.ModelViewSet):
+    queryset = Appointment.objects.all()
+    serializer_class = AppointmentSerializer
+    pagination_class = None
+
+
 class AppointmentViewSet(viewsets.ModelViewSet):
     queryset = Appointment.objects.all()
     serializer_class = AppointmentSerializer

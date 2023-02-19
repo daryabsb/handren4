@@ -1,6 +1,4 @@
 <template>
-
-
   <div class="md:grid md:grid-cols-2 md:divide-x md:divide-gray-200">
     <div class="md:pr-14">
       <div class="flex items-center px-2 py-4">
@@ -83,13 +81,13 @@
 
 <script setup lang="ts">
 import { ref, onMounted, computed, inject } from "vue"
-import { Appointment, Client } from "../../composables/interfaces"
+import { Appointment, Client } from "@/composables/interfaces"
 import moment from "moment"
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/20/solid'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { EllipsisVerticalIcon } from '@heroicons/vue/24/outline'
-import useFetchData from '../../composables/useFetchData'
-import { useClientStore } from "../../stores/client"
+import useFetchData from '@/composables/useFetchData'
+import { useClientStore } from "@/stores/client"
 
 const store = useClientStore()
 const { open, toggleQuickView } = inject("quickview")
@@ -102,19 +100,19 @@ const month = computed({
 const title = ref('')
 const vuecal = ref(null)
 const selectedDate = ref(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()))
-const selectDate = (e) => {
+const selectDate = (e: any) => {
   selectedDate.value = new Date(new Date(e).getFullYear(), new Date(e).getMonth(), new Date(e).getDate())
 };
 
 const today = ref(new Date())
+
 const { data, error } = useFetchData(month)
 
-onMounted(() => {
+onMounted(async () => {
   today.value = new Date(selectedDate.value)
-  currentMonth.value = moment(new Date).format("MMMM YYYY");
+  currentMonth.value = moment(new Date()).format("MMMM YYYY");
+  await store.fetchClients()
 })
-
-
 
 const appointments = computed(() => {
   const todayDate = selectedDate.value.getDate();
@@ -126,7 +124,7 @@ const appointments = computed(() => {
     return itemDate === todayDate && itemMonth === todayMonth || itemStart === todayDate && itemMonth === todayMonth;
   })
 })
-const getClient = (id) => {
+const getClient = (id: number) => {
   return store.useClients.find((client: Client) => client.id === id)
 }
 const prevMonth = () => {
