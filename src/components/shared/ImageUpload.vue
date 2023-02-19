@@ -10,6 +10,7 @@ import { computed, defineAsyncComponent, ref } from 'vue'
 import { useClientStore } from "@/stores/client.js";
 import { useUserStore } from "@/stores/user.js"
 import MyUpload from "vue-image-crop-upload"
+const sizeOf = require("image-size");
 // import myUpload from ;
 
 const baseUrl = ref('http://127.0.0.1:8000')
@@ -51,6 +52,8 @@ const headers = {
 const imageType = ref('png')
 const imgDataUrl = ref('') // the datebase64 url of created image
 function handleFile(fileName: string, fileType: string, fileSize: number) {
+    console.log(sizeOf(fileName));
+
     params.value.name = fileName;
     imageType.value = fileType;
     // console.log("WHAT IS THIS:", fileName, fileType, fileSize);
