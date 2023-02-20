@@ -79,8 +79,7 @@ module.exports = {
                                                                 ]" aria-hidden="true" />
                                                         </div>
                                                         <div class="ml-4 hidden lg:flex lg:items-center">
-                                                            <span class="text-gray-300"
-                                                                aria-hidden="true">&middot;</span>
+                                                            <span class="text-gray-300" aria-hidden="true">&middot;</span>
                                                             <a href="#"
                                                                 class="ml-4 text-sm font-medium text-indigo-600 hover:text-indigo-500">See
                                                                 all {{ product.reviewCount }} reviews</a>
@@ -176,8 +175,7 @@ module.exports = {
                                                     </button>
 
                                                     <p class="absolute top-4 left-4 text-center sm:static sm:mt-8">
-                                                        <button
-                                                            class="font-medium text-indigo-600 hover:text-indigo-500"
+                                                        <button class="font-medium text-indigo-600 hover:text-indigo-500"
                                                             @click="navigateToClientDetails(client.id)">View
                                                             full details of the client</button>
                                                     </p>

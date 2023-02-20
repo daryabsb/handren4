@@ -5,12 +5,12 @@
                 <div class="space-y-2 sm:mx-auto sm:max-w-xl sm:space-y-1 lg:max-w-5xl">
                     <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Clients</h2>
                     <!-- <p class="text-xl text-gray-500">Risus velit condimentum vitae tincidunt tincidunt. Mauris ridiculus
-                                                                                            fusce amet urna nunc. Ut nisl ornare diam in.</p> -->
+                                                                                                                                                            fusce amet urna nunc. Ut nisl ornare diam in.</p> -->
                 </div>
                 <ul role="list"
                     class="mx-auto h-[32rem] overflow-y-auto grid  grid-cols-2 gap-x-1 gap-y-2 sm:grid-cols-5 md:gap-x-2 lg:max-w-6xl lg:gap-x-4 lg:gap-y-2">
 
-                    <q-card v-for="person in people" :key="person.id" class="my-card" flat bordered>
+                    <q-card v-for="person in people" :key="person.id" class="my-card -z-1" flat bordered>
                         <q-card-section horizontal>
 
                             <q-img class="col h-40 object-center" :src="person.image">
@@ -29,6 +29,7 @@
                                     @click="navigateToClientDetails(+person.id)" />
                             </q-card-actions>
                         </q-card-section>
+                        <ImageUpload :url="`/clients/${person.id}/image/`" @update-image="updateClient" />
                     </q-card>
                 </ul>
             </div>
@@ -67,10 +68,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, Ref, watchEffect, inject } from "vue"
+import { computed, ref, Ref, watchEffect, inject, defineAsyncComponent } from "vue"
 import axios from "axios"
 import { useRouter } from "vue-router"
 import { useClientStore } from "../../stores/client"
+
+const ImageUpload = defineAsyncComponent(() => import('@/components/shared/ImageUpload.vue'))
 
 const store = useClientStore()
 const clients = store.useClients
@@ -80,6 +83,12 @@ const people = ref([])
 const peopleCount = ref(0)
 const page = ref(1)
 const pageSize = ref(15)
+
+function updateClient(jsonData) {
+    const index = people.value.findIndex(person => person.id === jsonData.id)
+    // console.log("success call", jsonData)
+    people.value[index].image = jsonData.image;
+}
 
 const startIndex = computed(() => +(page.value - 1) * pageSize.value);
 const endIndex = computed(() => {
