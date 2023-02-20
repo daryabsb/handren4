@@ -1,59 +1,50 @@
 <template>
-    <!-- notice dialogRef here -->
-    <q-dialog ref="dialogRef" @hide="onDialogHide" class="min-w-[80rem]">
-        <q-card class="q-dialog-plugin" style="width: 700px; max-width: 80vw;">
+    <div>
+        <q-btn color="red" icon="schedule" icon-right="add" label="Add an appointment" class="full-width"
+            @click="open = true" />
+        <q-dialog ref="dialogRef" v-model="open" @hide="onDialogHide" class="min-w-[80rem]">
+            <q-card class="q-dialog-plugin" style="width: 700px; max-width: 80vw;">
 
-            <q-card-section>
-                <div class="text-h6">Your address</div>
-                <!-- <input dense v-model="input" autofocus @keyup.enter="onOKClick" /> -->
+                <q-card-section>
+                    <div class="text-h6">Your address</div>
+                    <!-- <input dense v-model="input" autofocus @keyup.enter="onOKClick" /> -->
 
-                <div class="q-pa-md  ">
+                    <div class="q-pa-md  ">
 
 
-                    <div class="q-gutter-md row items-start flex-1">
-                        <div>
-                            <q-input filled v-model="startTime">
-                                <template v-slot:prepend>
-                                    <q-icon name="event" class="cursor-pointer">
-                                        <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                                            <q-date v-model="startTime" mask="YYYY-MM-DD HH:mm">
-                                                <div class="row items-center justify-end">
-                                                    <q-btn v-close-popup label="Close" color="primary" flat />
-                                                </div>
-                                            </q-date>
-                                        </q-popup-proxy>
-                                    </q-icon>
-                                </template>
-                            </q-input>
-                            <q-time v-model="startTime" mask="YYYY-MM-DD HH:mm" color="purple" format24h />
-                        </div>
-                        <div>
-                            <q-input filled v-model="endTime">
-                                <template v-slot:prepend>
-                                    <q-icon name="event" class="cursor-pointer">
-                                        <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                                            <q-date v-model="endTime" mask="YYYY-MM-DD HH:mm">
-                                                <div class="row items-center justify-end">
-                                                    <q-btn v-close-popup label="Close" color="primary" flat />
-                                                </div>
-                                            </q-date>
-                                        </q-popup-proxy>
-                                    </q-icon>
-                                </template>
-                            </q-input>
-                            <q-time v-model="endTime" mask="YYYY-MM-DD HH:mm" color="purple" format24h />
+                        <div class="q-gutter-md row items-start flex-1">
+                            <div>
+                                <q-input filled v-model="startTime">
+                                    <template v-slot:prepend>
+                                        <q-icon name="event" class="cursor-pointer">
+                                            <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                                                <q-date v-model="startTime" mask="YYYY-MM-DD HH:mm">
+                                                    <div class="row items-center justify-end">
+                                                        <q-btn v-close-popup label="Close" color="primary" flat />
+                                                    </div>
+                                                </q-date>
+                                            </q-popup-proxy>
+                                        </q-icon>
+                                    </template>
+                                </q-input>
+                                <q-time v-model="startTime" mask="YYYY-MM-DD HH:mm" color="purple" format24h />
+                                <q-time v-model="endTime" mask="YYYY-MM-DD HH:mm" color="purple" format24h />
+
+                            </div>
+
                         </div>
                     </div>
-                </div>
-            </q-card-section>
+                </q-card-section>
 
 
-            <q-card-actions align="right">
-                <q-btn color="primary" label="OK" @click="onOKClick" />
-                <q-btn color="primary" label="Cancel" @click="onCancelClick" />
-            </q-card-actions>
-        </q-card>
-    </q-dialog>
+                <q-card-actions align="right">
+                    <q-btn color="primary" label="OK" @click="onOKClick" />
+                    <q-btn color="primary" label="Cancel" @click="onCancelClick" />
+                </q-card-actions>
+            </q-card>
+        </q-dialog>
+
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -98,6 +89,8 @@ const endTime = computed({
         emit("update:end", newValue)
     },
 })
+
+const open = ref(false)
 
 // REQUIRED; need to specify some events that your
 // component will emit through useDialogPluginComponent()

@@ -18,28 +18,28 @@ auth_token = '2d23bf96d42cbc35673e9831b748ec99088a96bb'
 for i in range(num_requests):
     # Define the payload data with the client value for this request
     payload = {
-        "skeletal_class": 'class1',
-        "nasolabial_angle": 'class1',
-        "nasolabial_sulcus": 'class1',
-        "overjet": "",
-        "oral_hygiene": 'class1',
-        "lip_competency": 'class1',
-        "face_form": 'class1',
-        "habit": "",
-        "treated_arch": 'class1',
-        "molar_class_left": 'class1',
-        "molar_class_right": 'class1',
-        "tongue_size": "",
-        "bracket_system": 'class1',
-        "midline_upper": 'class1',
-        "midline_lower": 'class1',
-        "slot": "",
-        "extraction_upper": 'class1',
-        "extraction_lower": 'class1',
-        "anchorage_upper": 'class1',
+        "skeletal_class": "class1",
+        "nasolabial_angle": "normal",
+        "nasolabial_sulcus": "normal",
+        "overjet": "Diskjet",
+        "oral_hygiene": "good",
+        "lip_competency": "competent",
+        "face_form": "dolichocephalic",
+        "habit": "Naughty",
+        "treated_arch": "max",
+        "molar_class_left": "class1",
+        "molar_class_right": "class1",
+        "tongue_size": "Long",
+        "bracket_system": "class1",
+        "midline_upper": "coincidence",
+        "midline_lower": "coincidence",
+        "slot": "normal",
+        "extraction_upper": "class1",
+        "extraction_lower": "class1",
+        "anchorage_upper": "class1",
         "treatment_plan": "",
         "user": 1,
-        "client": i
+        "client": i+1
     }
     payload2 = {
         "heart_condition": "Normal",
@@ -51,14 +51,14 @@ for i in range(num_requests):
         "alcohol_consumption": False,
         "physical_activity": "Moderate",
         "notes": "",
-        "client": 129
+        "client": i
     }
 
     # Define the headers with the authentication token
     headers = {'Authorization': f'Token {auth_token}'}
 
     # Send the POST request with the payload data and headers
-    response = requests.post(url, data=payload2, headers=headers)
+    response = requests.post(url, data=payload, headers=headers)
 
     # Try to parse the response data as JSON
     try:

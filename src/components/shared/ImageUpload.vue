@@ -1,15 +1,15 @@
 <template>
     <div class="absolute p-0 top-1 left-1 m-4 h-12 w-12 bg-transparent" style="margin: 0;">
 
-        <q-fab class="z-0  bg-opacity-0" v-model="fab1" color="primary" icon="camera" direction="right" padding="xs">
-            <q-fab-action padding="xs" style="width:30px;height: 30px; margin-block: 2px;" labelClass="px-2" type="button"
-                color="green" @click="toggleImageXl" label="XL" />
-            <q-fab-action padding="xs" style="width:30px;height: 30px; margin: 0;" labelClass="px-2" color="purple"
-                @click="toggleImageLg" label="LG" />
-            <q-fab-action padding="xs" style="width:30px;height: 30px; margin: 0;" labelClass="px-2" color="orange"
-                @click="toggleImageMd" label="MD" />
-            <q-fab-action padding="xs" style="width:30px;height: 30px; margin: 0;" labelClass="px-2" color="red"
-                @click="toggleImageSm" label="SM" />
+        <q-fab class="z-0 opacity-80" v-model="fab1" color="primary" icon="camera" direction="right" padding="xs">
+            <q-fab-action padding="xs" style="width:25px;height: 25px; margin: 0; margin-left: -10px; line-height: 1;"
+                labelClass="px-2" type="button" color="green" @click="toggleImageXl" label="Xl" />
+            <q-fab-action padding="xs" style="width:25px;height: 25px; margin: 0; line-height: 1;" labelClass="px-2"
+                color="purple" @click="toggleImageLg" label="Lg" />
+            <q-fab-action padding="xs" style="width:25px;height: 25px; margin: 0; line-height: 1;" labelClass="px-2"
+                color="orange" @click="toggleImageMd" label="Md" />
+            <q-fab-action padding="xs" style="width:25px;height: 25px; margin: 0; line-height: 1;" labelClass="px-2"
+                color="red" @click="toggleImageSm" label="Sm" />
         </q-fab>
         <div>
 

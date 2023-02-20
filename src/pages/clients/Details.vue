@@ -58,8 +58,8 @@
                             </q-card-section>
                             <q-card-actions vertical dense class="justify-around">
                               <!-- <q-btn flat round color="red" icon="favorite" />
-                                                                                      <q-btn flat round color="accent" icon="bookmark" />
-                                                                                      <q-btn flat round color="primary" icon="share" /> -->
+                                                                                                              <q-btn flat round color="accent" icon="bookmark" />
+                                                                                                              <q-btn flat round color="primary" icon="share" /> -->
                               <q-list>
                                 <q-item dense clickable>
                                   <q-item-section avatar>
@@ -91,8 +91,8 @@
                             </q-card-actions>
                             <q-card-actions vertical dense class="justify-around">
                               <!-- <q-btn flat round color="red" icon="favorite" />
-                                                                                      <q-btn flat round color="accent" icon="bookmark" />
-                                                                                      <q-btn flat round color="primary" icon="share" /> -->
+                                                                                                              <q-btn flat round color="accent" icon="bookmark" />
+                                                                                                              <q-btn flat round color="primary" icon="share" /> -->
                               <q-list>
                                 <q-item dense clickable>
                                   <q-item-section avatar>
@@ -166,16 +166,21 @@
 
               <!-- Activity Feed -->
               <div class="mt-6 flow-root">
-                <q-btn color="red" icon="schedule" icon-right="add" label="Add an appointment" class="full-width"
-                  @click="open = true" />
+                <!-- <DateTimePicker /> -->
                 <Dialog v-model:start="startTime" v-model:end="endTime" @ok="addAppointment" v-model="open">
+                  <template #button>
+                    <q-btn color="red" icon="schedule" icon-right="add" label="Add an appointment" class="full-width"
+                      @click="open = true" />
+                  </template>
 
                 </Dialog>
                 <!-- <TimePicker /> -->
+                <!-- Datetime Range -->
+                <!-- <q-datetime-range type="datetime" v-model="range" :min="min" :max="max" /> -->
                 <ul role="list" class="-mb-8">
                   <pre>
-                                                                                                  {{ details.nextAppointment }}
-                                                                                                </pre>
+                                                                                                                          {{ details.nextAppointment }}
+                                                                                                                        </pre>
                   <li v-for="(item, itemIdx) in details.pastAppointments" :key="item.id">
                     <div class="relative pb-8">
                       <span v-if="itemIdx !== details.pastAppointments - 1"
@@ -230,6 +235,7 @@ import Breadcrumbs from "../../components/Navbar/BreadCrumbs.vue"
 import { useClientStore } from "../../stores/client"
 
 const ImageUpload = defineAsyncComponent(() => import("../../components/shared/ImageUpload.vue"))
+const DateTimePicker = defineAsyncComponent(() => import('@/components/shared/DateTimePicker.vue'))
 function updateClient(jsonData) {
   // console.log("success call", jsonData)
   client.value.image = jsonData.image;
@@ -257,7 +263,9 @@ const addAppointment = async () => {
   console.log("Next appointment ends: ", endTime.value);
   // NOTE HERE
 };
-
+const range = ref('')
+const min = ref(0)
+const max = ref(0)
 onMounted(async () => {
   const { client: clientData, status: statusData, attachments: attachmentsData, examination: examinationData, details: detailsData } = await fetchClientData(props.id);
   client.value = clientData;
