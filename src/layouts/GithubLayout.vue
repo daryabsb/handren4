@@ -50,6 +50,9 @@
           <q-space></q-space>
           <div v-if="$q.screen.gt.sm"
             class="GL__toolbar-link q-ml-xs q-gutter-md text-body2 text-weight-bold row items-center no-wrap uppercase space-x-8">
+            <a href="#/dashboard" class="text-white">
+              Dashboard
+            </a>
             <a href="#/clients" class="text-white">
               Clients
             </a>
