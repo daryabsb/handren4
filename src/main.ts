@@ -9,6 +9,14 @@ import moment from "moment";
 import VueCal from "vue-cal";
 import "vue-cal/dist/vuecal.css";
 
+import {
+  Loading,
+
+  // optional!, for example below
+  // with custom spinner
+  QSpinnerGears,
+} from "quasar";
+
 import "@quasar/extras/material-icons/material-icons.css";
 import "quasar/src/css/index.sass";
 import "./style.css";

@@ -14,6 +14,9 @@ export interface Client {
   created: string;
   updated: string;
   image: string;
+  appointment_count?: number;
+  treatment_count?: number;
+  next_appointment?: string;
 }
 
 export interface Attachment {

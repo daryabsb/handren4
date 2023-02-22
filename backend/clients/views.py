@@ -1,4 +1,8 @@
 from django.shortcuts import render
+from django.utils import timezone
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from django.db.models import Count, Min
 
 from django_filters import rest_framework as filters
 
@@ -10,7 +14,8 @@ from rest_framework import permissions, viewsets, generics
 # Create your views here.
 
 from core.models import (
-    Client, Attachment, ClinicalExamination, ClientHealthStatus
+    Client, Attachment, ClinicalExamination, ClientHealthStatus,
+    Appointment, Treatment,
 )
 from .serializers import (
     AttachmentSerializer, ClientSerializer,
@@ -123,3 +128,21 @@ class ClientImageUpdateView(generics.RetrieveUpdateAPIView):
         kwarg_id = self.kwargs.get("id")
         obj = Client.objects.get(id=kwarg_id)
         return obj
+
+
+class CountByForeignKeyView(APIView):
+    def get(self, request, id):
+        appointment_count = Appointment.objects.filter(client=id).count()
+        treatment_count = Treatment.objects.filter(client=id).count()
+        next_appointment = Appointment.objects.filter(
+            client=id, date__gte=timezone.now().date()).aggregate(
+                Min('date'))['date__min']
+
+        # Add more models and counts as needed
+        response_data = {
+            'appointment_count': appointment_count,
+            'treatment_count': treatment_count,
+            'next_appointment': next_appointment,
+            # Add more counts as needed
+        }
+        return Response(response_data)

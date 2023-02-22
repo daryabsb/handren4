@@ -4,7 +4,7 @@ from rest_framework import routers
 from .views import (
     AttachmentViewSet, ClientViewSet, AllClientsViewSet,
     ClinicalExaminationViewset, ClientHealthStatusViewSet,
-    ClientImageUpdateView
+    ClientImageUpdateView, CountByForeignKeyView
 
 )
 
@@ -20,4 +20,6 @@ urlpatterns = [
     path('', include(router.urls)),
     path("<int:id>/image/", ClientImageUpdateView.as_view(),
          name="client-image-update"),
+    path('<int:id>/counts/',
+         CountByForeignKeyView.as_view(), name='count_by_foreign_key'),
 ]

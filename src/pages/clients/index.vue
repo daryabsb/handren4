@@ -95,7 +95,7 @@ const endIndex = computed(() => {
     const end = +startIndex.value + +pageSize.value;
     return end > peopleCount.value ? peopleCount.value : end;
 });
-console.log(startIndex.value + 1);
+
 
 const totalPages = computed(() => Math.ceil(peopleCount.value / pageSize.value))
 const { open, toggleQuickView } = inject("quickview")
