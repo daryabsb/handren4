@@ -75,7 +75,7 @@ onBeforeUnmount(() => {
             <!-- <div class="h-16 lg:flex w-full border-b border-gray-200 dark:border-gray-800 hidden px-10"> -->
             <div class="flex-grow flex overflow-hidden">
                 <!-- <div
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            class="xl:w-72 w-48 flex-shrink-0 border-r border-gray-200 dark:border-gray-800 h-full overflow-y-auto lg:block hidden p-5"> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        class="xl:w-72 w-48 flex-shrink-0 border-r border-gray-200 dark:border-gray-800 h-full overflow-y-auto lg:block hidden p-5"> -->
                 <div
                     class=" xl:w-72 w-48 flex-shrink-0 border-r border-gray-200 dark:border-gray-800 h-full  lg:block pl-5 pt-5">
                     <div class="text-xs text-gray-400 tracking-wider">CLIENTS</div>
@@ -95,28 +95,43 @@ onBeforeUnmount(() => {
                         {{ error }}
                     </div>
                     <div v-else class=" max-h-[66vh] overflow-y-auto px-1  pb-16">
+                        <div v-if="filteredClients" class="space-y-2 mt-3">
+                            <q-card v-for="client in filteredClients" :key="client.id" class="my-card">
+                                <q-item>
+                                    <q-item-section top avatar>
+                                        <q-avatar>
+                                            <img :src="client.image" class=" object-cover">
+                                        </q-avatar>
+                                    </q-item-section>
+                                    <q-item-section>
+                                        <q-item-label class=" leading-relaxed">{{ client.name }}</q-item-label>
+                                        <q-item-label caption lines="2">Secondary line</q-item-label>
+                                    </q-item-section>
+                                    <q-item-section side top>
+                                        <q-item-label caption>
+                                            <div class="col-auto ">
+                                                <q-btn padding="xs" color="grey-7" round flat icon="more_vert"
+                                                    style="padding-inline: 0;">
+                                                    <q-menu cover auto-close>
+                                                        <q-list>
+                                                            <q-item clickable>
+                                                                <q-item-section>Remove Card</q-item-section>
+                                                            </q-item>
+                                                            <q-item clickable>
+                                                                <q-item-section>Send Feedback</q-item-section>
+                                                            </q-item>
+                                                            <q-item clickable>
+                                                                <q-item-section>Share</q-item-section>
+                                                            </q-item>
+                                                        </q-list>
+                                                    </q-menu>
+                                                </q-btn>
+                                            </div>
+                                        </q-item-label>
 
-                        <div v-if="filteredClients" class="space-y-4 mt-3">
-
-
-                            <q-btn v-for="client in filteredClients" :key="client.id"
-                                class="bg-white p-1 w-full flex flex-col rounded-md dark:bg-gray-800 shadow">
-                                <div
-                                    class="flex xl:flex-row flex-col items-center font-medium text-gray-900 dark:text-white pb-1 mb-1 xl:border-b border-gray-200 border-opacity-75 dark:border-gray-700 w-full">
-                                    <img :src="client.image" class="w-10 h-10 mr-2 rounded-md object-cover" alt="profile" />
-                                    {{ client.name }}
-                                </div>
-                                <div class="flex items-center w-full">
-                                    <div
-                                        class="text-xs py-1 px-2 leading-none dark:bg-gray-900 bg-blue-100 text-blue-500 rounded-md">
-                                        {{ 'Visits: ' + client.appointment_count }}</div>
-                                    <div class="ml-auto text-xs text-gray-500">{{ 'Next: ' }}
-                                        <span v-if="client.next_appointment" class=" font-semibold">{{
-                                            $filters.dateMoment(client.next_appointment) }}</span>
-                                        <span v-else class=" font-semibold">{{ 'None' }}</span>
-                                    </div>
-                                </div>
-                            </q-btn>
+                                    </q-item-section>
+                                </q-item>
+                            </q-card>
                         </div>
                         <div v-else-if="clients">No clients found.</div>
                         <div v-else class="h-full w-full flex justify-center items-center">
