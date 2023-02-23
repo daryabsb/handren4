@@ -94,3 +94,10 @@ export interface Medications {
   updated: string;
   user: number;
 }
+
+export interface ReturnedData {
+  count: number;
+  next: string;
+  previous: string;
+  results: Appointment[];
+}

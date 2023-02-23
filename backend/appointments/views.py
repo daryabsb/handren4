@@ -14,10 +14,11 @@ from .serializers import (
 from .pagination import AppointmentPagination
 
 
-class AllAppointmentViewSet(viewsets.ModelViewSet):
+class AllAppointmentsViewSet(viewsets.ModelViewSet):
     queryset = Appointment.objects.all()
     serializer_class = AppointmentSerializer
     pagination_class = None
+    lookup_field = 'id'
 
 
 class AppointmentViewSet(viewsets.ModelViewSet):

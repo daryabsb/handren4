@@ -27,12 +27,16 @@
                                         </q-icon>
                                     </template>
                                 </q-input>
-                                <q-time v-model="startTime" mask="YYYY-MM-DD HH:mm" color="purple" format24h />
-                                <q-time v-model="endTime" mask="YYYY-MM-DD HH:mm" color="purple" format24h />
+                                <q-date v-model="start" mask="YYYY-MM-DD HH:mm" color="purple" format24h range />
+                                <vue-cal active-view="day" :disable-views="['years', 'year', 'month', 'week']"
+                                    style="max-width: 450px;height: 350px" :hideTitleBar="true" small :time-from="10 * 60"
+                                    :time-to="16 * 60" hide-view-selector editable-events
+                                    @event-drag-create="showEventCreationDialog = true" />
 
                             </div>
 
                         </div>
+                        {{ start }}
                     </div>
                 </q-card-section>
 
@@ -72,6 +76,7 @@ const emit = defineEmits([
     ...useDialogPluginComponent.emits
 ])
 
+const showEventCreationDialog = ref(false)
 
 const startTime = computed({
     get() {
@@ -81,6 +86,8 @@ const startTime = computed({
         emit("update:start", newValue)
     },
 })
+
+const start = ref([])
 const endTime = computed({
     get() {
         return props.end

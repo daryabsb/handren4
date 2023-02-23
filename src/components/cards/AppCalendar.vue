@@ -2,7 +2,7 @@
     <q-card>
 
         <vue-cal ref="vuecal" :small="true" :selected-date="date_today" :time-from="12 * 60" :time-to="22 * 60"
-            :timeStep="120" :timeCellHeight="90" active-view="day" :snapToTime="30" :watchRealTime="true"
+            :timeStep="120" :timeCellHeight="90" active-view="week" :snapToTime="30" :watchRealTime="true"
             :startWeekOnSunday="true" @event-duration-change="onEventDurationChange" :on-event-click="onEventClick"
             :editable-events="{ title: false, drag: true, resize: true, delete: true, create: true }"
             :events="appToCalendar" :onEventDblclick="onEventDoubleClick" @event-drop="onEventDrop"
@@ -26,10 +26,33 @@
     </q-card>
 </template>
 
-<script setup>
+<script setup lang="ts">
 
-import { computed, ref, watch } from "@vue/runtime-core"
+import { computed, ref, onBeforeUnmount, watchEffect } from "@vue/runtime-core"
 import moment from "moment"
+import { useQuasar } from 'quasar'
+import handleAppointments from "@/composables/handleAppointments"
+
+// defineProps<{
+//     onEventDrop?: void
+
+// }>()
+// defineEmits<{
+//     (e: 'onEventDrop', data: any): void
+// }>()
+
+// const emits = defineEmits([''])
+const $q = useQuasar()
+let timer
+function showLoading() {
+    $q.loading.show()
+
+    // hiding in 2s
+    timer = setTimeout(() => {
+        $q.loading.hide()
+        timer = void 0
+    }, 2000)
+}
 
 
 const examinations = ref([])
@@ -97,37 +120,58 @@ function onEventDragStart(e, item) {
     e.dataTransfer.setData("cursor-grab-at", e.offsetY);
     // console.log(item);
 }
-function onEventDrop({ event, originalEvent, external }, deleteEvent) {
 
-    if (external) {
-        let data = {
-            patient: event.id,
-            title: event.name,
-            description: "",
-            date: moment(event.startDate).format(
-                "yyyy-MM-DDTHH:mm"
-            ),
-        };
-        // console.log("data: ", data);
-        console.log("$store.dispatch('addAppointment')");
-        console.log(`Your added an appointment for ${data.title}!`)
+// defineProps<{
+//     onEventDrop: (e: any, data: any) => void;
+// }>()
 
-        // event.title = event.name;
-    } else {
-        let data = {
-            id: event.id,
-            patient: event.patient,
-            title: event.title,
-            description: "",
-            date: moment(event.startDate).format(
-                "yyyy-MM-DDTHH:mm"
-            ),
-            date_to: moment(event.endDate).format(
-                "yyyy-MM-DDTHH:mm"
-            ),
-        };
-        console.log('$store.dispatch("editAppointment")');
-    }
+const { addAppointment, editAppointment } = handleAppointments()
+interface ClientEvent {
+    e: any;
+    originalEvent: any;
+    external: any;
+}
+
+const emit = defineEmits<{
+    (e: 'eventDropped', event: any, data?: any): void
+
+}>()
+
+function onEventDrop(
+    { e, originalEvent, external }: ClientEvent,
+    deleteEvent: () => void
+): void {
+    console.log("e");
+    emit("eventDropped", e)
+    // if (external) {
+    //     let data = {
+    //         client: e.id,
+    //         date: moment(e.startDate).format(
+    //             "yyyy-MM-DDTHH:mm"
+    //         ),
+    //     };
+    //     showLoading()
+
+    //     addAppointment(data);
+    //     $q.notify("Appointment added successfully")
+
+    // } else {
+    //     let data = {
+    //         id: e.id,
+    //         client: e.client,
+
+
+    //         date: moment(e.startDate).format(
+    //             "yyyy-MM-DDTHH:mm"
+    //         ),
+    //         date_to: moment(e.endDate).format(
+    //             "yyyy-MM-DDTHH:mm"
+    //         ),
+    //     };
+    //     showLoading()
+    //     editAppointment(data)
+    //     $q.notify("Appointment edited successfully")
+    // }
 }
 function onEventDurationChange(event) {
 
@@ -326,7 +370,7 @@ console.log(`
 
 // 		// console.log(events)
 // },
-watch(() =>
+watchEffect(() =>
     function calEvents() {
         let calEv = [];
         getAppointments.results.forEach((app) => {
@@ -350,7 +394,15 @@ watch(() =>
         });
         return calEv;
     }
-) 
+)
+
+onBeforeUnmount(() => {
+    if (timer !== void 0) {
+        clearTimeout(timer)
+        $q.loading.hide()
+    }
+})
+
 </script>
 <style>
 @import "vue-cal/dist/vuecal.css";
