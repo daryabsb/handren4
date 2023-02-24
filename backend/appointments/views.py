@@ -1,4 +1,7 @@
 
+from django.utils import timezone
+import pytz
+
 from rest_framework import permissions, viewsets
 from datetime import datetime, timedelta, date as dt
 from .filters import (datefilter, get_date_range as delta,
@@ -67,6 +70,15 @@ class AppointmentViewSet(viewsets.ModelViewSet):
                         date__gte=date, date__lte=end_date)
         return queryset
 
+    def filter_by_week_number(self, queryset, name, value):
+        return queryset.filter(date__week=value)
+
+    def filter_by_week_start(self, queryset, name, value):
+        today = timezone.now().date()
+        start_date = today - \
+            timedelta(days=today.weekday() + (0 if value else 1))
+        return queryset.filter(date__range=[start_date, start_date + timedelta(days=6)])
+
     def filter_by_keywords(self, queryset):
         keywords = self.request.query_params.get('input', None)
         if keywords:
@@ -85,12 +97,23 @@ class AppointmentViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(client=client_query)
         return queryset
 
+    def filter_by_week(self, queryset):
+        date_str = self.request.query_params.get('week', None)
+        if date_str:
+            date_obj = datetime.strptime(date_str, '%Y-%m-%d')
+            start_date = date_obj - timedelta(days=date_obj.weekday())
+            end_date = start_date + timedelta(days=6)
+            return queryset.filter(date__range=[start_date, end_date])
+        return queryset
+
     def get_queryset(self):
         queryset = super().get_queryset()
         queryset = self.filter_by_month()
         queryset = self.filter_by_keywords(queryset)
         queryset = self.filter_by_date(queryset)
         queryset = self.filter_by_client(queryset)
+        queryset = self.filter_by_week(queryset)
+
         return queryset.filter()
 
 

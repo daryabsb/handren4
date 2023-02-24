@@ -6,7 +6,7 @@ import useFetchClients from "@/composables/useFetchClients";
 import useFetchData from '@/composables/useFetchData'
 import moment from "moment"
 import { Client, Appointment, ReturnedData } from "@/composables/interfaces";
-import Calendar from "@/components/Home/Calendar.vue"
+import Calendar from "@/components/Home/HomeCalendar.vue"
 import AppCalendar from "@/components/cards/AppCalendar.vue"
 import useCalendar from '@/composables/useCalendar';
 
@@ -20,6 +20,7 @@ let timer
 
 // const Calendar = defineAsyncComponent(() => import("@/components/Home/HomeCalendar.vue"))
 const tab = ref('overview')
+const selectedClient = ref()
 function selectClient(id: number) {
     console.log("active client: ", id)
     selectedClient.value = id
@@ -71,7 +72,6 @@ const month = computed({
     set: (value) => currentMonth.value = value
 });
 
-const startDate = ref()
 const {
     selectedClient,
     selectedEvent,
@@ -82,15 +82,135 @@ const {
     onEventDrop, onEventDelete
 } = useCalendar();
 
-const onViewChange = ({ startDate }) => {
-    startDate.value = startDate
 
-}
+// function onEventDrop(
+//     { e, originalEvent, external }: ClientEvent,
+//     deleteEvent: () => void
+// ): void {
+//     if (!external) {
+//         let data = {
+//             client: e.id,
+//             date: moment(e.startDate).format(
+//                 "yyyy-MM-DDTHH:mm"
+//             ),
+//         };
+
+//         addAppointment(data);
+//         $q.notify("Appointment added successfully")
+
+//     } else {
+//         let data = {
+//             id: e.id,
+//             client: e.client,
+
+
+//             date: moment(e.startDate).format(
+//                 "yyyy-MM-DDTHH:mm"
+//             ),
+//             date_to: moment(e.endDate).format(
+//                 "yyyy-MM-DDTHH:mm"
+//             ),
+//         };
+//         editAppointment(data)
+//         $q.notify("Appointment edited successfully")
+//     }
+// }
+// function deleteEvent(event: any) {
+//     let id = event.id;
+//     console.log("onDeleteAppointment", id);
+// }
+
+// function onDragStart(e: any, client: Client) {
+
+//     e.dataTransfer.setData("event", JSON.stringify(client));
+//     e.dataTransfer.setData("cursor-grab-at", e.offsetY);
+//     console.log(e);
+// }
+// function onEventDragStart(e: any, client: Client) {
+//     e.dataTransfer.setData("event", JSON.stringify(client));
+//     e.dataTransfer.setData("cursor-grab-at", e.offsetY);
+//     console.log(e.dataTransfer);
+
+// }
 const date_today = ref(new Date())
-// const selectedEvent = ref()
+const selectedEvent = ref()
 const patientsData: any[] = []
 const showEventCreationDialog = ref(false)
 const selectedDate = ref("")
+// function onEventDurationChange(event: any) {
+//     let data = {
+//         id: event.event.id,
+//         patient: event.event.patient,
+//         title: event.event.title,
+//         description: event.event.content,
+//         date: moment(event.event.startDate).format(
+//             "yyyy-MM-DDTHH:mm"
+//         ),
+//         date_to: moment(event.event.endDate).format(
+//             "yyyy-MM-DDTHH:mm"
+//         ),
+//     };
+//     console.log('$store.dispatch("editAppointment")');
+// }
+// function onEventClick(event: any, e: any) {
+//     selectedClient.value = patientsData.results.find(
+//         (p) => p.id === event.patient
+//     );
+//     selectedEvent.value = event;
+//     e.stopPropagation();
+// }
+// const appToCalendar = computed({
+//     get() {
+//         let calEv: any = [];
+        // getAllAppointments.forEach((app) => {
+        //     let evt = {};
+        //     evt.id = app.id;
+        //     evt.patient = app.patient;
+        //     evt.title = app.title;
+        //     evt.start = app.start;
+        //     evt.end = app.end;
+        //     evt.content = app.description;
+        //     // evt.class = 'sport'
+        //     calEv.push(evt);
+        // });
+//         return calEv;
+//     },
+//     set(newValue) {
+//         console.log("new value", newValue);
+//     }
+// });
+// const events = ref([])
+// function onEventDoubleClick(event: any, e: any) {
+
+//     let ev = events.value.find((evt) => evt.id === event.id);
+
+//     selectedEvent.value = event;
+    // if (ev.id) {
+    //     appointmentID.value = ev.id;
+    //     selectedID.value = ev.patient;
+    //     editDate.value = moment(ev.start).format("yyyy-MM-DD");
+
+    //     editTime.value = moment(ev.start).format("hh:mm");
+    //     edit.value = true;
+    // }
+
+    // showPatientAppointmentModal();
+
+    // Prevent navigating to narrower view (default vue-cal behavior).
+//     e.stopPropagation();
+// }
+// function onEventDelete(event: any) {
+//     let id = event.id;
+
+//     try {
+//         console.log('$store.dispatch("onDeleteAppointment)');
+//         console.log(`$bvToast.toast("Your event is deleted`)
+//     } catch (error) {
+//         console.log("Your event is not deleted!")
+//     }
+// }
+
+
 
 </script>
 
@@ -116,7 +236,7 @@ const selectedDate = ref("")
             <!-- <div class="h-16 lg:flex w-full border-b border-gray-200 dark:border-gray-800 hidden px-10"> -->
             <div class="flex-grow flex overflow-hidden">
                 <!-- <div
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        class="xl:w-72 w-48 flex-shrink-0 border-r border-gray-200 dark:border-gray-800 h-full overflow-y-auto lg:block hidden p-5"> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            class="xl:w-72 w-48 flex-shrink-0 border-r border-gray-200 dark:border-gray-800 h-full overflow-y-auto lg:block hidden p-5"> -->
                 <div
                     class=" xl:w-72 w-48 flex-shrink-0 border-r border-gray-200 dark:border-gray-800 h-full  lg:block pl-2 pt-3">
                     <div class="text-xs text-gray-400 tracking-wider">CLIENTS</div>
@@ -1067,16 +1187,10 @@ const selectedDate = ref("")
                                     :time-to="22 * 60" :timeStep="120" :timeCellHeight="90" active-view="week"
                                     :snapToTime="30" :watchRealTime="true" :startWeekOnSunday="true"
                                     @event-duration-change="onEventDurationChange" :on-event-click="onEventClick"
-                                    :editable-events="{
-                                        title: false,
-                                        drag: true,
-                                        resize: true,
-                                        delete: true,
-                                        create: true
-                                    }" :events="[]" :onEventDblclick="onEventDoubleClick" @view-change="onViewChange"
-                                    @event-drop="onEventDrop" @event-drag-create="showEventCreationDialog = true"
-                                    @cell-focus="selectedDate = $event" @event-delete="onEventDelete"
-                                    :show-week-numbers="true">
+                                    :editable-events="{ title: false, drag: true, resize: true, delete: true, create: true }"
+                                    :events="appToCalendar" :onEventDblclick="onEventDoubleClick" @event-drop="onEventDrop"
+                                    @event-drag-create="showEventCreationDialog = true" @cell-focus="selectedDate = $event"
+                                    @event-delete="onEventDelete">
 
                                     <template v-slot:title="{ title, view }">
 

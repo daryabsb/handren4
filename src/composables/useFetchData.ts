@@ -54,6 +54,20 @@ export default function useFetchData(month: any): UseFetchDataReturn {
       error.value = e;
     }
   };
+  const fetchWeekData = async () => {
+    try {
+      let url = "http://127.0.0.1:8000/appointment/appointments/";
+      if (month.value) {
+        url += `?month=${month.value}`;
+      }
+
+      const response = await axios.get<Data>(url, config);
+
+      data.value = response.data;
+    } catch (e) {
+      error.value = e;
+    }
+  };
 
   watch(month, fetchData);
 

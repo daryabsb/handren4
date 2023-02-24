@@ -55,8 +55,17 @@ export default function handleAppointments(): UseHandleAppointmentReturn {
       error.value = e;
     }
   };
+  const deleteAppointment = async (id: number) => {
+    try {
+      const response = await axios.delete(url + id, config);
+      return response.data;
+    } catch (e) {
+      error.value = e;
+    }
+  };
   return {
     addAppointment,
     editAppointment,
+    deleteAppointment,
   };
 }

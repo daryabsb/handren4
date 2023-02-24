@@ -17,11 +17,12 @@
           <ChevronRightIcon class="h-5 w-5" aria-hidden="true" />
         </button>
       </div>
-      <vue-cal ref="vuecal" @cell-click="selectDate($event)" :events="data.results" xsmall :time="false"
-        hide-view-selector :active-view="activeAiew" :selected-date="selectedDate"
-        :disable-views="['years', 'year', 'week']" style="max-width: 450px;height: 350px" :hideTitleBar="true">
+      <vue-cal ref="vuecal" @cell-click="selectDate($event)" :events="appointments" xsmall :time="false"
+        :active-view="activeView" :selected-date="selectedDate" :disable-views="['years', 'year']"
+        style="max-width: 450px;height: 350px" :hideTitleBar="true">
 
       </vue-cal>
+
     </section>
     <clients-of-the-day :appointments="appointments" :selected-date="selectedDate" />
   </div>
@@ -35,20 +36,22 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/20/solid'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { EllipsisVerticalIcon } from '@heroicons/vue/24/outline'
 import useFetchData from '@/composables/useFetchData'
+import useFetchAppointments from '@/composables/useFetchAppointments'
 import { useClientStore } from "@/stores/client"
 import ClientsOfTheDay from "./ClientsOfTheDay.vue"
 
 interface Props {
-  activeAiew?: string
+  activeView?: string
 }
 
-withDefaults(defineProps<Props>(), {
-  activeAiew: 'month',
+const props = withDefaults(defineProps<Props>(), {
+  activeView: 'month',
 })
 
 const store = useClientStore()
 const { open, toggleQuickView } = inject("quickview")
 const currentMonth = ref('')
+const startDate = ref('2023-03-24')
 const month = computed({
   get: () => currentMonth.value,
   set: (value) => currentMonth.value = value
@@ -63,13 +66,17 @@ const selectDate = (e: any) => {
 
 const today = ref(new Date())
 
-const { data, error } = useFetchData(month)
 
 onMounted(async () => {
   today.value = new Date(selectedDate.value)
+  startDate.value = new Date(selectedDate.value)
   currentMonth.value = moment(new Date()).format("MMMM YYYY");
+
   await store.fetchClients()
 })
+// const { data, error } = useFetchData(month)
+const view = props.activeView
+const { data, error } = useFetchAppointments({ view, startDate })
 
 const appointments = computed(() => {
   const todayDate = selectedDate.value.getDate();
