@@ -61,10 +61,8 @@ export default function useCalendar() {
     e.stopPropagation();
   }
   function onDragStart(e: any, client: Client) {
-    console.log("onDragStart", e, client);
-
-    e.dataTransfer.setData("client", client);
-    e.dataTransfer.dropEffect = "copy";
+    e.dataTransfer.setData("event", JSON.stringify(client));
+    e.dataTransfer.setData("cursor-grab-at", e.offsetY);
   }
   function onEventCreate(e) {
     console.log(e);
@@ -74,14 +72,14 @@ export default function useCalendar() {
     console.log("from drop", event, originalEvent, external);
 
     if (external) {
-      const client = JSON.parse(event.dataTransfer.getData("client"));
-      //   const data = {
-      //     // client: e.id,
-      //     date: moment(e.startDate).format("yyyy-MM-DDTHH:mm"),
-      //   };
-
-      //   addAppointment(data);
-      //   $q.notify("Appointment added successfully");
+      let data = {
+        client: event.id,
+        title: event.name,
+        description: "",
+        date: moment(event.startDate, moment.ISO_8601),
+        // .format("yyyy-MM-DDTHH:mm"),
+      };
+      addAppointment(data);
     } else {
       //
       //   const data = {

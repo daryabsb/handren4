@@ -44,8 +44,11 @@ class AppointmentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Appointment
-        fields = ('id', 'client', 'date', 'date_to', 'start', 'end', 'startDate', 'endDate',
-                  'treatments', 'prescriptions', 'medications')
+        fields = ('id', 'client', 'date', 'date_to', 'start', 'end',
+                  'startDate', 'endDate', 'treatments', 'prescriptions',
+                  'medications'
+                  )
+        read_only_Fields = ('id',)
 
     def get_treatments(self, obj):
         return TreatmentSerializer(obj.treatments.all(), many=True).data
