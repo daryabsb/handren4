@@ -2,7 +2,7 @@ import { ref } from "vue";
 import moment from "moment";
 import handleAppointments from "@/composables/handleAppointments";
 import { Appointment } from "@/types/Appointment";
-import { useQuasar } from "quasar";
+import { useQuasar, date } from "quasar";
 
 import { Client } from "./interfaces";
 
@@ -64,21 +64,21 @@ export default function useCalendar() {
     e.dataTransfer.setData("event", JSON.stringify(client));
     e.dataTransfer.setData("cursor-grab-at", e.offsetY);
   }
-  function onEventCreate(e) {
-    console.log(e);
-  }
+
   // function onEventDrop({ e, originalEvent, external }: any, onEventDelete) {
-  function onEventDrop({ event, originalEvent, external }: any, onEventDelete) {
-    console.log("from drop", event, originalEvent, external);
+  function onEventDrop(
+    { event, originalEvent, external }: any,
+    onEventDelete: void
+  ) {
+    console.log("from drop", event);
 
     if (external) {
       let data = {
         client: event.id,
         title: event.name,
-        description: "",
-        date: moment(event.startDate, moment.ISO_8601),
-        // .format("yyyy-MM-DDTHH:mm"),
+        date: moment(event.start).format("YYYY-MM-DDTHH:mm"),
       };
+
       addAppointment(data);
     } else {
       //
@@ -102,7 +102,7 @@ export default function useCalendar() {
   return {
     selectedClient,
     selectedEvent,
-    onEventCreate,
+    // onEventCreate,
     onDragStart,
     onEventDurationChange,
     onEventClick,

@@ -239,6 +239,7 @@ class Appointment(models.Model):
     client = models.ForeignKey(
         "Client", on_delete=models.CASCADE, related_name="appointments"
     )
+    title = models.CharField(max_length=200, null=True, blank=True)
     description = models.CharField(max_length=200, null=True, blank=True)
     date = models.DateTimeField()
     date_to = models.DateTimeField(null=True, blank=True)

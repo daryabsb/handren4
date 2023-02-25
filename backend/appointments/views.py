@@ -30,6 +30,9 @@ class AppointmentViewSet(viewsets.ModelViewSet):
     filter_class = AppointmentFilter
     # lookup_field = 'client'
 
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
     def filter_by_month_and_year(self, queryset):
         month_name = self.request.query_params.get('month', None)
         if month_name:

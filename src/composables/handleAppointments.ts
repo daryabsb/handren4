@@ -1,5 +1,6 @@
 import { ref } from "vue";
 import axios, { AxiosError } from "axios";
+import moment from "moment";
 import { useClientStore } from "@/stores/client";
 import { date } from "quasar";
 
@@ -10,6 +11,7 @@ interface UseHandleAppointmentReturn {
 interface NewAppointment {
   id?: number;
   client: number;
+  title: string;
   date: string;
   date_to: string;
 }
@@ -26,9 +28,9 @@ export default function handleAppointments(): UseHandleAppointmentReturn {
   const addAppointment = async (data: NewAppointment) => {
     console.log("from handle", data);
     if (!data.date_to) {
-      data.date_to = date
-        .subtractFromDate(data.date, { hours: 2 })
-        .toDateString();
+      data.date_to = moment(data.date)
+        .add(2, "hours")
+        .format("YYYY-MM-DDTHH:mm");
     }
 
     try {
