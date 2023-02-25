@@ -25,8 +25,8 @@ interface Data {
 }
 
 interface UseFetchDataProps {
-  caseType: string;
-  startDate: Ref<string>;
+  currentView: Ref<string | null>;
+  viewStartDate: Ref<string | null>;
 }
 
 interface UseFetchDataReturn {
@@ -35,8 +35,8 @@ interface UseFetchDataReturn {
 }
 
 export default function useFetchAppointments({
-  caseType,
-  startDate,
+  viewForFetch,
+  viewStartDate,
 }: UseFetchDataProps): UseFetchDataReturn {
   const data = ref<Data | null>({
     count: 0,
@@ -45,24 +45,34 @@ export default function useFetchAppointments({
     results: [],
   });
   const error = ref<AxiosError<any> | null>(null);
+  const url = ref<string>("");
 
   const fetchData = async () => {
-    console.log(startDate.value);
+    let baseUrl = "http://127.0.0.1:8000/appointment/appointments/";
     try {
-      let url = "http://127.0.0.1:8000/appointment/appointments/";
       // Sample of the mont queryset is: ?month=March 2023
 
-      if (caseType === "year") {
-        url += `?year=${moment(startDate.value).format("YYYY")}`;
-      } else if (caseType === "month") {
-        url += `?month=${moment(startDate.value).format("MMMM YYYY")}`;
-      } else if (caseType === "week") {
-        url += `?week=${moment(startDate.value).format("YYYY-MM-DD")}`;
-      } else if (caseType === "day") {
-        url += `?date=${moment(startDate.value).format("YYYY-MM-DD")}`;
+      if (viewForFetch.value == "year") {
+        url.value = `${baseUrl}?year=${moment(viewStartDate.value).format(
+          "YYYY"
+        )}`;
+      } else if (viewForFetch.value == "month") {
+        url.value = `${baseUrl}?month=${moment(viewStartDate.value).format(
+          "MMMM YYYY"
+        )}`;
+      } else if (viewForFetch.value == "week") {
+        url.value = `${baseUrl}?week=${moment(viewStartDate.value).format(
+          "YYYY-MM-DD"
+        )}`;
+      } else if (viewForFetch.value == "day") {
+        url.value = `${baseUrl}?date=${moment(viewStartDate.value).format(
+          "YYYY-MM-DD"
+        )}`;
       }
 
-      const response = await axios.get<Data>(url, config);
+      const response = await axios.get<Data>(url.value, config);
+      console.log("Month url: ", url.value);
+      console.log("Month data: ", response.data.results);
 
       data.value = response.data;
     } catch (e) {
@@ -70,8 +80,7 @@ export default function useFetchAppointments({
     }
   };
 
-  watch(startDate, fetchData, { immediate: true });
+  watch([viewForFetch, viewStartDate], fetchData, { immediate: true });
 
-  console.log(data.value);
   return { data, error };
 }

@@ -209,13 +209,13 @@
         </q-scroll-area>
       </q-drawer>
 
-      <q-page-container>
-        <router-view v-slot="{ Component }">
-          <!-- <keep-alive> -->
-          <component :is="Component" />
-          <!-- </keep-alive> -->
-        </router-view>
-      </q-page-container>
+
+      <router-view v-slot="{ Component }">
+        <!-- <keep-alive> -->
+        <component :is="Component" />
+        <!-- </keep-alive> -->
+      </router-view>
+
     </q-layout>
   </Provider>
 </template>

@@ -1,6 +1,11 @@
 <template>
-  <div class="sm:grid sm:grid-cols-2 sm:divide-x sm:divide-gray-200 pt-4 q-py-4">
-    <section class=" sm:pl-14">
+  <div class="flex divide-x divide-gray-200">
+
+    <section :class="[
+      withClients
+        ? '2/3'
+        : 'w-full',
+      ' sm:pl-14 h-[32rem]']">
       <div class="flex items-center px-2 py-4">
         <h2 v-if="vuecal" class="flex-auto text-2xl font-semibold text-gray-900">{{ currentMonth }}</h2>
         <button type="button"
@@ -17,14 +22,43 @@
           <ChevronRightIcon class="h-5 w-5" aria-hidden="true" />
         </button>
       </div>
-      <vue-cal ref="vuecal" @cell-click="selectDate($event)" :events="appointments" xsmall :time="false"
-        :active-view="activeView" :selected-date="selectedDate" :disable-views="['years', 'year']"
-        style="max-width: 450px;height: 350px" :hideTitleBar="true">
 
-      </vue-cal>
+      <!-- <vue-cal ref="vuecal" @cell-click="selectDate($event)" :events="data.results" xsmall :time="false"
+        :active-view="activeView" :selected-date="selectedDate" @view-change="viewChange($event)"
+        :disable-views="['years', 'year']" style="max-width: 450px;height: 350px" :hideTitleBar="true">
 
+        :time-from="12 * 60"
+          :time-to="22 * 60" 
+      </vue-cal> -->
+      <div class="h-full">
+        <vue-cal ref="vuecal" :events="data.results" :small="true" :time-from="12 * 60" :time-to="22 * 60" :timeStep="120"
+          :hideTitleBar="true" @cell-click="selectDate($event)" :timeCellHeight="90" :active-view="activeView"
+          :snapToTime="30" :watchRealTime="true" :startWeekOnSunday="true" :disable-views="disableViews"
+          :editable-events="{ title: false, drag: true, resize: true, delete: true, create: true }"
+          :selected-date="selectedDate" @view-change="viewChange($event)" @cell-focus="selectedDate = $event"
+          hide-view-selector :drop="onEventDrop">
+          <!-- @event-duration-change="onEventDurationChange"
+                        @event-drop="onEventDrop"
+                        :onEventDblclick="onEventDoubleClick"
+                        :events="appToCalendar"
+                        :on-event-click="onEventClick"
+                        @event-drag-create="showEventCreationDialog = true"
+                        @event-delete="onEventDelete" -->
+
+          <!-- <template v-slot:title="{ title, view }">
+            {{ title + " This is the title" }}
+            <span v-if="view.id === 'years'">Years</span>
+            <span v-else-if="view.id === 'year'">{{ view.startDate.format('YYYY') }}</span>
+            <span v-else-if="view.id === 'month'">{{ view.startDate.format('MMMM YYYY') }}</span>
+            <span class="text-right" v-else-if="view.id === 'week'">{{ view.startDate.format('MMMM (YYYY)') }}</span>
+            <span v-else-if="view.id === 'day'">{{ view.startDate.format('dddd D MMMM (YYYY)') }}</span>
+          </template> -->
+
+        </vue-cal>
+      </div>
     </section>
-    <clients-of-the-day :appointments="appointments" :selected-date="selectedDate" />
+
+    <clients-of-the-day v-if="withClients" :appointments="appointments" :selected-date="selectedDate" />
   </div>
 </template>
 
@@ -41,21 +75,27 @@ import { useClientStore } from "@/stores/client"
 import ClientsOfTheDay from "./ClientsOfTheDay.vue"
 
 interface Props {
-  activeView?: string
+  withClients: false,
+  activeView?: string,
+  disableViews: string[]
 }
 
 const props = withDefaults(defineProps<Props>(), {
+  withClients: false,
   activeView: 'month',
+  disableViews: ['years']
 })
 
+const emit = defineEmits(['onEventDrop'])
+const viewStartDate = ref()
 const store = useClientStore()
 const { open, toggleQuickView } = inject("quickview")
 const currentMonth = ref('')
-const startDate = ref('2023-03-24')
 const month = computed({
   get: () => currentMonth.value,
   set: (value) => currentMonth.value = value
 });
+
 
 const title = ref('')
 const vuecal = ref(null)
@@ -69,15 +109,34 @@ const today = ref(new Date())
 
 onMounted(async () => {
   today.value = new Date(selectedDate.value)
-  startDate.value = new Date(selectedDate.value)
+  currentView.value = props.activeView
+  viewStartDate.value = new Date(selectedDate.value)
   currentMonth.value = moment(new Date()).format("MMMM YYYY");
 
   await store.fetchClients()
 })
-// const { data, error } = useFetchData(month)
-const view = props.activeView
-const { data, error } = useFetchAppointments({ view, startDate })
 
+interface ViewChange {
+  view: string,
+  startDate: string, // View start - JS native Date object.
+  endDate: string, // View end - JS native Date object.
+  firstCellDate: string, // Month view only, in case cell is out of current month - JS native Date object.
+  lastCellDate: string, // Month view only, in case cell is out of current month - JS native Date object.
+  outOfScopeEvents: any[], // Month view only, all the events that are out of the current month.
+  events: any[], // All the events in the current view.
+  week: number // Week number. Only returned if view is 'week'.
+}
+function viewChange({ view, startDate }: ViewChange) {
+  viewStartDate.value = startDate;
+  currentView.value = view
+}
+
+const currentView = ref('')
+const viewForFetch = computed({
+  get: () => currentView.value,
+  set: (value) => currentView.value = value
+});
+const { data, error } = useFetchAppointments({ viewForFetch, viewStartDate })
 const appointments = computed(() => {
   const todayDate = selectedDate.value.getDate();
   const todayMonth = selectedDate.value.getMonth();
@@ -100,6 +159,17 @@ const nextMonth = () => {
   vuecal.value.next();
   currentMonth.value = vuecal.value.viewTitle;
 };
+
+
+function onEventDrop(e: any) {
+
+  emit("onEventDrop", e)
+
+  // TODO: Handle the dropped event
+}
+
+
+
 </script>
 
 <style>

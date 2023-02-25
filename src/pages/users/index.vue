@@ -86,40 +86,53 @@ const onViewChange = ({ startDate }) => {
     startDate.value = startDate
 
 }
+const disableViews = ref(['years', 'year', 'week', 'day'])
 const date_today = ref(new Date())
 // const selectedEvent = ref()
 const patientsData: any[] = []
 const showEventCreationDialog = ref(false)
 const selectedDate = ref("")
 
+const { } = handleAppointments()
+
+function onEventDragStart(e: any, client: Client) {
+    e.dataTransfer.setData("client", JSON.stringify(client));
+    e.dataTransfer.setData("cursor-grab-at", e.offsetY);
+    console.log(e.dataTransfer);
+}
+function onEventDrop(e: any) {
+    e.preventDefault();
+    const event = JSON.parse(e.dataTransfer.getData("client"));
+    const grabOffset = parseInt(e.dataTransfer.getData("cursor-grab-at"));
+    console.log(event);
+
+    // TODO: Handle the dropped event
+}
 </script>
 
 <template>
-    <div class="h-full bg-gray-100 dark:bg-gray-900 dark:text-white text-gray-600 flex overflow-auto text-sm"
-        style="background: #24292e">
-        <div
-            class="sticky top-0 justify-center bg-white shadow-md z-10 h-16 lg:flex w-full border-b border-gray-200 dark:border-gray-800  px-10">
-            <div class="flex h-full text-gray-600 dark:text-gray-400">
-                <q-tabs v-model="tab" class="text-teal">
-
-                    <q-tab name="overview" label="Overview" />
-                    <q-tab name="client" label="Current Client" />
-                    <q-tab name="schedule" label="Schedule" />
-                    <q-tab name="users" label="Users" />
-
-                </q-tabs>
-            </div>
-
+    <q-page-container
+    class="h-screen bg-gray-100 dark:bg-gray-900 dark:text-white text-gray-600 flex overflow-hidden text-sm">
+    <q-header
+        class="sticky top-0 h-16 justify-center bg-white shadow-md  lg:flex w-full border-b border-gray-200 dark:border-gray-800  px-10">
+        <div class="flex text-gray-600 dark:text-gray-400">
+            <q-tabs v-model="tab" class="text-teal">
+                <q-tab name="overview" label="Overview" />
+                <q-tab name="client" label="Current Client" />
+                <q-tab name="schedule" label="Schedule" />
+                <q-tab name="users" label="Users" />
+            </q-tabs>
         </div>
 
-        <div class="flex-grow overflow-hidden flex flex-col relative bg-gray-100 dark:bg-gray-900">
-            <!-- <div class="h-16 lg:flex w-full border-b border-gray-200 dark:border-gray-800 hidden px-10"> -->
-            <div class="flex-grow flex overflow-hidden">
-                <!-- <div
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        class="xl:w-72 w-48 flex-shrink-0 border-r border-gray-200 dark:border-gray-800 h-full overflow-y-auto lg:block hidden p-5"> -->
-                <div
-                    class=" xl:w-72 w-48 flex-shrink-0 border-r border-gray-200 dark:border-gray-800 h-full  lg:block pl-2 pt-3">
-                    <div class="text-xs text-gray-400 tracking-wider">CLIENTS</div>
+    </q-header>
+
+    <q-page class="w-full overflow-hidden flex flex-col relative bg-gray-100 dark:bg-gray-900">
+        <!-- <div class="h-16 lg:flex w-full border-b border-gray-200 dark:border-gray-800 hidden px-10"> -->
+        <div class="flex overflow-hidden">
+
+            <div
+                    class="overflow-hidden xl:w-72 w-48 mx-1 flex-shrink-0 border-r border-gray-200 dark:border-gray-800 lg:block">
+                    <div class="text-md q-pa-sm text-gray-400 tracking-wider">CLIENTS</div>
                     <div class="relative my-2 mr-3 shadow">
                         <input type="text" v-model="searchQuery"
                             class="pl-8 h-9 bg-transparent border border-gray-300 dark:border-gray-700 dark:text-white w-full rounded-md text-sm"
@@ -135,7 +148,7 @@ const selectedDate = ref("")
                     <div v-if="error">
                         {{ error }}
                     </div>
-                    <div v-else class=" max-h-[66vh] overflow-y-auto px-1  pb-16">
+                    <div v-else class="max-h-[50em] overflow-y-auto px-1  pb-16">
                         <div v-if="filteredClients" class="space-y-2 mt-3">
                             <q-list bordered>
 
@@ -186,12 +199,54 @@ const selectedDate = ref("")
                 </div>
                 <div class="h-full flex-grow bg-white dark:bg-gray-900">
 
-                    <div class=" max-h-[70vh]  overflow-y-auto sm:p-7 p-4">
-                        <q-tab-panels v-model="tab" animated>
+                    <div class="h-full  overflow-y-auto">
+                        <q-tab-panels v-model="tab" animated class="h-full">
+
+                            <!-- OVERVIEW WITH VUE_CAL -->
                             <q-tab-panel name="overview">
-                                <div class="text-h2 leading-relaxed">Overview</div>
+                                <div class="text-h3">Overview</div>
                                 <q-separator></q-separator>
-                                <calendar withClients class="py-6" />
+                                <calendar :disableViews="disableViews" :withClients="true" />
+                            </q-tab-panel>
+                            <q-tab-panel name="schedule">
+                                <div class="text-h6">Schedule</div>
+
+                                <calendar @on-event-drop="onEventDrop" :disableViews="['years']" active-view="week"
+                                    :withClients="false" />
+
+                                <!-- <vue-cal ref="vuecal" :small="true" :selected-date="date_today" :time-from="12 * 60"
+                                                                                                                                                                                                                                                                                                                                                        :time-to="22 * 60" :timeStep="120" :timeCellHeight="90" active-view="week"
+                                                                                                                                                                                                                                                                                                                                                        :snapToTime="30" :watchRealTime="true" :startWeekOnSunday="true"
+                                                                                                                                                                                                                                                                                                                                                        @event-duration-change="onEventDurationChange" :on-event-click="onEventClick"
+                                                                                                                                                                                                                                                                                                                                                        :editable-events="{
+                                                                                                                                                                                                                                                                                                                                                            title: false,
+                                                                                                                                                                                                                                                                                                                                                            drag: true,
+                                                                                                                                                                                                                                                                                                                                                            resize: true,
+                                                                                                                                                                                                                                                                                                                                                            delete: true,
+                                                                                                                                                                                                                                                                                                                                                            create: true
+                                                                                                                                                                                                                                                                                                                                                        }" :events="[]" :onEventDblclick="onEventDoubleClick" @view-change="onViewChange"
+                                                                                                                                                                                                                                                                                                                                                        @event-drop="onEventDrop" @event-drag-create="showEventCreationDialog = true"
+                                                                                                                                                                                                                                                                                                                                                        @cell-focus="selectedDate = $event" @event-delete="onEventDelete"
+                                                                                                                                                                                                                                                                                                                                                        :show-week-numbers="true">
+
+                                                                                                                                                                                                                                                                                                                                                        <template v-slot:title="{ title, view }">
+
+
+                                                                                                                                                                                                                                                                                                                                                            <span v-if="view.id === 'years'">Years</span>
+                                                                                                                                                                                                                                                                                                                                                            <span v-else-if="view.id === 'year'">{{ view.startDate.format('YYYY') }}</span>
+                                                                                                                                                                                                                                                                                                                                                            <span v-else-if="view.id === 'month'">{{ view.startDate.format('MMMM YYYY')
+                                                                                                                                                                                                                                                                                                                                                            }}</span>
+                                                                                                                                                                                                                                                                                                                                                            <span class="text-right" v-else-if="view.id === 'week'">{{
+                                                                                                                                                                                                                                                                                                                                                                view.startDate.format('MMMM (YYYY)') }}</span>
+                                                                                                                                                                                                                                                                                                                                                            <span v-else-if="view.id === 'day'">{{ view.startDate.format('dddd D MMMM (YYYY)')
+                                                                                                                                                                                                                                                                                                                                                            }}</span>
+
+                                                                                                                                                                                                                                                                                                                                                        </template>
+                                                                                                                                                                                                                                                                                                                                                    </vue-cal> -->
+                            </q-tab-panel>
+                            <q-tab-panel name="users">
+                                <div class="text-h6">Users</div>
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit.
                             </q-tab-panel>
                             <q-tab-panel name="client">
                                 <div class="flex w-full items-center mb-7">
@@ -1057,54 +1112,12 @@ const selectedDate = ref("")
                                 </table>
 
                             </q-tab-panel>
-                            <q-tab-panel name="schedule">
-                                <div class="text-h6">Schedule</div>
-
-
-
-                                <!-- <app-calendar @eventDropped="onEventDrop" /> -->
-                                <vue-cal ref="vuecal" :small="true" :selected-date="date_today" :time-from="12 * 60"
-                                    :time-to="22 * 60" :timeStep="120" :timeCellHeight="90" active-view="week"
-                                    :snapToTime="30" :watchRealTime="true" :startWeekOnSunday="true"
-                                    @event-duration-change="onEventDurationChange" :on-event-click="onEventClick"
-                                    :editable-events="{
-                                        title: false,
-                                        drag: true,
-                                        resize: true,
-                                        delete: true,
-                                        create: true
-                                    }" :events="[]" :onEventDblclick="onEventDoubleClick" @view-change="onViewChange"
-                                    @event-drop="onEventDrop" @event-drag-create="showEventCreationDialog = true"
-                                    @cell-focus="selectedDate = $event" @event-delete="onEventDelete"
-                                    :show-week-numbers="true">
-
-                                    <template v-slot:title="{ title, view }">
-
-
-                                        <span v-if="view.id === 'years'">Years</span>
-                                        <!-- Using Vue Cal injected Date prototypes -->
-                                        <span v-else-if="view.id === 'year'">{{ view.startDate.format('YYYY') }}</span>
-                                        <span v-else-if="view.id === 'month'">{{ view.startDate.format('MMMM YYYY')
-                                        }}</span>
-                                        <!-- <span v-else-if="view.id === 'week'">w{{ view.startDate.getWeek() }} ({{ view.startDate.format('MMM YYYY') }})</span> -->
-                                        <span class="text-right" v-else-if="view.id === 'week'">{{
-                                            view.startDate.format('MMMM (YYYY)') }}</span>
-                                        <span v-else-if="view.id === 'day'">{{ view.startDate.format('dddd D MMMM (YYYY)')
-                                        }}</span>
-
-                                    </template>
-                                </vue-cal>
-                            </q-tab-panel>
-                            <q-tab-panel name="users">
-                                <div class="text-h6">Users</div>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                            </q-tab-panel>
                         </q-tab-panels>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="fixed bottom-0 h-16 flex w-full space-x-2 justify-center items-start py-2 pb-12 z-50 overflow-y-hidden"
+        </q-page>
+        <q-footer class="fixed bottom-0 h-16 flex w-full space-x-2 justify-center items-center  z-50 overflow-y-hidden"
             style="background: #24292e">
             <button
                 class="inline-flex items-center h-8 w-8 justify-center text-gray-400 rounded-md shadow border border-gray-200 dark:border-gray-800 leading-none">
@@ -1128,7 +1141,7 @@ const selectedDate = ref("")
                     <polyline points="9 18 15 12 9 6"></polyline>
                 </svg>
             </button>
-        </div>
-    </div>
+        </q-footer>
+    </q-page-container>
 </template>
 
