@@ -36,7 +36,7 @@
           :snapToTime="30" :watchRealTime="true" :startWeekOnSunday="true" :disable-views="disableViews"
           :editable-events="{ title: false, drag: true, resize: true, delete: true, create: true }"
           :selected-date="selectedDate" @view-change="viewChange($event)" @cell-focus="selectedDate = $event"
-          hide-view-selector :drop="onEventDrop">
+          hide-view-selector @event-drop="onEventDrop($event)" @on-event-create="createEvent($event)">
           <!-- @event-duration-change="onEventDurationChange"
                         @event-drop="onEventDrop"
                         :onEventDblclick="onEventDoubleClick"
@@ -73,6 +73,7 @@ import useFetchData from '@/composables/useFetchData'
 import useFetchAppointments from '@/composables/useFetchAppointments'
 import { useClientStore } from "@/stores/client"
 import ClientsOfTheDay from "./ClientsOfTheDay.vue"
+import useCalendar from '@/composables/useCalendar';
 
 interface Props {
   withClients: false,
@@ -160,13 +161,16 @@ const nextMonth = () => {
   currentMonth.value = vuecal.value.viewTitle;
 };
 
-
-function onEventDrop(e: any) {
-
-  emit("onEventDrop", e)
-
-  // TODO: Handle the dropped event
-}
+const {
+  selectedClient,
+  selectedEvent,
+  onEventCreate,
+  onDragStart,
+  onEventDurationChange,
+  onEventClick,
+  onEventDoubleClick,
+  onEventDrop, onEventDelete
+} = useCalendar();
 
 
 

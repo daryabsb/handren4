@@ -2,6 +2,11 @@ import { ref } from "vue";
 import moment from "moment";
 import handleAppointments from "@/composables/handleAppointments";
 import { Appointment } from "@/types/Appointment";
+import { useQuasar } from "quasar";
+
+import { Client } from "./interfaces";
+
+const $q = useQuasar();
 
 export default function useCalendar() {
   const {
@@ -13,10 +18,10 @@ export default function useCalendar() {
   const selectedClient = ref(null as null | any);
   const selectedEvent = ref(null as null | Appointment);
 
-  function onDragStart(e: DragEvent, client: any) {
-    e.dataTransfer!.setData("event", JSON.stringify(client));
-    e.dataTransfer!.setData("cursor-grab-at", e.offsetY.toString());
-  }
+  // function onDragStart(e: any, client: Client) {
+  //   e.dataTransfer!.setData("event", JSON.stringify(client));
+  //   e.dataTransfer!.setData("cursor-grab-at", e.offsetY.toString());
+  // }
 
   function onEventDurationChange(event: any) {
     const data = {
@@ -55,25 +60,38 @@ export default function useCalendar() {
 
     e.stopPropagation();
   }
+  function onDragStart(e: any, client: Client) {
+    console.log("onDragStart", e, client);
 
-  function onEventDrop({ e, originalEvent, external }: any) {
-    if (!external) {
-      const data = {
-        client: e.id,
-        date: moment(e.startDate).format("yyyy-MM-DDTHH:mm"),
-      };
+    e.dataTransfer.setData("client", client);
+    e.dataTransfer.dropEffect = "copy";
+  }
+  function onEventCreate(e) {
+    console.log(e);
+  }
+  // function onEventDrop({ e, originalEvent, external }: any, onEventDelete) {
+  function onEventDrop({ event, originalEvent, external }: any, onEventDelete) {
+    console.log("from drop", event, originalEvent, external);
 
-      addAppointment(data);
-      $q.notify("Appointment added successfully");
+    if (external) {
+      const client = JSON.parse(event.dataTransfer.getData("client"));
+      //   const data = {
+      //     // client: e.id,
+      //     date: moment(e.startDate).format("yyyy-MM-DDTHH:mm"),
+      //   };
+
+      //   addAppointment(data);
+      //   $q.notify("Appointment added successfully");
     } else {
-      const data = {
-        id: e.id,
-        client: e.client,
-        date: moment(e.startDate).format("yyyy-MM-DDTHH:mm"),
-        date_to: moment(e.endDate).format("yyyy-MM-DDTHH:mm"),
-      };
-      editAppointment(data);
-      $q.notify("Appointment edited successfully");
+      //
+      //   const data = {
+      //     id: e.id,
+      //     client: e.client,
+      //     date: moment(e.startDate).format("yyyy-MM-DDTHH:mm"),
+      //     date_to: moment(e.endDate).format("yyyy-MM-DDTHH:mm"),
+      //   };
+      //   editAppointment(data);
+      //   $q.notify("Appointment edited successfully");
     }
   }
 
@@ -86,6 +104,7 @@ export default function useCalendar() {
   return {
     selectedClient,
     selectedEvent,
+    onEventCreate,
     onDragStart,
     onEventDurationChange,
     onEventClick,

@@ -71,8 +71,6 @@ export default function useFetchAppointments({
       }
 
       const response = await axios.get<Data>(url.value, config);
-      console.log("Month url: ", url.value);
-      console.log("Month data: ", response.data.results);
 
       data.value = response.data;
     } catch (e) {
