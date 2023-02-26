@@ -3,6 +3,7 @@ import axios, { AxiosError } from "axios";
 import moment from "moment";
 import { useClientStore } from "@/stores/client";
 import { date } from "quasar";
+import { Appointment } from "./interfaces";
 
 interface UseHandleAppointmentReturn {
   addAppointment: void;
@@ -23,10 +24,9 @@ export default function handleAppointments(): UseHandleAppointmentReturn {
   const store = useClientStore();
   const config = store.useConfig;
 
-  const url = "http://127.0.0.1:8000/appointment/appointments/";
+  const url = "http://127.0.0.1:8000/appointment/all/";
 
   const addAppointment = async (data: NewAppointment) => {
-    console.log("from handle", data);
     if (!data.date_to) {
       data.date_to = moment(data.date)
         .add(2, "hours")
@@ -44,7 +44,7 @@ export default function handleAppointments(): UseHandleAppointmentReturn {
   const editAppointment = async (data: NewAppointment) => {
     try {
       const response = await axios.put<NewAppointment>(
-        url + data.id,
+        url + data.id + "/",
         data,
         config
       );

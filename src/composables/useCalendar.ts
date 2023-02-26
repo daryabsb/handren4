@@ -30,16 +30,18 @@ export default function useCalendar() {
   //   e.dataTransfer!.setData("cursor-grab-at", e.offsetY.toString());
   // }
 
-  function onEventDurationChange(event: any) {
+  async function onEventDurationChange(
+    { event, originalEvent, external }: any,
+    onEventDelete: void
+  ) {
     const data = {
-      id: event.event.id,
-      patient: event.event.patient,
-      title: event.event.title,
-      description: event.event.content,
-      date: moment(event.event.startDate).format("yyyy-MM-DDTHH:mm"),
-      date_to: moment(event.event.endDate).format("yyyy-MM-DDTHH:mm"),
+      id: event.id,
+      client: event.client,
+      date: moment(event.start).format("YYYY-MM-DDTHH:mm"),
+      date_to: moment(event.end).format("YYYY-MM-DDTHH:mm"),
     };
-    editAppointment(data);
+    await editAppointment(data);
+    Notify.create("Appointment edited successfully");
   }
 
   function onEventClick(event: any, e: MouseEvent) {

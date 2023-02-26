@@ -114,11 +114,15 @@ export interface Data {
 export interface UseFetchDataProps {
   viewForFetch: Ref<string | null>;
   viewStartDate: Ref<string | null>;
-  createdEvent: Ref<Appointment | null>;
 }
 
 export interface UseFetchDataReturn {
   data: Ref<Data | null>;
+  error: Ref<AxiosError<any> | null>;
+}
+
+export interface UseFetchSingleAppointmentReturn {
+  data: Ref<Appointment | null>;
   error: Ref<AxiosError<any> | null>;
 }
 

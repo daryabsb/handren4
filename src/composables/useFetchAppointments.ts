@@ -16,13 +16,12 @@ const config = store.useConfig;
 export default function useFetchAppointments({
   viewForFetch,
   viewStartDate,
-  createdEvent,
 }: UseFetchDataProps): UseFetchDataReturn {
   const data = ref<Appointment[] | null>([]);
   const error = ref<AxiosError<any> | null>(null);
   const url = ref<string>("http://127.0.0.1:8000/appointment/all/");
 
-  const fetchData = async () => {
+  async function fetchData() {
     // Sample of the mont queryset is: ?month=March 2023
     let query = "";
     try {
@@ -42,11 +41,11 @@ export default function useFetchAppointments({
     } catch (e) {
       error.value = e;
     }
-  };
+  }
 
-  watch([viewForFetch, viewStartDate, createdEvent], fetchData, {
+  watch([viewForFetch, viewStartDate], fetchData, {
     immediate: true,
   });
 
-  return { data, error };
+  return { data, error, fetchData };
 }
