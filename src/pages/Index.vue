@@ -125,15 +125,14 @@
           </div>
 
           <!-- Right column -->
-          <div class="grid grid-cols-1 gap-2">
+          <div class="grid grid-cols-1 gap-4">
             <!-- Announcements -->
             <section aria-labelledby="announcements-title">
               <div class="overflow-hidden rounded-lg bg-white shadow  q-pa-md">
-                <div class="q-pa-2">
+                <div class="q-pa-2 w-full">
 
-                  <div class="flow-root">
-                    <Calendar style="max-width: 24em; max-height: 28em;" :disableViews="disableViews"
-                      :withClients="false" />
+                  <div class="flow-root  h-96 w-full py-10">
+                    <Calendar :disableViews="disableViews" :withClients="false" />
                   </div>
 
                 </div>

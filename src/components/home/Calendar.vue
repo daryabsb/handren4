@@ -189,8 +189,8 @@ function viewChange({ view, startDate }: ViewChange) {
 }
 
 async function onEventCreate(event: any, deleteEventFunction: void) {
-  selectedEvent.value = event
-  console.log("IS IT CREATED OR WHAT?!");
+  // selectedEvent.value = event
+  // console.log("IS IT CREATED OR WHAT?!");
 
   await fetchData()
   return event
