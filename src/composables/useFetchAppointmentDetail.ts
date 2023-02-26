@@ -6,7 +6,7 @@ const store = useClientStore(); // store has all the config, clients and appoint
 const config = store.useConfig; // config contains all headers and autjorizations for axios
 
 const endpoints = {
-  appointments: "http://127.0.0.1:8000/appointment/appointments/",
+  appointments: "http://127.0.0.1:8000/appointment/all/",
   prescriptions: "http://127.0.0.1:8000/appointment/prescriptions/",
   treatments: "http://127.0.0.1:8000/appointment/treatments/",
   medications: "http://127.0.0.1:8000/appointment/medications/",
@@ -15,7 +15,7 @@ const endpoints = {
 export default async function fetchData(clientId: number) {
   const appointments = (
     await axios.get(endpoints.appointments + `?client=${clientId}`, config)
-  ).data.results;
+  ).data;
   const pastAppointments = await appointments.filter(
     (appointment: Appointment) => new Date(appointment.date) < new Date()
   );

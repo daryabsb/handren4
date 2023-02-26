@@ -112,11 +112,23 @@ export interface Data {
 }
 
 export interface UseFetchDataProps {
-  currentView: Ref<string | null>;
+  viewForFetch: Ref<string | null>;
   viewStartDate: Ref<string | null>;
+  createdEvent: Ref<Appointment | null>;
 }
 
 export interface UseFetchDataReturn {
   data: Ref<Data | null>;
   error: Ref<AxiosError<any> | null>;
+}
+
+export interface ViewChange {
+  view: string;
+  startDate: string; // View start - JS native Date object.
+  endDate: string; // View end - JS native Date object.
+  firstCellDate: string; // Month view only, in case cell is out of current month - JS native Date object.
+  lastCellDate: string; // Month view only, in case cell is out of current month - JS native Date object.
+  outOfScopeEvents: any[]; // Month view only, all the events that are out of the current month.
+  events: any[]; // All the events in the current view.
+  week: number; // Week number. Only returned if view is 'week'.
 }

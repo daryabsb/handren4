@@ -2,6 +2,9 @@
 from django.utils import timezone
 import pytz
 
+
+from django.db.models import Q
+
 from rest_framework import permissions, viewsets
 from datetime import datetime, timedelta, date as dt
 from .filters import (datefilter, get_date_range as delta,
@@ -21,14 +24,8 @@ class AllAppointmentsViewSet(viewsets.ModelViewSet):
     queryset = Appointment.objects.all()
     serializer_class = AppointmentSerializer
     pagination_class = None
-    lookup_field = 'id'
-
-
-class AppointmentViewSet(viewsets.ModelViewSet):
-    queryset = Appointment.objects.all()
-    serializer_class = AppointmentSerializer
     filter_class = AppointmentFilter
-    # lookup_field = 'client'
+    lookup_field = 'id'
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
@@ -63,7 +60,7 @@ class AppointmentViewSet(viewsets.ModelViewSet):
         return queryset
 
     def filter_by_date(self, queryset):
-        today = datetime.now()
+        # today = datetime.now()
         date_query = self.request.query_params.get('dq', None)
         if date_query is not None:
             todays_date = dt.today()
@@ -91,7 +88,9 @@ class AppointmentViewSet(viewsets.ModelViewSet):
         today = timezone.now().date()
         start_date = today - \
             timedelta(days=today.weekday() + (0 if value else 1))
-        return queryset.filter(date__range=[start_date, start_date + timedelta(days=6)])
+        return queryset.filter(
+            date__range=[start_date, start_date + timedelta(days=6)
+                         ])
 
     def filter_by_keywords(self, queryset):
         keywords = self.request.query_params.get('input', None)
@@ -121,6 +120,14 @@ class AppointmentViewSet(viewsets.ModelViewSet):
         # queryset = self.filter_by_week(queryset)
 
         return queryset.filter()
+
+
+class AppointmentViewSet(viewsets.ModelViewSet):
+    queryset = Appointment.objects.all()
+    serializer_class = AppointmentSerializer
+    pagination_class = AppointmentPagination
+    filter_class = AppointmentFilter
+    # lookup_field = 'client'
 
 
 class PrescriptionViewset(viewsets.ModelViewSet):

@@ -32,17 +32,12 @@ interface UseFetchDataReturn {
 }
 
 export default function useFetchData(month: any): UseFetchDataReturn {
-  const data = ref<Data | null>({
-    count: 0,
-    next: "",
-    previous: "",
-    results: [],
-  });
+  const data = ref<Appointment[] | null>([]);
   const error = ref<any>(null);
 
   const fetchData = async () => {
     try {
-      let url = "http://127.0.0.1:8000/appointment/appointments/";
+      let url = "http://127.0.0.1:8000/appointment/all/";
       if (month.value) {
         url += `?month=${month.value}`;
       }

@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md flex divide-x divide-gray-200">
+  <div class="h-full q-pa-md flex divide-x divide-gray-200">
     <section :class="[
       withClients
         ? '2/3'
@@ -22,13 +22,12 @@
         </button>
       </div>
 
-      <vue-cal ref="vuecal" :events="data.results" :small="false" :time-from="12 * 60" :time-to="22 * 60" :timeStep="120"
+      <vue-cal ref="vuecal" :events="events" :small="false" :time-from="12 * 60" :time-to="22 * 60" :timeStep="120"
         :hideTitleBar="true" @cell-click="selectDate($event)" :timeCellHeight="90" :active-view="activeView"
         :snapToTime="30" :watchRealTime="true" :startWeekOnSunday="true" :disable-views="disableViews"
         :editable-events="{ title: false, drag: true, resize: true, delete: true, create: true }"
         :selected-date="selectedDate" @view-change="viewChange($event)" @cell-focus="selectedDate = $event"
-        hide-view-selector @event-drop="onEventDrop($event)" @on-event-create="createEvent($event)"
-        style="min-height: 20rem;">
+        hide-view-selector @event-drop="onEventDrop($event)" :onEventCreate="onEventCreate" style="min-height: 20rem;">
         <!-- @event-duration-change="onEventDurationChange"
                               style="max-width: 450px;height: 350px" 
                               @cell-click="selectDate($event)" 
@@ -97,7 +96,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, computed, inject } from "vue"
-import { Appointment, Client } from "@/composables/interfaces"
+import { Appointment, Client, ViewChange } from "@/composables/interfaces"
 import moment from "moment"
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/20/solid'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
@@ -120,83 +119,8 @@ const props = withDefaults(defineProps<Props>(), {
   disableViews: ['years']
 })
 
-const emit = defineEmits(['onEventDrop'])
-const viewStartDate = ref()
-const store = useClientStore()
+const { data, error } = useFetchAppointments({ viewForFetch, viewStartDate, createdEvent })
 const { open, toggleQuickView } = inject("quickview")
-const currentMonth = ref('')
-const month = computed({
-  get: () => currentMonth.value,
-  set: (value) => currentMonth.value = value
-});
-
-
-const title = ref('')
-const vuecal = ref(null)
-const selectedDate = ref(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()))
-const selectDate = (e: any) => {
-  selectedDate.value = new Date(new Date(e).getFullYear(), new Date(e).getMonth(), new Date(e).getDate())
-};
-
-const today = ref(new Date())
-
-
-onMounted(async () => {
-  today.value = new Date(selectedDate.value)
-  currentView.value = props.activeView
-  viewStartDate.value = new Date(selectedDate.value)
-  currentMonth.value = moment(new Date()).format("MMMM YYYY");
-
-  await store.fetchClients()
-})
-
-interface ViewChange {
-  view: string,
-  startDate: string, // View start - JS native Date object.
-  endDate: string, // View end - JS native Date object.
-  firstCellDate: string, // Month view only, in case cell is out of current month - JS native Date object.
-  lastCellDate: string, // Month view only, in case cell is out of current month - JS native Date object.
-  outOfScopeEvents: any[], // Month view only, all the events that are out of the current month.
-  events: any[], // All the events in the current view.
-  week: number // Week number. Only returned if view is 'week'.
-}
-function viewChange({ view, startDate }: ViewChange) {
-  viewStartDate.value = startDate;
-  currentView.value = view
-}
-
-const currentView = ref('')
-const viewForFetch = computed({
-  get: () => currentView.value,
-  set: (value) => currentView.value = value
-});
-function createEvent(e: any) {
-  console.log("createEvent", e);
-  // appointments.value.push()
-}
-const { data, error } = useFetchAppointments({ viewForFetch, viewStartDate })
-const appointments = computed(() => {
-  const todayDate = selectedDate.value.getDate();
-  const todayMonth = selectedDate.value.getMonth();
-  return data.value.results.filter((item: Appointment) => {
-    const itemDate = new Date(item.date).getDate();
-    const itemStart = new Date(item.start).getDate();
-    const itemMonth = new Date(item.start).getMonth();
-    return itemDate === todayDate && itemMonth === todayMonth || itemStart === todayDate && itemMonth === todayMonth;
-  })
-})
-const getClient = (id: number) => {
-  return store.useClients.find((client: Client) => client.id === id)
-}
-const prevMonth = () => {
-  vuecal.value.previous();
-  currentMonth.value = vuecal.value.viewTitle;
-};
-
-const nextMonth = () => {
-  vuecal.value.next();
-  currentMonth.value = vuecal.value.viewTitle;
-};
 
 const {
   selectedClient,
@@ -208,6 +132,87 @@ const {
   onEventDoubleClick,
   onEventDrop, onEventDelete
 } = useCalendar();
+const today = ref(new Date())
+const viewStartDate = ref()
+const store = useClientStore()
+const currentMonth = ref('')
+const createdEvent = ref({})
+const title = ref('')
+const vuecal = ref(null)
+const selectedDate = ref(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()))
+const currentView = ref('')
+
+
+
+const month = computed({
+  get: () => currentMonth.value,
+  set: (value) => currentMonth.value = value
+});
+const eventCreated = computed({
+  get() {
+    return createdEvent.value
+  },
+  set(newEvent) {
+    createdEvent.value = newEvent
+  }
+})
+const viewForFetch = computed({
+  get: () => currentView.value,
+  set: (value) => currentView.value = value
+});
+const events = computed(() => data.value.results)
+const appointments = computed(() => {
+  const todayDate = selectedDate.value.getDate();
+  const todayMonth = selectedDate.value.getMonth();
+  return data.value.results.filter((item: Appointment) => {
+    const itemDate = new Date(item.date).getDate();
+    const itemStart = new Date(item.start).getDate();
+    const itemMonth = new Date(item.start).getMonth();
+    return itemDate === todayDate && itemMonth === todayMonth || itemStart === todayDate && itemMonth === todayMonth;
+  })
+
+})
+
+
+
+
+
+
+onMounted(async () => {
+  today.value = new Date(selectedDate.value)
+  currentView.value = props.activeView
+  viewStartDate.value = new Date(selectedDate.value)
+  currentMonth.value = moment(new Date()).format("MMMM YYYY");
+
+  await store.fetchClients()
+})
+
+function selectDate(e: any) {
+  selectedDate.value = new Date(new Date(e).getFullYear(), new Date(e).getMonth(), new Date(e).getDate())
+}
+function viewChange({ view, startDate }: ViewChange) {
+  viewStartDate.value = startDate;
+  currentView.value = view
+}
+
+async function onEventCreate(event: any, deleteEventFunction: void) {
+  selectedEvent.value = event
+  createdEvent.value = event
+  return event
+}
+function getClient(id: number) {
+  return store.useClients.find((client: Client) => client.id === id)
+}
+function prevMonth() {
+  vuecal.value.previous();
+  currentMonth.value = vuecal.value.viewTitle;
+};
+
+function nextMonth() {
+  vuecal.value.next();
+  currentMonth.value = vuecal.value.viewTitle;
+};
+
 
 
 
