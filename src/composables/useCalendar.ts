@@ -2,11 +2,18 @@ import { ref } from "vue";
 import moment from "moment";
 import handleAppointments from "@/composables/handleAppointments";
 import { Appointment } from "@/types/Appointment";
-import { useQuasar, date } from "quasar";
+import { useQuasar, Notify } from "quasar";
 
 import { Client } from "./interfaces";
 
-const $q = useQuasar();
+interface NotifyConfig {
+  type?: string;
+  message: string;
+}
+
+function notify({ type, message }: NotifyConfig) {
+  Notify.create({ type, message });
+}
 
 export default function useCalendar() {
   const {
@@ -66,12 +73,10 @@ export default function useCalendar() {
   }
 
   // function onEventDrop({ e, originalEvent, external }: any, onEventDelete) {
-  function onEventDrop(
+  async function onEventDrop(
     { event, originalEvent, external }: any,
     onEventDelete: void
   ) {
-    console.log("from drop", event);
-
     if (external) {
       let data = {
         client: event.id,
@@ -79,23 +84,28 @@ export default function useCalendar() {
         date: moment(event.start).format("YYYY-MM-DDTHH:mm"),
       };
 
-      addAppointment(data);
+      await addAppointment(data);
+
+      notify({
+        type: "positive",
+        message: "Appointment added successfully.",
+      });
     } else {
-      //
-      //   const data = {
-      //     id: e.id,
-      //     client: e.client,
-      //     date: moment(e.startDate).format("yyyy-MM-DDTHH:mm"),
-      //     date_to: moment(e.endDate).format("yyyy-MM-DDTHH:mm"),
-      //   };
-      //   editAppointment(data);
-      //   $q.notify("Appointment edited successfully");
+      const data = {
+        id: event.id,
+        client: event.client,
+        date: moment(event.start).format("YYYY-MM-DDTHH:mm"),
+        date_to: moment(event.end).format("YYYY-MM-DDTHH:mm"),
+      };
+      await editAppointment(data);
+      Notify.create("Appointment edited successfully");
     }
   }
 
   function onEventDelete(event: Appointment) {
     const id = event.id;
     deleteAppointment(id);
+    const $q = useQuasar();
     $q.notify("Appointment deleted successfully");
   }
 

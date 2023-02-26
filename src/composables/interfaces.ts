@@ -1,3 +1,5 @@
+import { Ref } from "vue";
+import { AxiosError } from "axios";
 export interface Client {
   id: number;
   user: number;
@@ -100,4 +102,21 @@ export interface ReturnedData {
   next: string;
   previous: string;
   results: Appointment[];
+}
+
+export interface Data {
+  count: number;
+  next: string;
+  previous: string;
+  results: Appointment[];
+}
+
+export interface UseFetchDataProps {
+  currentView: Ref<string | null>;
+  viewStartDate: Ref<string | null>;
+}
+
+export interface UseFetchDataReturn {
+  data: Ref<Data | null>;
+  error: Ref<AxiosError<any> | null>;
 }

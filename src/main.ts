@@ -1,5 +1,5 @@
 import { createApp } from "vue";
-import { Quasar } from "quasar";
+import { Quasar, Notify } from "quasar";
 import App from "./App.vue";
 import axios from "axios";
 import router from "@/router";
@@ -67,7 +67,16 @@ pinia.use(({ store }) => {
 app
   .provide("electron", (window as any).electronAPI)
   .provide("filters", app.config.globalProperties.$filters)
-  .use(Quasar, {})
+  .use(Quasar, {
+    plugins: {
+      Notify,
+    },
+    config: {
+      notify: {
+        /* look at QuasarConfOptions from the API card */
+      },
+    },
+  })
   .use(pinia)
   .component("vue-cal", VueCal)
   .use(router)

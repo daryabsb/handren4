@@ -1,6 +1,5 @@
 <template>
   <div class="q-pa-md flex divide-x divide-gray-200">
-
     <section :class="[
       withClients
         ? '2/3'
@@ -23,87 +22,73 @@
         </button>
       </div>
 
-      <!-- <vue-cal ref="vuecal" @cell-click="selectDate($event)" :events="data.results" xsmall :time="false"
-                                                                                                                                              :active-view="activeView" :selected-date="selectedDate" @view-change="viewChange($event)"
-                                                                                                                                              :disable-views="['years', 'year']" style="max-width: 450px;height: 350px" :hideTitleBar="true">
+      <vue-cal ref="vuecal" :events="data.results" :small="false" :time-from="12 * 60" :time-to="22 * 60" :timeStep="120"
+        :hideTitleBar="true" @cell-click="selectDate($event)" :timeCellHeight="90" :active-view="activeView"
+        :snapToTime="30" :watchRealTime="true" :startWeekOnSunday="true" :disable-views="disableViews"
+        :editable-events="{ title: false, drag: true, resize: true, delete: true, create: true }"
+        :selected-date="selectedDate" @view-change="viewChange($event)" @cell-focus="selectedDate = $event"
+        hide-view-selector @event-drop="onEventDrop($event)" @on-event-create="createEvent($event)"
+        style="min-height: 20rem;">
+        <!-- @event-duration-change="onEventDurationChange"
+                              style="max-width: 450px;height: 350px" 
+                              @cell-click="selectDate($event)" 
+                                :time="false"
+                                  :onEventDblclick="onEventDoubleClick"
+                                  :events="appToCalendar"
+                                  :on-event-click="onEventClick"
+                                  @event-drag-create="showEventCreationDialog = true"
+                                  @event-delete="onEventDelete"-->
+        <template #time-cell="{ hours, minutes }">
+          <div :class="{ 'vuecal__time-cell-line': true, hours: !minutes }">
+            <strong v-if="!minutes" style="font-size: 15px">{{ hours }}</strong>
+            <span v-else style="font-size: 11px">{{ minutes }}</span>
+          </div>
+        </template>
+        <!-- Custom cells -->
+        <template #cell-content="{ cell, view, events, goNarrower }">
+          <span class="vuecal__cell-date" :class="view.id" v-if="view.id === 'day'" @click="goNarrower">
+            {{ cell.date.getDate() }}
+          </span>
+          <span class="vuecal__cell-events-count" v-if="view.id === 'month' && events.length">{{ events.length }}</span>
+          <span class="vuecal__no-event" v-if="['week', 'day'].includes(view.id) && !events.length">Nothing here
+            👌</span>
+        </template>
+        <template #event="{ event, view }">
+          <q-card padding="xs" class="my-card q-pa-none" flat bordered>
+            <q-item>
+              <q-item-section v-if="event.client" avatar>
+                <q-avatar>
+                  <q-img :src="getClient(event.client).image">
+                    <template #loading>
+                      <q-inner-loading>
+                        <q-spinner-gears size="50px" color="primary" />
+                      </q-inner-loading>
+                    </template>
+                  </q-img>
+                </q-avatar>
+              </q-item-section>
 
-                                                                                                                                              :time-from="12 * 60"
-                                                                                                                                                :time-to="22 * 60" 
-                                                                                                                                            </vue-cal> -->
-      <div class=" h-80" square>
-        <vue-cal ref="vuecal" :events="data.results" :small="true" :time-from="12 * 60" :time-to="22 * 60" :timeStep="120"
-          :hideTitleBar="true" @cell-click="selectDate($event)" :timeCellHeight="90" :active-view="activeView"
-          :snapToTime="30" :watchRealTime="true" :startWeekOnSunday="true" :disable-views="disableViews"
-          :editable-events="{ title: false, drag: true, resize: true, delete: true, create: true }"
-          :selected-date="selectedDate" @view-change="viewChange($event)" @cell-focus="selectedDate = $event"
-          hide-view-selector @event-drop="onEventDrop($event)" @on-event-create="createEvent($event)">
-          <!-- @event-duration-change="onEventDurationChange"
-                                                                                                                                                              @event-drop="onEventDrop"
-                                                                                                                                                              :onEventDblclick="onEventDoubleClick"
-                                                                                                                                                              :events="appToCalendar"
-                                                                                                                                                              :on-event-click="onEventClick"
-                                                                                                                                                              @event-drag-create="showEventCreationDialog = true"
-                                                                                                                                                              @event-delete="onEventDelete" -->
+              <q-item-section>
+                <q-item-label>{{ event.title }}</q-item-label>
+                <q-item-label caption>
+                  {{ event.start.formatTime("hh:mm") }}-{{ event.end.formatTime("h:m") }}
+                </q-item-label>
+              </q-item-section>
+            </q-item>
 
-          <!-- <template v-slot:title="{ title, view }">
-                                                                                                                                                  {{ title + " This is the title" }}
-                                                                                                                                                  <span v-if="view.id === 'years'">Years</span>
-                                                                                                                                                  <span v-else-if="view.id === 'year'">{{ view.startDate.format('YYYY') }}</span>
-                                                                                                                                                  <span v-else-if="view.id === 'month'">{{ view.startDate.format('MMMM YYYY') }}</span>
-                                                                                                                                                  <span class="text-right" v-else-if="view.id === 'week'">{{ view.startDate.format('MMMM (YYYY)') }}</span>
-                                                                                                                                                  <span v-else-if="view.id === 'day'">{{ view.startDate.format('dddd D MMMM (YYYY)') }}</span>
-                                                                                                                                                </template> -->
-          <template #time-cell="{ hours, minutes }">
-            <div :class="{ 'vuecal__time-cell-line': true, hours: !minutes }">
-              <strong v-if="!minutes" style="font-size: 15px">{{ hours }}</strong>
-              <span v-else style="font-size: 11px">{{ minutes }}</span>
-            </div>
-          </template>
-          <!-- Custom cells -->
-          <template #cell-content="{ cell, view, events, goNarrower }">
-            <span class="vuecal__cell-date" :class="view.id" v-if="view.id === 'day'" @click="goNarrower">
-              {{ cell.date.getDate() }}
-            </span>
-            <span class="vuecal__cell-events-count" v-if="view.id === 'month' && events.length">{{ events.length }}</span>
-            <span class="vuecal__no-event" v-if="['week', 'day'].includes(view.id) && !events.length">Nothing here
-              👌</span>
-          </template>
-          <template #event="{ event, view }">
-            <q-card padding="xs" class="my-card q-pa-none" flat bordered>
-              <q-item>
-                <q-item-section v-if="event.client" avatar>
-                  <q-avatar>
-                    <q-img :src="getClient(event.client).image">
-                      <template #loading>
-                        <q-inner-loading>
-                          <q-spinner-gears size="50px" color="primary" />
-                        </q-inner-loading>
-                      </template>
-                    </q-img>
-                  </q-avatar>
-                </q-item-section>
-
-                <q-item-section>
-                  <q-item-label>{{ event.title }}</q-item-label>
-                  <q-item-label caption>
-                    {{ event.start.formatTime("hh:mm") }}-{{ event.end.formatTime("h:m") }}
-                  </q-item-label>
-                </q-item-section>
-              </q-item>
-
-            </q-card>
+          </q-card>
 
 
-            <!-- <div class="vuecal__event-title vuecal__event-title--edit" contenteditable
-                                                                                                    @blur="event.title = $event.target.innerHTML" v-html="event.title" /> -->
+          <!-- <div class="vuecal__event-title vuecal__event-title--edit" contenteditable
+                                                                                                                        @blur="event.title = $event.target.innerHTML" v-html="event.title" /> -->
 
-            <!-- <small class="vuecal__event-time">
-                                                                                                    <strong>Event start:</strong> <span>{{ event.start.formatTime("h O'clock") }}</span><br />
-                                                                                                    <strong>Event end:</strong> <span>{{ event.end.formatTime("h O'clock") }}</span>
-                                                                                                  </small> -->
-          </template>
-        </vue-cal>
-      </div>
+          <!-- <small class="vuecal__event-time">
+                                                                                                                        <strong>Event start:</strong> <span>{{ event.start.formatTime("h O'clock") }}</span><br />
+                                                                                                                        <strong>Event end:</strong> <span>{{ event.end.formatTime("h O'clock") }}</span>
+                                                                                                                      </small> -->
+        </template>
+      </vue-cal>
+
     </section>
 
     <clients-of-the-day v-if="withClients" :appointments="appointments" :selected-date="selectedDate" />
