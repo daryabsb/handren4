@@ -100,18 +100,18 @@ const routes = [
           authRequired: true,
         },
       },
-      {
-        path: "/playground",
-        name: "playground",
-        component: () =>
-          import(
-            /* webpackChunkName: "playground" */ "../pages/playground/index.vue"
-          ),
-        meta: {
-          authRequired: true,
-        },
-      },
     ],
+    meta: {
+      authRequired: true,
+    },
+  },
+  {
+    path: "/playground",
+    name: "playground",
+    component: () =>
+      import(
+        /* webpackChunkName: "playground" */ "../pages/playground/index.vue"
+      ),
     meta: {
       authRequired: true,
     },

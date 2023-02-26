@@ -7,12 +7,17 @@ import { useQuasar, Notify } from "quasar";
 import { Client } from "./interfaces";
 
 interface NotifyConfig {
+  position?: string;
   type?: string;
   message: string;
 }
 
-function notify({ type, message }: NotifyConfig) {
-  Notify.create({ type, message });
+function notify({
+  position = "top-right",
+  type = "positive",
+  message,
+}: NotifyConfig) {
+  Notify.create({ position, type, message });
 }
 
 export default function useCalendar() {
@@ -89,7 +94,6 @@ export default function useCalendar() {
       await addAppointment(data);
 
       notify({
-        type: "positive",
         message: "Appointment added successfully.",
       });
     } else {

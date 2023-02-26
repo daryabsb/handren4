@@ -157,65 +157,13 @@
           </div>
         </q-toolbar>
       </q-header>
-
-      <q-drawer v-model="drawer" :mini="miniState" overlay @mouseover="miniState = false" @mouseout="miniState = true"
-        :width="200" :breakpoint="500" show-if-above bordered content-class=" bg-zinc-300">
-        <q-scroll-area class="fit">
-          <q-list padding>
-            <q-item clickable v-ripple>
-              <q-item-section avatar>
-                <q-icon name="inbox" size="md"></q-icon>
-              </q-item-section>
-
-              <q-item-section>
-                <h1 class="text-lg">
-                  Inbox
-                </h1>
-              </q-item-section>
-            </q-item>
-
-            <q-item active clickable v-ripple>
-              <q-item-section avatar>
-                <q-icon name="star" size="md"></q-icon>
-              </q-item-section>
-
-              <q-item-section>
-                Star
-              </q-item-section>
-            </q-item>
-
-            <q-item clickable v-ripple>
-              <q-item-section avatar>
-                <q-icon name="send"></q-icon>
-              </q-item-section>
-
-              <q-item-section>
-                Send
-              </q-item-section>
-            </q-item>
-
-            <q-separator></q-separator>
-
-            <q-item clickable v-ripple>
-              <q-item-section avatar>
-                <q-icon name="drafts"></q-icon>
-              </q-item-section>
-
-              <q-item-section>
-                Drafts
-              </q-item-section>
-            </q-item>
-          </q-list>
-        </q-scroll-area>
-      </q-drawer>
-
-
-      <router-view v-slot="{ Component }">
-        <!-- <keep-alive> -->
-        <component :is="Component" />
-        <!-- </keep-alive> -->
-      </router-view>
-
+      <q-page-container>
+        <router-view v-slot="{ Component }">
+          <!-- <keep-alive> -->
+          <component :is="Component" />
+          <!-- </keep-alive> -->
+        </router-view>
+      </q-page-container>
     </q-layout>
   </Provider>
 </template>
