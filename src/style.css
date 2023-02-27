@@ -39,3 +39,78 @@
   height: 60px;
   animation: pulse 1.5s infinite ease;
 } */
+
+body {
+  background-image: url(https://wallpapershome.com/images/wallpapers/macos-big-sur-1280x720-dark-wwdc-2020-22655.jpg);
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.video-bg {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+.video-bg video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.dark-light {
+  position: fixed;
+  bottom: 50px;
+  right: 30px;
+  background-color: var(--dropdown-bg);
+  box-shadow: -1px 3px 8px -1px rgba(0, 0, 0, 0.2);
+  padding: 8px;
+  border-radius: 50%;
+  z-index: 3;
+  cursor: pointer;
+}
+.dark-light svg {
+  width: 24px;
+  flex-shrink: 0;
+  fill: #ffce45;
+  stroke: #ffce45;
+  transition: 0.5s;
+}
+
+.light-mode {
+}
+.light-mode.dark-light svg {
+  fill: transparent;
+  stroke: var(--theme-color);
+}
+
+.light-mode.profile-img {
+  border: 2px solid var(--theme-bg-color);
+}
+
+.light-mode.content-section ul {
+  background-color: var(--theme-bg-color);
+}
+
+.light-mode.pop-up__title {
+  border-color: var(--theme-color);
+}
+
+.light-mode.dropdown.is-active ul {
+  background-color: rgb(255 255 255 / 94%);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-bg);
+  border-radius: 10px;
+}

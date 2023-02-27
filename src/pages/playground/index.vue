@@ -13,42 +13,41 @@
         <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
       </svg>
     </div>
-    <div class="app w-full max-w-[1250px] max-h-[860px] h-[90vh] flex flex-col overflow-hidden
-                    relative rounded-md backdrop-blur-sm text-md font-semibold"
+    <div class="w-full max-w-[1250px] max-h-[860px] h-[90vh] flex flex-col overflow-hidden
+                                  relative rounded-md backdrop-blur-sm text-md font-semibold"
       style="background-color: var(--theme-bg-color);">
-      <div class="header mobile-hide w-full flex  items-center h-16 border-b border-[var(--border-color)] px-4 ">
+      <div class="mobile-hide w-full flex  items-center h-16 border-b border-[var(--border-color)] px-4 ">
         <div class="gt-sm  menu-circle flex space-x-4 ml-2 mr-6">
-          <div class=" flex-shrink-0 w-4 h-4 bg-[#f96057] rounded-full"></div>
-          <div class="menu-circleflex-shrink-0 w-4 h-4 bg-[#f8ce52] rounded-full"></div>
-          <div class="menu-circle flex-shrink-0 w-4 h-4 bg-[#5fcf65] rounded-full"></div>
+          <div class="flex-shrink-0 w-4 h-4 bg-[#f96057] rounded-full"></div>
+          <div class="flex-shrink-0 w-4 h-4 bg-[#f8ce52] rounded-full"></div>
+          <div class="flex-shrink-0 w-4 h-4 bg-[#5fcf65] rounded-full"></div>
         </div>
         <q-btn size="lg" padding="none" color="transparent" text-color="white" class="lt-md mx-2" flat icon="dehaze" />
         <q-tabs active-class="text-pink-400" dense v-model="activeTopNav" :breakpoint="600"
-          class="header-menu gt-sm sm:flex  items-center">
+          class="gt-sm sm:flex  items-center">
           <q-tab v-for="item in navigation.topNavigation" :key="item.id"
-            class="  text-[var(--inactive-color)] py-4 px-6 decoration-transparent " :name="item.title"
-            :label="item.title">
+            class="text-[var(--inactive-color)] py-4 px-6 decoration-transparent " :name="item.title" :label="item.title">
           </q-tab>
         </q-tabs>
 
-        <div class="search-bar max-w-[600px] m-auto transition-all pl-0 box-border shadow-[var(--border-color)]">
+        <div class="max-w-[600px] m-auto transition-all pl-0 box-border shadow-[var(--border-color)]">
           <input type="text" placeholder="Search" class="px-2 py-1.5 w-full h-full rounded-md pl-4 pr-8 text-[var(--theme-color)] bg-[var(--search-bg)] shadow-sm shadow-[rgb(134 140 160 / 2%)]
-                        placeholder:text-[var(--inactive-color)] placeholder:font-thin" />
+                                      placeholder:text-[var(--inactive-color)] placeholder:font-thin" />
         </div>
-        <div class="header-profile row space-x-2 items-center ml-auto flex-shrink-0">
-          <div class="gt-sm notification relative">
+        <div class=" row space-x-2 items-center ml-auto flex-shrink-0">
+          <div class="gt-sm relative">
             <q-icon size="md" color="white" name="notifications"></q-icon>
             <q-badge color="red" floating>3</q-badge>
 
           </div>
           <q-icon size="md" class="gt-sm" color="white" name="thunderstorm"></q-icon>
-          <img class="gt-sm profile-img ml-6 w-8 h-8 rounded-full object-cover border-2 border-[var(--theme-color)]"
+          <img class="gt-sm ml-6 w-8 h-8 rounded-full object-cover border-2 border-[var(--theme-color)]"
             src="https://images.unsplash.com/photo-1600353068440-6361ef3a86e8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80"
             alt="" />
         </div>
       </div>
-      <div class=" wrapper flex flex-1 overflow-hidden">
-        <div class="left-side flex gt-sm  basis-60 border-r border-[var(--border-color)] p-4 overflow-auto flex-shrink-0">
+      <div class="flex flex-1 overflow-hidden">
+        <div class="flex gt-sm  basis-60 border-r border-[var(--border-color)] p-4 overflow-auto flex-shrink-0">
           <q-item flat clickable v-ripple active-class="bg-pink-200 " draggable="true"
             class="rounded-sm border-2 border-[var(--border-color)]">
             <q-item-section avatar>
@@ -83,11 +82,12 @@
             </q-item-section>
           </q-item>
           <div v-for="item in navigation.sideNavigation" :key="item.id" class="side-wrapper mt-5">
-            <div class="side-title text-[var(--inactive-color)] mb-3">{{ item.title }}</div>
-            <div class="side-menu  flex flex-col whitespace-nowrap">
-              <a v-for="(link, index) in item.sections" :key="index" href="#" class="relative
-                            w-full hover:bg-[var(--hover-menu-bg)] decoration-[none] 
-                            text-[var(--theme-color)] flex items-center py-2 text-sm rounded-md transition-all">
+            <div class="text-[var(--inactive-color)] mb-3">{{ item.title }}</div>
+            <div class="flex flex-col whitespace-nowrap">
+              <a v-for="(link, index) in item.sections" :key="index" href="#"
+                class="relative
+                                          w-full hover:bg-[var(--hover-menu-bg)] decoration-[none] 
+                                          text-[var(--theme-color)] flex items-center py-2 text-sm rounded-md transition-all">
                 <q-icon class="mr-3 w-4" :name="link.icon" size="sm" />
 
                 {{ link.title }}
@@ -100,18 +100,16 @@
         </div>
 
         <div class="col grow">
-          <div class="main-header row items-center border-b border-[var(--border-color)] h-14 flex-shrink-0">
-            <a class="menu-link-main decoration-[none] text-[var(--theme-color)] px-8" href="#">All Apps</a>
-            <q-tabs v-model="loadedPage" class="header-menu active text-[var(--theme-color)]">
-              <q-tab as="a" v-for="link in navigation.menu" :key="link.id" class="main-header-link " :name="link.name"
-                href="#">
+          <div class="row items-center border-b border-[var(--border-color)] h-14 flex-shrink-0">
+            <a class="decoration-[none] text-[var(--theme-color)] px-8" href="#">All Apps</a>
+            <q-tabs v-model="loadedPage" class="active text-[var(--theme-color)]">
+              <q-tab as="a" v-for="link in navigation.menu" :key="link.id" :name="link.name" href="#">
                 {{ link.title }}</q-tab>
             </q-tabs>
           </div>
           <q-tab-panels animated v-model="loadedPage" class="bg-transparent h-full" style="background-color: none;">
             <q-tab-panel class="bg-none q-pa-none" name="desktop">
-              <div
-                class="content-wrapper w-full col text-[var(--theme-color)] py-4 px-4 h-full overflow-auto bg-[var(--theme-bg-color)]">
+              <div class="w-full col text-[var(--theme-color)] py-4 px-4 h-full overflow-auto bg-[var(--theme-bg-color)]">
                 <div class="text-2xl font-extralight uppercase">Schedule</div>
                 <div class="w-full h-full">
                   <Calendar :withClients="true" />
@@ -120,7 +118,7 @@
             </q-tab-panel>
             <q-tab-panel class="bg-none q-pa-none" name="mobile">
               <div
-                class="content-wrapper w-full col text-[var(--theme-color)] py-4 px-4 h-full overflow-auto bg-[var(--theme-bg-color)]">
+                class=" w-full col text-[var(--theme-color)] py-4 px-4 h-full overflow-auto bg-[var(--theme-bg-color)]">
                 <div class="text-2xl font-extralight uppercase">Mobile</div>
                 <div class="w-full h-full bg-pink-700">
 
@@ -128,8 +126,7 @@
               </div>
             </q-tab-panel>
             <q-tab-panel class="bg-none q-pa-none" name="web">
-              <div
-                class="content-wrapper w-full col text-[var(--theme-color)] py-4 px-4 h-full overflow-auto bg-[var(--theme-bg-color)]">
+              <div class="w-full col text-[var(--theme-color)] py-4 px-4 h-full overflow-auto bg-[var(--theme-bg-color)]">
                 <div class="text-2xl font-extralight uppercase">Web</div>
                 <div class="w-full h-96 bg-pink-700"></div>
               </div>
@@ -141,21 +138,21 @@
         </div>
       </div>
       <div
-        class="overlay-app w-full h-full fixed left-0 top-0 pointer-events-[all] bg-[rgba(36, 39, 59, 0.8)] opacity-0 hidden transition-colors">
+        class="w-full h-full fixed left-0 top-0 pointer-events-[all] bg-[rgba(36, 39, 59, 0.8)] opacity-0 hidden transition-colors">
       </div>
     </div>
   </Provider>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from "vue"
-import Provider from "../../providers/index.vue"
-import Calendar from "../../components/home/Calendar.vue"
+import Provider from "@/providers/index.vue"
+import Calendar from "@/components/home/Calendar.vue"
 
 const loadedPage = ref('desktop')
 const menuLinks = ['Home', 'About', 'Contact'];
 const activeTopNav = ref('Apps')
-function selectTopNav(title) {
+function selectTopNav(title: string) {
   activeTopNav.value = title;
 }
 
@@ -342,295 +339,3 @@ const psImg = ref(`
 
 </script>
 
-<style lang="scss" >
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
-
-* {
-  outline: none;
-  box-sizing: border-box;
-}
-
-
-
-body {
-  font-family: var(--body-font);
-  background-image: url(https://wallpapershome.com/images/wallpapers/macos-big-sur-1280x720-dark-wwdc-2020-22655.jpg);
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  padding: 1em;
-  width: 100%;
-  height: 100vh;
-
-  @media screen and (max-width: 480px) {
-    padding: 0.8em;
-  }
-}
-
-.video-bg {
-  position: fixed;
-  right: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-
-  video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-}
-
-
-
-.dark-light {
-  position: fixed;
-  bottom: 50px;
-  right: 30px;
-  background-color: var(--dropdown-bg);
-  box-shadow: -1px 3px 8px -1px rgba(0, 0, 0, 0.2);
-  padding: 8px;
-  border-radius: 50%;
-  z-index: 3;
-  cursor: pointer;
-
-  svg {
-    width: 24px;
-    flex-shrink: 0;
-    fill: #ffce45;
-    stroke: #ffce45;
-    transition: 0.5s;
-  }
-}
-
-.light-mode {
-  .dark-light svg {
-    fill: transparent;
-    stroke: var(--theme-color);
-  }
-
-  .profile-img {
-    border: 2px solid var(--theme-bg-color)
-  }
-
-  .content-section ul {
-    background-color: var(--theme-bg-color);
-  }
-
-  .pop-up__title {
-    border-color: var(--theme-color);
-  }
-
-  .dropdown.is-active ul {
-    background-color: rgb(255 255 255 / 94%);
-  }
-}
-
-body.light-mode:before,
-body.light-mode .video-bg:before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100vh;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.72) 0%, rgb(255 255 255 / 45%) 100%);
-  backdrop-filter: saturate(3);
-}
-
-.app {}
-
-// .q-tab-panels {
-//   @apply bg-transparent h-full;
-
-// }
-
-.header {
-
-
-  @media screen and (max-width: 480px) {
-    padding: 0 16px;
-  }
-
-  &-menu {
-
-
-    a {
-
-      @media screen and (max-width: 610px) {
-        &:not(.main-header-link) {
-          display: none;
-        }
-      }
-
-      &.is-active,
-      &:hover {
-        color: var(--theme-color);
-        border-bottom: 2px solid var(--theme-color);
-      }
-    }
-  }
-}
-
-.notify {
-  position: relative;
-
-  &:before {
-    content: "";
-    position: absolute;
-    background-color: #3a6df0;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    right: 20px;
-    top: 16px;
-  }
-
-  @media screen and (max-width: 1055px) {
-    display: none;
-  }
-}
-
-.menu-circle {
-
-
-  @media screen and (max-width: 945px) {
-    display: none;
-  }
-}
-
-.search-bar {
-
-
-  input {
-
-
-    &::placeholder {}
-  }
-}
-
-
-
-.header-profile {
-
-
-  svg {
-    width: 22px;
-    color: #f9fafb;
-    flex-shrink: 0;
-  }
-}
-
-.notification {
-
-
-  &-number {}
-
-  &+svg {
-
-
-    @media screen and (max-width: 945px) {
-      display: none;
-    }
-  }
-}
-
-.profile-img {}
-
-.wide {
-
-  .header-menu,
-  .header-profile {
-    display: none;
-  }
-
-  .search-bar {}
-
-  .menu-circle {}
-}
-
-.wrapper {}
-
-.left-side {
-
-
-  @media screen and (max-width: 945px) {
-    display: none;
-  }
-}
-
-.side-wrapper+.side-wrapper {}
-
-.side-title {}
-
-.side-menu {
-
-
-  a {
-
-
-    &:hover {}
-  }
-
-  svg {}
-}
-
-.updates {
-  position: relative;
-  top: 0;
-  right: 0;
-  margin-left: auto;
-  width: 18px;
-  height: 18px;
-  font-size: 11px;
-}
-
-.main-header {
-
-
-  .header-menu {
-    margin-left: 150px;
-
-    @media screen and (max-width: 1055px) {
-      margin: auto;
-    }
-
-    a {
-      padding: 20px 24px;
-    }
-  }
-}
-
-.main-container {}
-
-.menu-link-main {
-
-  @media screen and (max-width: 1055px) {
-    display: none;
-  }
-}
-
-.content-wrapper {
-
-
-  @media screen and (max-width: 510px) {
-    padding: 20px;
-  }
-
-}
-
-
-
-::-webkit-scrollbar {
-  width: 6px;
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--scrollbar-bg);
-  border-radius: 10px;
-}
-</style>
