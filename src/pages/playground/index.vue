@@ -11,173 +11,109 @@
       <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
     </svg>
   </div>
-  <div class="app">
-    <div class="header">
-      <div class="menu-circle"></div>
-      <q-tabs v-model="activeTopNav" class="header-menu">
-        <q-tab as="a" v-for="item in navigation.topNavigation" :key="item.id" class="menu-link text-white"
-          :name="item.title" :label="item.title">
+  <div
+    class="app w-full max-w-[1250px] max-h-[860px] h-[90vh] flex flex-col overflow-hidden
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     relative rounded-md backdrop-blur-sm text-md font-semibold"
+    style="background-color: var(--theme-bg-color);">
+    <div class="header mobile-hide w-full flex  items-center h-16 border-b border-[var(--border-color)] px-4 ">
+      <div class="gt-sm  menu-circle flex space-x-4 ml-2 mr-6">
+        <div class=" flex-shrink-0 w-4 h-4 bg-[#f96057] rounded-full"></div>
+        <div class="menu-circleflex-shrink-0 w-4 h-4 bg-[#f8ce52] rounded-full"></div>
+        <div class="menu-circle flex-shrink-0 w-4 h-4 bg-[#5fcf65] rounded-full"></div>
+      </div>
+      <q-btn size="lg" padding="none" color="transparent" text-color="white" class="lt-md mx-2" flat icon="dehaze" />
+      <q-tabs dense v-model="activeTopNav" :breakpoint="600" class="header-menu gt-sm sm:flex  items-center">
+        <q-tab v-for="item in navigation.topNavigation" :key="item.id"
+          class="  text-[var(--inactive-color)] py-4 px-6 decoration-transparent " :name="item.title" :label="item.title">
         </q-tab>
-
       </q-tabs>
 
-      <div class="search-bar">
-        <input type="text" placeholder="Search" />
+      <div class="search-bar max-w-[600px] m-auto transition-all pl-0 box-border shadow-[var(--border-color)]">
+        <input type="text" placeholder="Search"
+          class="px-2 py-1.5 w-full h-full rounded-md pl-4 pr-8 text-[var(--theme-color)] bg-[var(--search-bg)] shadow-sm shadow-[rgb(134 140 160 / 2%)]
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              placeholder:text-[var(--inactive-color)] placeholder:font-thin" />
       </div>
-      <div class="header-profile">
-        <div class="notification">
-          <span class="notification-number">3</span>
-          <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-            stroke-linejoin="round" class="feather feather-bell">
-            <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0" />
-          </svg>
+      <div class="header-profile row space-x-2 items-center ml-auto flex-shrink-0">
+        <div class="gt-sm notification relative">
+          <q-icon size="md" color="white" name="notifications"></q-icon>
+          <q-badge color="red" floating>3</q-badge>
+
         </div>
-        <svg viewBox="0 0 512 512" fill="currentColor">
-          <path
-            d="M448.773 235.551A135.893 135.893 0 00451 211c0-74.443-60.557-135-135-135-47.52 0-91.567 25.313-115.766 65.537-32.666-10.59-66.182-6.049-93.794 12.979-27.612 19.013-44.092 49.116-45.425 82.031C24.716 253.788 0 290.497 0 331c0 7.031 1.703 13.887 3.006 20.537l.015.015C12.719 400.492 56.034 436 106 436h300c57.891 0 106-47.109 106-105 0-40.942-25.053-77.798-63.227-95.449z" />
-        </svg>
-        <img class="profile-img"
+        <q-icon size="md" class="gt-sm" color="white" name="thunderstorm"></q-icon>
+        <img class="gt-sm profile-img ml-6 w-8 h-8 rounded-full object-cover border-2 border-[var(--theme-color)]"
           src="https://images.unsplash.com/photo-1600353068440-6361ef3a86e8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80"
           alt="" />
       </div>
     </div>
-    <div class="wrapper">
-      <div class="left-side">
-        <div v-for="item in navigation.sideNavigation" :key="item.id" class="side-wrapper">
-          <div class="side-title">{{ item.title }}</div>
-          <div class="side-menu">
-            <a v-for="(link, index) in item.sections" :key="index" href="#">
-              <q-icon class="mr-1" :name="link.icon" size="sm" />
+    <div class=" wrapper flex flex-1 overflow-hidden">
+      <div class="left-side flex gt-sm  basis-60 border-r border-[var(--border-color)] p-6 overflow-auto flex-shrink-0">
+        <div v-for="item in navigation.sideNavigation" :key="item.id" class="side-wrapper mt-5">
+          <div class="side-title text-[var(--inactive-color)] mb-3">{{ item.title }}</div>
+          <div class="side-menu  flex flex-col whitespace-nowrap">
+            <a v-for="(link, index) in item.sections" :key="index" href="#"
+              class="relative
+                                                                                                                                                                                                                                                                                                                                                                          w-full hover:bg-[var(--hover-menu-bg)] decoration-[none] 
+                                                                                                                                                                                                                                                                                                                                                                                text-[var(--theme-color)] flex items-center py-2 text-sm rounded-md transition-all">
+              <q-icon class="mr-3 w-4" :name="link.icon" size="sm" />
 
               {{ link.title }}
-              <span class="notification-number updates">3</span>
+              <q-badge v-if="index === 1" color="blue" class="ml-4">4</q-badge>
+
+
             </a>
           </div>
         </div>
       </div>
-      <div class="main-container">
-        <div class="main-header">
-          <a class="menu-link-main" href="#">All Apps</a>
-          <div class="header-menu">
-            <a v-for="link in navigation.menu" :key="link.id" :class="[
-              link.id === 1
-                ? 'is-active'
-                : '',
-              'main-header-link']" href="#">
-              {{ link.title }}</a>
-          </div>
+
+      <div class="col grow">
+        <div class="main-header row items-center border-b border-[var(--border-color)] h-14 flex-shrink-0">
+          <a class="menu-link-main decoration-[none] text-[var(--theme-color)] px-8" href="#">All Apps</a>
+          <q-tabs v-model="loadedPage" class="header-menu active text-[var(--theme-color)]">
+            <q-tab as="a" v-for="link in navigation.menu" :key="link.id" class="main-header-link " :name="link.name"
+              href="#">
+              {{ link.title }}</q-tab>
+          </q-tabs>
         </div>
-        <div class="content-wrapper">
-          <div class="content-wrapper-header">
-            <div class="content-wrapper-context">
-              <h3 class="img-content">
-
-                <div v-html="psImg" />
-                Adobe Stock
-              </h3>
-              <div class="content-text">
-                Grab yourself 10 free images from Adobe Stock in a 30-day free
-                trial plan and find perfect image, that will help you with your
-                new project.
-              </div>
-              <button class="content-button">Start free trial</button>
+        <q-tab-panels animated v-model="loadedPage" class="bg-transparent h-full" style="background-color: none;">
+          <q-tab-panel class="bg-none q-pa-none" name="desktop">
+            <div
+              class="content-wrapper w-full col text-[var(--theme-color)] py-4 px-4 h-full overflow-auto bg-[var(--theme-bg-color)]">
+              <div class="text-2xl font-extralight uppercase">Desktop</div>
+              <div class="w-full h-96 bg-pink-700"></div>
             </div>
-            <img class="content-wrapper-img" src="https://assets.codepen.io/3364143/glass.png" alt="" />
-          </div>
-          <div class="content-section">
-            <div class="content-section-title">Installed</div>
-            <ul>
-              <li v-for="product in navigation.products" :key="product.id" class="adobe-product">
-                <div class="products">
-                  <div v-html="product.icon" />
-                  {{ product.title }}
-                </div>
-                <span class="status">
-                  <span :class="[
-                    product.status == 'Updated'
-                      ? 'green'
-                      : '',
-                    'status-circle']"></span>
-                  {{ product.status }}</span>
-                <div class="button-wrapper">
-                  <button v-if="product.id == 2" class="content-button status-button" @click="updateTheApp = true">{{
-                    product.btn }}</button>
-                  <button v-else class="content-button status-button open">{{ product.btn }}</button>
-                  <!-- DIALOG FOR UPDATE -->
-                  <q-dialog v-model="updateTheApp">
-                    <q-card style="width: 500px; max-width: 80vw;background-color: var(--popup-bg);">
-                      <q-card-section>
-                        <div class="text-h6 text-white">Update This App</div>
-                      </q-card-section>
+          </q-tab-panel>
+          <q-tab-panel class="bg-none q-pa-none" name="mobile">
+            <div
+              class="content-wrapper w-full col text-[var(--theme-color)] py-4 px-4 h-full overflow-auto bg-[var(--theme-bg-color)]">
+              <div class="text-2xl font-extralight uppercase">Mobile</div>
+              <div class="w-full h-96 bg-pink-700">
 
-                      <q-card-section class="q-pt-none">
-                        <div class="pop-up__subtitle text-white">
-                          Adjust your selections for advanced options as desired
-                          before continuing. <a href="#">Learn more</a>
-                        </div>
-                        <div class="checkbox-wrapper text-white">
-                          <input type="checkbox" id="check1" class="checkbox" />
-                          <label for="check1 ">Import previous settings and preferences</label>
-                        </div>
-                        <div class="checkbox-wrapper text-white ">
-                          <input type="checkbox" id="check2" class="checkbox" />
-                          <label for="check2">Remove old versions</label>
-                        </div>
-                      </q-card-section>
-                      <q-card-actions align="right" class="text-teal">
-                        <div class="content-button-wrapper">
-                          <button class="content-button status-button open close">
-                            Cancel
-                          </button>
-                          <button class="content-button status-button">
-                            Continue
-                          </button>
-                        </div>
-                      </q-card-actions>
-                    </q-card>
-                  </q-dialog>
-                  <div class="menu">
-                    <button class="dropdown">
-                      <ul>
-                        <li><a href="#">Go to Discover</a></li>
-                        <li><a href="#">Learn more</a></li>
-                        <li><a href="#">Uninstall</a></li>
-                      </ul>
-                    </button>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div class="content-section">
-            <div class="content-section-title">Apps in your plan</div>
-            <div class="apps-card">
-              <div v-for="card in navigation.content" :key="card.id" class="app-card">
-                <span>
-                  <div v-html="card.icon" />
-
-                  {{ card.title }}
-                </span>
-                <div class="app-card__subtext">
-                  {{ card.subtext }}
-                </div>
-                <div class="app-card-buttons">
-                  <button class="content-button status-button">{{ card.btn }}</button>
-                  <div class="menu"></div>
-                </div>
               </div>
             </div>
-          </div>
-        </div>
+          </q-tab-panel>
+          <q-tab-panel class="bg-none q-pa-none" name="web">
+            <div
+              class="content-wrapper w-full col text-[var(--theme-color)] py-4 px-4 h-full overflow-auto bg-[var(--theme-bg-color)]">
+              <div class="text-2xl font-extralight uppercase">Web</div>
+              <div class="w-full h-96 bg-pink-700"></div>
+            </div>
+          </q-tab-panel>
+        </q-tab-panels>
+
+
+
       </div>
     </div>
-    <div class="overlay-app"></div>
+    <div
+      class="overlay-app w-full h-full fixed left-0 top-0 pointer-events-[all] bg-[rgba(36, 39, 59, 0.8)] opacity-0 hidden transition-colors">
+    </div>
   </div>
 </template>
 
 <script setup>
 import { ref } from "vue"
 
+const loadedPage = ref('desktop')
 const menuLinks = ['Home', 'About', 'Contact'];
 const activeTopNav = ref('Apps')
 function selectTopNav(title) {
@@ -188,27 +124,27 @@ function selectTopNav(title) {
 const navigation = {
   topNavigation: [
     {
-      id: 1, title: 'Apps', href: '#'
+      id: 1, title: 'Dashboard', href: '#'
     },
     {
-      id: 2, title: 'Your work', href: '#'
+      id: 2, title: 'Clients', href: '#'
     },
     {
-      id: 3, title: 'Discover', href: '#'
+      id: 3, title: 'Visits', href: '#'
     },
     {
-      id: 4, title: 'Market', href: '#'
+      id: 4, title: 'Playground', href: '#'
     },
   ],
   menu: [
     {
-      id: 1, title: 'Desktop', href: '#'
+      id: 1, title: 'Desktop', href: '#', name: 'desktop'
     },
     {
-      id: 2, title: 'Mobile', href: '#'
+      id: 2, title: 'Mobile', href: '#', name: 'mobile'
     },
     {
-      id: 3, title: 'Web', href: '#'
+      id: 3, title: 'Web', href: '#', name: 'web'
     },
   ],
   sideNavigation: [
@@ -375,44 +311,7 @@ const psImg = ref(`
   box-sizing: border-box;
 }
 
-:root {
-  --theme-bg-color: rgba(16 18 27 / 40%);
-  --border-color: rgba(113 119 144 / 25%);
-  --theme-color: #f9fafb;
-  --inactive-color: rgb(113 119 144 / 78%);
-  --body-font: "Poppins", sans-serif;
-  --hover-menu-bg: rgba(12 15 25 / 30%);
-  --content-title-color: #999ba5;
-  --content-bg: rgb(146 151 179 / 13%);
-  --button-inactive: rgb(249 250 251 / 55%);
-  --dropdown-bg: #21242d;
-  --dropdown-hover: rgb(42 46 60);
-  --popup-bg: rgb(22 25 37);
-  --search-bg: #14162b;
-  --overlay-bg: rgba(36, 39, 59, 0.3);
-  --scrollbar-bg: rgb(1 2 3 / 40%);
-}
 
-.light-mode {
-  --theme-bg-color: rgb(255 255 255 / 31%);
-  --theme-color: #3c3a3a;
-  --inactive-color: #333333;
-  --button-inactive: #3c3a3a;
-  --search-bg: rgb(255 255 255 / 31%);
-  --dropdown-bg: #f7f7f7;
-  --overlay-bg: rgb(255 255 255 / 30%);
-  --dropdown-hover: rgb(236 236 236);
-  --border-color: rgb(255 255 255 / 35%);
-  --popup-bg: rgb(255 255 255);
-  --hover-menu-bg: rgba(255 255 255 / 35%);
-  --scrollbar-bg: rgb(255 253 253 / 57%);
-  --content-title-color: --theme-color;
-}
-
-html {
-  box-sizing: border-box;
-  -webkit-font-smoothing: antialiased;
-}
 
 body {
   font-family: var(--body-font);
@@ -423,7 +322,7 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  padding: 2em;
+  padding: 1em;
   width: 100%;
   height: 100vh;
 
@@ -446,9 +345,7 @@ body {
   }
 }
 
-img {
-  max-width: 100%;
-}
+
 
 .dark-light {
   position: fixed;
@@ -505,47 +402,24 @@ body.light-mode .video-bg:before {
   backdrop-filter: saturate(3);
 }
 
-.app {
-  background-color: var(--theme-bg-color);
-  max-width: 1250px;
-  max-height: 860px;
-  height: 90vh;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  position: relative;
-  width: 100%;
-  border-radius: 14px;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  font-size: 15px;
-  font-weight: 500;
-}
+.app {}
+
+// .q-tab-panels {
+//   @apply bg-transparent h-full;
+
+// }
 
 .header {
-  display: flex;
-  align-items: center;
-  flex-shrink: 0;
-  height: 58px;
-  width: 100%;
-  border-bottom: 1px solid var(--border-color);
-  padding: 0 30px;
-  white-space: nowrap;
+
 
   @media screen and (max-width: 480px) {
     padding: 0 16px;
   }
 
   &-menu {
-    display: flex;
-    align-items: center;
+
 
     a {
-      padding: 20px 30px;
-      text-decoration: none;
-      color: var(--inactive-color);
-      border-bottom: 2px solid transparent;
-      transition: 0.3s;
 
       @media screen and (max-width: 610px) {
         &:not(.main-header-link) {
@@ -582,13 +456,7 @@ body.light-mode .video-bg:before {
 }
 
 .menu-circle {
-  width: 15px;
-  height: 15px;
-  background-color: #f96057;
-  border-radius: 50%;
-  box-shadow: 24px 0 0 0 #f8ce52, 48px 0 0 0 #5fcf65;
-  margin-right: 195px;
-  flex-shrink: 0;
+
 
   @media screen and (max-width: 945px) {
     display: none;
@@ -596,47 +464,19 @@ body.light-mode .video-bg:before {
 }
 
 .search-bar {
-  height: 40px;
-  display: flex;
-  width: 100%;
-  max-width: 400px;
-  padding-left: 16px;
-  border-radius: 4px;
+
 
   input {
-    width: 100%;
-    height: 100%;
-    border: none;
-    background-color: var(--search-bg);
-    border-radius: 4px;
-    font-family: var(--body-font);
-    font-size: 15px;
-    font-weight: 500;
-    padding: 0 20px 0 40px;
-    box-shadow: 0 0 0 2px rgb(134 140 160 / 2%);
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 56.966 56.966' fill='%23717790c7'%3e%3cpath d='M55.146 51.887L41.588 37.786A22.926 22.926 0 0046.984 23c0-12.682-10.318-23-23-23s-23 10.318-23 23 10.318 23 23 23c4.761 0 9.298-1.436 13.177-4.162l13.661 14.208c.571.593 1.339.92 2.162.92.779 0 1.518-.297 2.079-.837a3.004 3.004 0 00.083-4.242zM23.984 6c9.374 0 17 7.626 17 17s-7.626 17-17 17-17-7.626-17-17 7.626-17 17-17z'/%3e%3c/svg%3e");
-    background-size: 14px;
-    background-repeat: no-repeat;
-    background-position: 16px 48%;
-    color: var(--theme-color);
 
-    &::placeholder {
-      font-family: var(--body-font);
-      color: var(--inactive-color);
-      font-size: 15px;
-      font-weight: 500;
-    }
+
+    &::placeholder {}
   }
 }
 
 
 
 .header-profile {
-  display: flex;
-  align-items: center;
-  padding: 0 16px 0 40px;
-  margin-left: auto;
-  flex-shrink: 0;
+
 
   svg {
     width: 22px;
@@ -646,25 +486,12 @@ body.light-mode .video-bg:before {
 }
 
 .notification {
-  position: relative;
 
-  &-number {
-    position: absolute;
-    background-color: #3a6df0;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    font-size: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    right: -6px;
-    top: -6px;
-  }
+
+  &-number {}
 
   &+svg {
-    margin-left: 22px;
+
 
     @media screen and (max-width: 945px) {
       display: none;
@@ -672,14 +499,7 @@ body.light-mode .video-bg:before {
   }
 }
 
-.profile-img {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid var(--theme-color);
-  margin-left: 22px;
-}
+.profile-img {}
 
 .wide {
 
@@ -688,71 +508,35 @@ body.light-mode .video-bg:before {
     display: none;
   }
 
-  .search-bar {
-    max-width: 600px;
-    margin: auto;
-    transition: 0.4s;
-    box-shadow: 0 0 0 1px var(--border-color);
-    padding-left: 0;
-  }
+  .search-bar {}
 
-  .menu-circle {
-    margin-right: 0;
-  }
+  .menu-circle {}
 }
 
-.wrapper {
-  display: flex;
-  flex-grow: 1;
-  overflow: hidden;
-}
+.wrapper {}
 
 .left-side {
-  flex-basis: 240px;
-  border-right: 1px solid var(--border-color);
-  padding: 26px;
-  overflow: auto;
-  flex-shrink: 0;
+
 
   @media screen and (max-width: 945px) {
     display: none;
   }
 }
 
-.side-wrapper+.side-wrapper {
-  margin-top: 20px;
-}
+.side-wrapper+.side-wrapper {}
 
-.side-title {
-  color: var(--inactive-color);
-  margin-bottom: 14px;
-}
+.side-title {}
 
 .side-menu {
-  display: flex;
-  flex-direction: column;
-  white-space: nowrap;
+
 
   a {
-    text-decoration: none;
-    color: var(--theme-color);
-    display: flex;
-    align-items: center;
-    font-weight: 400;
-    padding: 10px;
-    font-size: 14px;
-    border-radius: 6px;
-    transition: 0.3s;
 
-    &:hover {
-      background-color: var(--hover-menu-bg);
-    }
+
+    &:hover {}
   }
 
-  svg {
-    width: 16px;
-    margin-right: 8px;
-  }
+  svg {}
 }
 
 .updates {
@@ -766,11 +550,7 @@ body.light-mode .video-bg:before {
 }
 
 .main-header {
-  display: flex;
-  align-items: center;
-  border-bottom: 1px solid var(--border-color);
-  height: 58px;
-  flex-shrink: 0;
+
 
   .header-menu {
     margin-left: 150px;
@@ -785,16 +565,9 @@ body.light-mode .video-bg:before {
   }
 }
 
-.main-container {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-}
+.main-container {}
 
 .menu-link-main {
-  text-decoration: none;
-  color: var(--theme-color);
-  padding: 0 30px;
 
   @media screen and (max-width: 1055px) {
     display: none;
@@ -802,494 +575,15 @@ body.light-mode .video-bg:before {
 }
 
 .content-wrapper {
-  display: flex;
-  flex-direction: column;
-  color: var(--theme-color);
-  padding: 20px 40px;
-  height: 100%;
-  overflow: auto;
-  background-color: var(--theme-bg-color);
+
 
   @media screen and (max-width: 510px) {
     padding: 20px;
   }
 
-  &-header {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    justify-content: space-between;
-    background-image: url("https://www.transparenttextures.com/patterns/cubes.png"),
-      linear-gradient(to right top,
-        #cf4af3,
-        #e73bd7,
-        #f631bc,
-        #fd31a2,
-        #ff3a8b,
-        #ff4b78,
-        #ff5e68,
-        #ff705c,
-        #ff8c51,
-        #ffaa49,
-        #ffc848,
-        #ffe652);
-    border-radius: 14px;
-    padding: 20px 40px;
-
-    @media screen and (max-width: 415px) {
-      padding: 20px;
-    }
-  }
-
-  &.overlay {
-    pointer-events: none;
-    transition: 0.3s;
-    background-color: var(--overlay-bg);
-  }
 }
 
-.overlay-app {
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  left: 0;
-  top: 0;
-  pointer-events: all;
-  background-color: rgba(36, 39, 59, 0.8);
-  opacity: 0;
-  visibility: hidden;
-  transition: 0.3s;
 
-  &.is-active {
-    visibility: visible;
-    opacity: 1;
-  }
-}
-
-.img-content {
-  font-weight: 500;
-  font-size: 17px;
-  display: flex;
-  align-items: center;
-  margin: 0;
-
-  svg {
-    width: 28px;
-    margin-right: 14px;
-  }
-}
-
-.content-text {
-  font-weight: 400;
-  font-size: 14px;
-  margin-top: 16px;
-  line-height: 1.7em;
-  color: #ebecec;
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.content-wrapper-context {
-  max-width: 350px;
-}
-
-.content-button {
-  background-color: #3a6df0;
-  border: none;
-  padding: 8px 26px;
-  color: #fff;
-  border-radius: 20px;
-  margin-top: 16px;
-  cursor: pointer;
-  transition: 0.3s;
-  white-space: nowrap;
-}
-
-.content-wrapper-img {
-  width: 186px;
-  object-fit: cover;
-  margin-top: -25px;
-  object-position: center;
-
-  @media screen and (max-width: 570px) {
-    width: 110px;
-  }
-}
-
-.content-section {
-  margin-top: 30px;
-  display: flex;
-  flex-direction: column;
-
-  &-title {
-    color: var(--content-title-color);
-    margin-bottom: 14px;
-  }
-
-  ul {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-    justify-content: space-around;
-    background-color: var(--content-bg);
-    padding-left: 0;
-    margin: 0;
-    border-radius: 14px;
-    border: 1px solid var(--theme-bg-color);
-    cursor: pointer;
-
-    li {
-      list-style: none;
-      padding: 10px 18px;
-      display: flex;
-      align-items: center;
-      font-size: 16px;
-      width: 100%;
-      height: 100%;
-      white-space: nowrap;
-      transition: 0.3s;
-
-      &:hover {
-        background-color: var(--theme-bg-color);
-
-        &:first-child {
-          border-radius: 13px 13px 0 0;
-        }
-
-        &:last-child {
-          border-radius: 0 0 13px 13px;
-        }
-      }
-
-      &+li {
-        border-top: 1px solid var(--border-color);
-      }
-    }
-
-    svg {
-      width: 28px;
-      border-radius: 6px;
-      margin-right: 16px;
-      flex-shrink: 0;
-    }
-  }
-}
-
-.products {
-  display: flex;
-  align-items: center;
-  width: 150px;
-
-  @media screen and (max-width: 480px) {
-    width: 120px;
-  }
-}
-
-.status {
-  margin-left: auto;
-  width: 140px;
-  font-size: 15px;
-  position: relative;
-
-  @media screen and (max-width: 700px) {
-    display: none;
-  }
-
-  &-circle {
-    width: 6px;
-    height: 6px;
-    background-color: #396df0;
-    position: absolute;
-    border-radius: 50%;
-    top: 4px;
-    left: -20px;
-
-    &.green {
-      background-color: #3bf083;
-    }
-  }
-
-  &-button {
-    font-size: 15px;
-    margin-top: 0;
-    padding: 6px 24px;
-
-    @media screen and (max-width: 390px) {
-      padding: 6px 14px;
-    }
-
-    &.open {
-      background: none;
-      color: var(--button-inactive);
-      border: 1px solid var(--button-inactive);
-    }
-
-    &:not(.open):hover {
-      color: #fff;
-      border-color: #fff;
-    }
-  }
-}
-
-.content-button:not(.open):hover {
-  background: #1e59f1;
-}
-
-.menu {
-  width: 5px;
-  height: 5px;
-  background-color: var(--button-inactive);
-  border-radius: 50%;
-  box-shadow: 7px 0 0 0 var(--button-inactive), 14px 0 0 0 var(--button-inactive);
-  margin: 0 12px;
-}
-
-@media screen and (max-width: 415px) {
-  .adobe-product .menu {
-    display: none;
-  }
-}
-
-.dropdown {
-  position: relative;
-  height: 53px;
-  width: 40px;
-  top: -24px;
-  display: flex;
-  left: -5px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-
-  ul {
-    position: absolute;
-    background: var(--dropdown-bg);
-    height: 110px;
-    width: 120px;
-    right: 0;
-    top: 20px;
-    pointer-events: none;
-    opacity: 0;
-    transform: translatey(10px);
-    transition: all 0.4s ease;
-
-    li a {
-      text-decoration: none;
-      color: var(--theme-color);
-      font-size: 12px;
-    }
-  }
-}
-
-.dropdown.is-active {
-  ul {
-    opacity: 1;
-    pointer-events: all;
-    transform: translatey(25px);
-
-    li:hover {
-      background-color: var(--dropdown-hover);
-    }
-  }
-}
-
-.button-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  width: 187px;
-  margin-left: auto;
-
-  @media screen and (max-width: 480px) {
-    width: auto;
-  }
-}
-
-.pop-up {
-  position: absolute;
-  padding: 30px 40px;
-  top: 50%;
-  left: 50%;
-  transform: (translate(-50%, -50%));
-  overflow-y: auto;
-  box-shadow: 0px 6px 30px rgba(0, 0, 0, 0.4);
-  transition: all 0.3s;
-  z-index: 10;
-  background-color: var(--popup-bg);
-  width: 500px;
-  visibility: hidden;
-  opacity: 0;
-  border-radius: 6px;
-  display: flex;
-  flex-direction: column;
-  white-space: normal;
-
-  @media screen and (max-width: 570px) {
-    width: 100%;
-  }
-
-  &.visible {
-    visibility: visible;
-    opacity: 1;
-  }
-
-  &__title {
-    padding-bottom: 20px;
-    border-bottom: 1px solid var(--border-color);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  &__subtitle {
-    white-space: normal;
-    margin: 20px 0;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 1.8em;
-
-    a {
-      color: var(--theme-color);
-    }
-  }
-}
-
-.content-button-wrapper .content-button.status-button.open.close {
-  width: auto;
-}
-
-.content-section .close {
-  margin-right: 0;
-  width: 24px;
-}
-
-.checkbox-wrapper {
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-  font-weight: 400;
-
-  &+.checkbox-wrapper {
-    margin: 20px 0 40px;
-  }
-}
-
-.checkbox {
-  display: none;
-}
-
-.checkbox+label {
-  display: flex;
-  align-items: center;
-
-  &:before {
-    content: "";
-    margin-right: 10px;
-    width: 15px;
-    height: 15px;
-    border: 1px solid var(--theme-color);
-    border-radius: 4px;
-    cursor: pointer;
-    flex-shrink: 0;
-  }
-}
-
-.checkbox:checked+label:before {
-  background-color: #3a6df0;
-  border-color: #3a6df0;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' class='feather feather-check'%3e%3cpath d='M20 6L9 17l-5-5'/%3e%3c/svg%3e");
-  background-position: 50%;
-  background-size: 12px;
-  background-repeat: no-repeat;
-}
-
-.content-button-wrapper {
-  margin-top: auto;
-  margin-left: auto;
-
-  .open {
-    margin-right: 8px;
-  }
-}
-
-.apps-card {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  width: calc(100% + 20px);
-}
-
-.app-card {
-  display: flex;
-  flex-direction: column;
-  width: calc(33.3% - 20px);
-  font-size: 16px;
-  background-color: var(--content-bg);
-  border-radius: 14px;
-  border: 1px solid var(--theme-bg-color);
-  padding: 20px;
-  cursor: pointer;
-  transition: 0.3s ease;
-
-  &:hover {
-    transform: scale(1.02);
-    background-color: var(--theme-bg-color);
-  }
-
-  svg {
-    width: 28px;
-    border-radius: 6px;
-    margin-right: 12px;
-    flex-shrink: 0;
-  }
-
-  &+.app-card {
-    margin-left: 20px;
-  }
-
-  span {
-    display: flex;
-    align-items: center;
-  }
-
-  &__subtext {
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 1.6em;
-    margin-top: 20px;
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 20px;
-  }
-
-  &-buttons {
-    display: flex;
-    align-items: center;
-    margin-left: auto;
-    margin-top: 16px;
-  }
-
-  @media screen and (max-width: 1110px) {
-    width: calc(50% - 20px);
-
-    &:last-child {
-      margin-top: 20px;
-      margin-left: 0px;
-    }
-  }
-
-  @media screen and (max-width: 565px) {
-    width: calc(100% - 20px);
-    margin-top: 20px;
-
-    &+.app-card {
-      margin-left: 0;
-    }
-  }
-}
 
 ::-webkit-scrollbar {
   width: 6px;
