@@ -1,14 +1,14 @@
 <template>
-    <div class="bg-white">
+    <div class="">
         <div class="mx-auto max-w-7xl py-12 px-12 text-center lg:px-8 lg:py-16">
             <div class="space-y-6 sm:space-y-8 ">
                 <div class="space-y-2 sm:mx-auto sm:max-w-xl sm:space-y-1 lg:max-w-5xl">
-                    <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Clients</h2>
+                    <h2 class="text-3xl font-bold tracking-tight sm:text-4xl text-[var(--content-title-color)]">Clients</h2>
                     <!-- <p class="text-xl text-gray-500">Risus velit condimentum vitae tincidunt tincidunt. Mauris ridiculus
-                                                                                                                                                            fusce amet urna nunc. Ut nisl ornare diam in.</p> -->
+                                                                                                                                                                                                                fusce amet urna nunc. Ut nisl ornare diam in.</p> -->
                 </div>
                 <ul role="list"
-                    class="mx-auto h-[32rem] overflow-y-auto grid  grid-cols-2 gap-x-1 gap-y-2 sm:grid-cols-5 md:gap-x-2 lg:max-w-6xl lg:gap-x-4 lg:gap-y-2">
+                    class="mx-auto h-[32rem] overflow-y-auto grid  grid-cols-2 gap-x-1 gap-y-2 sm:grid-cols-4 md:gap-x-2 lg:max-w-6xl lg:gap-x-4 lg:gap-y-2 ">
 
                     <q-card v-for="person in people" :key="person.id" class="my-card -z-1" flat bordered>
                         <q-card-section horizontal>
@@ -34,10 +34,10 @@
                 </ul>
             </div>
             <div class="w-full mt-4 ">
-                <nav class="flex items-center justify-between border-t border-gray-200 bg-white px-4 pt-3 py-1 sm:px-6"
+                <nav class="flex items-center justify-between border-t border-gray-200  px-4 pt-3 py-1 sm:px-6"
                     aria-label="Pagination">
                     <div class="block">
-                        <p class="text-sm text-gray-700">
+                        <p class="text-sm text-white">
                             Showing
                             {{ ' ' }}
                             <span class="font-medium">{{ startIndex + 1 }}</span>
@@ -82,7 +82,7 @@ const router = useRouter()
 const people = ref([])
 const peopleCount = ref(0)
 const page = ref(1)
-const pageSize = ref(15)
+const pageSize = ref(12)
 
 function updateClient(jsonData) {
     const index = people.value.findIndex(person => person.id === jsonData.id)

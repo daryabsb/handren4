@@ -1,147 +1,43 @@
 <template>
-  <Provider>
-
-    <div class="video-bg">
-      <video width="320" height="240" autoplay loop muted>
-        <source src="https://assets.codepen.io/3364143/7btrrd.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
+  <div>
+    <div class="main-header row items-center border-b border-[var(--border-color)] h-14 flex-shrink-0">
+      <a class="menu-link-main decoration-[none] text-[var(--theme-color)] px-8" href="#">All Apps</a>
+      <q-tabs v-model="loadedPage" class="header-menu active text-[var(--theme-color)]">
+        <q-tab as="a" v-for="link in navigation.menu" :key="link.id" class="main-header-link " :name="link.name" href="#">
+          {{ link.title }}</q-tab>
+      </q-tabs>
     </div>
-    <div class="dark-light">
-      <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"
-        stroke-linejoin="round">
-        <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
-      </svg>
-    </div>
-    <div class="w-full max-w-[1250px] max-h-[860px] h-[90vh] flex flex-col overflow-hidden
-                                  relative rounded-md backdrop-blur-sm text-md font-semibold"
-      style="background-color: var(--theme-bg-color);">
-      <div class="mobile-hide w-full flex  items-center h-16 border-b border-[var(--border-color)] px-4 ">
-        <div class="gt-sm  menu-circle flex space-x-4 ml-2 mr-6">
-          <div class="flex-shrink-0 w-4 h-4 bg-[#f96057] rounded-full"></div>
-          <div class="flex-shrink-0 w-4 h-4 bg-[#f8ce52] rounded-full"></div>
-          <div class="flex-shrink-0 w-4 h-4 bg-[#5fcf65] rounded-full"></div>
-        </div>
-        <q-btn size="lg" padding="none" color="transparent" text-color="white" class="lt-md mx-2" flat icon="dehaze" />
-        <q-tabs active-class="text-pink-400" dense v-model="activeTopNav" :breakpoint="600"
-          class="gt-sm sm:flex  items-center">
-          <q-tab v-for="item in navigation.topNavigation" :key="item.id"
-            class="text-[var(--inactive-color)] py-4 px-6 decoration-transparent " :name="item.title" :label="item.title">
-          </q-tab>
-        </q-tabs>
-
-        <div class="max-w-[600px] m-auto transition-all pl-0 box-border shadow-[var(--border-color)]">
-          <input type="text" placeholder="Search" class="px-2 py-1.5 w-full h-full rounded-md pl-4 pr-8 text-[var(--theme-color)] bg-[var(--search-bg)] shadow-sm shadow-[rgb(134 140 160 / 2%)]
-                                      placeholder:text-[var(--inactive-color)] placeholder:font-thin" />
-        </div>
-        <div class=" row space-x-2 items-center ml-auto flex-shrink-0">
-          <div class="gt-sm relative">
-            <q-icon size="md" color="white" name="notifications"></q-icon>
-            <q-badge color="red" floating>3</q-badge>
-
-          </div>
-          <q-icon size="md" class="gt-sm" color="white" name="thunderstorm"></q-icon>
-          <img class="gt-sm ml-6 w-8 h-8 rounded-full object-cover border-2 border-[var(--theme-color)]"
-            src="https://images.unsplash.com/photo-1600353068440-6361ef3a86e8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80"
-            alt="" />
-        </div>
-      </div>
-      <div class="flex flex-1 overflow-hidden">
-        <div class="flex gt-sm  basis-60 border-r border-[var(--border-color)] p-4 overflow-auto flex-shrink-0">
-          <q-item flat clickable v-ripple active-class="bg-pink-200 " draggable="true"
-            class="rounded-sm border-2 border-[var(--border-color)]">
-            <q-item-section avatar>
-              <q-avatar class="rounded-sm">
-                <img class="object-cover"
-                  src="https://images.unsplash.com/photo-1600353068440-6361ef3a86e8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80"
-                  alt="" />
-              </q-avatar>
-            </q-item-section>
-            <q-item-section>
-              <q-item-label class="text-white">{{ 'client.name' }}</q-item-label>
-              <!-- <q-item-label caption lines="1">{{ 'client.email' }}</q-item-label> -->
-            </q-item-section>
-            <q-item-section side>
-              <div class="col-auto ">
-                <q-btn padding="xs" color="grey-7" round flat icon="more_vert" style="padding-inline: 0;">
-                  <q-menu cover auto-close>
-                    <q-list>
-                      <q-item clickable>
-                        <q-item-section>Remove Card</q-item-section>
-                      </q-item>
-                      <q-item clickable>
-                        <q-item-section>Send Feedback</q-item-section>
-                      </q-item>
-                      <q-item clickable>
-                        <q-item-section>Share</q-item-section>
-                      </q-item>
-                    </q-list>
-                  </q-menu>
-                </q-btn>
-              </div>
-            </q-item-section>
-          </q-item>
-          <div v-for="item in navigation.sideNavigation" :key="item.id" class="side-wrapper mt-5">
-            <div class="text-[var(--inactive-color)] mb-3">{{ item.title }}</div>
-            <div class="flex flex-col whitespace-nowrap">
-              <a v-for="(link, index) in item.sections" :key="index" href="#"
-                class="relative
-                                          w-full hover:bg-[var(--hover-menu-bg)] decoration-[none] 
-                                          text-[var(--theme-color)] flex items-center py-2 text-sm rounded-md transition-all">
-                <q-icon class="mr-3 w-4" :name="link.icon" size="sm" />
-
-                {{ link.title }}
-                <q-badge v-if="index === 1" color="blue" class="ml-4">4</q-badge>
-
-
-              </a>
-            </div>
+    <q-tab-panels animated v-model="loadedPage" class="bg-transparent h-full" style="background-color: none;">
+      <q-tab-panel class="bg-none q-pa-none" name="desktop">
+        <div
+          class="content-wrapper w-full col text-[var(--theme-color)] py-4 px-4 h-full overflow-auto bg-[var(--theme-bg-color)]">
+          <div class="text-2xl font-extralight uppercase">Schedule</div>
+          <div class="w-full h-full">
+            <Calendar :withClients="true" />
           </div>
         </div>
-
-        <div class="col grow">
-          <div class="row items-center border-b border-[var(--border-color)] h-14 flex-shrink-0">
-            <a class="decoration-[none] text-[var(--theme-color)] px-8" href="#">All Apps</a>
-            <q-tabs v-model="loadedPage" class="active text-[var(--theme-color)]">
-              <q-tab as="a" v-for="link in navigation.menu" :key="link.id" :name="link.name" href="#">
-                {{ link.title }}</q-tab>
-            </q-tabs>
+      </q-tab-panel>
+      <q-tab-panel class="bg-none q-pa-none" name="mobile">
+        <div
+          class="content-wrapper w-full col text-[var(--theme-color)] py-4 px-4 h-full overflow-auto bg-[var(--theme-bg-color)]">
+          <div class="text-2xl font-extralight uppercase">Mobile</div>
+          <div class="w-full h-96 bg-pink-700">
+            THIS IS THE MOBILE
           </div>
-          <q-tab-panels animated v-model="loadedPage" class="bg-transparent h-full" style="background-color: none;">
-            <q-tab-panel class="bg-none q-pa-none" name="desktop">
-              <div class="w-full col text-[var(--theme-color)] py-4 px-4 h-full overflow-auto bg-[var(--theme-bg-color)]">
-                <div class="text-2xl font-extralight uppercase">Schedule</div>
-                <div class="w-full h-full">
-                  <Calendar :withClients="true" />
-                </div>
-              </div>
-            </q-tab-panel>
-            <q-tab-panel class="bg-none q-pa-none" name="mobile">
-              <div
-                class=" w-full col text-[var(--theme-color)] py-4 px-4 h-full overflow-auto bg-[var(--theme-bg-color)]">
-                <div class="text-2xl font-extralight uppercase">Mobile</div>
-                <div class="w-full h-full bg-pink-700">
-
-                </div>
-              </div>
-            </q-tab-panel>
-            <q-tab-panel class="bg-none q-pa-none" name="web">
-              <div class="w-full col text-[var(--theme-color)] py-4 px-4 h-full overflow-auto bg-[var(--theme-bg-color)]">
-                <div class="text-2xl font-extralight uppercase">Web</div>
-                <div class="w-full h-96 bg-pink-700"></div>
-              </div>
-            </q-tab-panel>
-          </q-tab-panels>
-
-
-
         </div>
-      </div>
-      <div
-        class="w-full h-full fixed left-0 top-0 pointer-events-[all] bg-[rgba(36, 39, 59, 0.8)] opacity-0 hidden transition-colors">
-      </div>
-    </div>
-  </Provider>
+      </q-tab-panel>
+      <q-tab-panel class="bg-none q-pa-none" name="web">
+        <div
+          class="content-wrapper w-full col text-[var(--theme-color)] py-4 px-4 h-full overflow-auto bg-[var(--theme-bg-color)]">
+          <div class="text-2xl font-extralight uppercase">Web</div>
+          <div class="w-full h-96 bg-pink-700"></div>
+        </div>
+      </q-tab-panel>
+    </q-tab-panels>
+
+
+
+  </div>
 </template>
 
 <script setup lang="ts">

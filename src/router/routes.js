@@ -21,13 +21,14 @@ const routes = [
   {
     path: "/",
     name: "app",
-    component: () => import("../layouts/GithubLayout.vue"),
+    component: () =>
+      import(/* webpackChunkName: "glossy" */ "@/layouts/GlossyLayout.vue"),
     // children: [{ path: "", component: () => import("pages/IndexPage.vue") }],
     children: [
       {
         path: "dashboard",
         name: "dashboard",
-        component: () => import("../pages/dashboard/index.vue"),
+        component: () => import("@/pages/dashboard/index.vue"),
         meta: {
           authRequired: true,
         },
@@ -35,7 +36,7 @@ const routes = [
       {
         path: "",
         name: "home",
-        component: () => import("../pages/Index.vue"),
+        component: () => import("@/pages/Index.vue"),
         meta: {
           authRequired: true,
         },
@@ -44,9 +45,7 @@ const routes = [
         path: "/clients",
         name: "clients",
         component: () =>
-          import(
-            /* webpackChunkName: "clients" */ "../pages/clients/index.vue"
-          ),
+          import(/* webpackChunkName: "clients" */ "@/pages/clients/index.vue"),
 
         meta: {
           authRequired: true,
@@ -57,7 +56,7 @@ const routes = [
         name: "Client details",
         component: () =>
           import(
-            /* webpackChunkName: "clients" */ "../pages/clients/Details.vue"
+            /* webpackChunkName: "clients" */ "@/pages/clients/Details.vue"
           ),
         meta: {
           authRequired: true,
@@ -76,7 +75,7 @@ const routes = [
         name: "appointments",
         component: () =>
           import(
-            /* webpackChunkName: "appointments" */ "../pages/appointments/index.vue"
+            /* webpackChunkName: "appointments" */ "@/pages/appointments/index.vue"
           ),
         meta: {
           authRequired: true,
@@ -110,8 +109,18 @@ const routes = [
     name: "playground",
     component: () =>
       import(
-        /* webpackChunkName: "playground" */ "../pages/playground/index.vue"
+        /* webpackChunkName: "playground" */ "@/pages/playground/index.vue"
       ),
+    children: [
+      {
+        path: "",
+        name: "new",
+        component: () => import("../pages/playground/index.vue"),
+        meta: {
+          authRequired: true,
+        },
+      },
+    ],
     meta: {
       authRequired: true,
     },
