@@ -1,12 +1,12 @@
 <template>
-    <div class="mt-12 md:mt-0 md:pl-14 py-12">
+    <div class=" md:mt-0 pl-10  py-12 sm-col  mx-auto bg-zinc-900 bg-opacity-10 w-96">
 
-        <h1 class=" font-semibold text-3xl text-gray-900 py-2">Schedules for <time> {{
+        <h1 class=" font-semibold text-3xl text-white py-2"><time> {{
             moment(selectedDate).format("MMMM DD, YYYY")
         }}</time>
         </h1>
         <q-separator></q-separator>
-        <ol class="mt-4 space-y-1 text-sm leading-6  text-gray-500">
+        <ol class="mt-4 space-y-1 text-sm leading-6  text-white">
             <li v-for="item in appointments" :key="item.id"
                 class="group relative flex items-center space-x-4 rounded-xl py-2 px-4 focus-within:bg-gray-100 hover:bg-gray-100"
                 @click="toggleQuickView(item.client)">
@@ -14,14 +14,15 @@
                     class="h-10 w-10 flex-none transition-all object-cover hover:scale-150 rounded-full" />
                 <div class="flex-auto">
                     <Suspense>
-                        <p class="text-gray-900">{{ getClient(item.client).name }}</p>
+                        <p class="">{{ getClient(item.client).name }}</p>
                         <template #fallback>
                             Comming...
                         </template>
                     </Suspense>
                     <p class="mt-0.5">
-                        <time :datetime="moment(item.start).format('HH:mm')">{{ item.start }}</time> -
-                        <time :datetime="item.end">{{ item.end }}</time>
+                        <time>{{ moment(item.start).format('HH:mm') }}</time>
+                        -
+                        <time>{{ moment(item.end).format('HH:mm') }}</time>
                     </p>
                 </div>
                 <Menu as="div" class="relative opacity-0 focus-within:opacity-100 group-hover:opacity-100">

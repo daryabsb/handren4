@@ -1,12 +1,12 @@
 <template>
-  <div class="max-h-full q-pa-md flex divide-x divide-[var(--border-color)]">
+  <div class="h-full q-pa-md flex divide-x divide-gray-200">
     <section :class="[
       withClients
         ? '2/3'
         : 'w-full',
-      ' relative h-[450px]']">
+      ' relative']">
       <div class="flex items-center q-py-sm">
-        <h2 v-if="vuecal" class="flex-auto text-2xl font-semibold text-white">{{ currentMonth }}</h2>
+        <h2 v-if="vuecal" class="flex-auto text-2xl font-semibold text-gray-900">{{ currentMonth }}</h2>
         <button type="button"
           class="-my-1.5 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500"
           @click="prevMonth">
