@@ -105,32 +105,32 @@ function onEventDragStart(e: any, client: Client) {
 
 <template>
     <q-page-container
-    class="h-screen bg-gray-100 dark:bg-gray-900 dark:text-white text-gray-600 flex overflow-hidden text-sm">
-    <q-header
-        class="sticky top-0 h-16 justify-center bg-white shadow-md  lg:flex w-full border-b border-gray-200 dark:border-gray-800  px-10">
-        <div class="flex text-gray-600 dark:text-gray-400">
-            <q-tabs v-model="tab" class="text-teal">
-                <q-tab name="overview" label="Overview" />
-                <q-tab name="client" label="Current Client" />
-                <q-tab name="schedule" label="Schedule" />
-                <q-tab name="users" label="Users" />
-            </q-tabs>
-        </div>
+        class="h-screen bg-gray-100 dark:bg-gray-900 dark:text-white text-gray-600 flex overflow-hidden text-sm">
+        <q-header
+            class="sticky top-0 h-16 justify-center bg-white shadow-md  lg:flex w-full border-b border-gray-200 dark:border-gray-800  px-10">
+            <div class="flex text-gray-600 dark:text-gray-400">
+                <q-tabs v-model="tab" class="text-teal">
+                    <q-tab name="overview" label="Overview" />
+                    <q-tab name="client" label="Current Client" />
+                    <q-tab name="schedule" label="Schedule" />
+                    <q-tab name="users" label="Users" />
+                </q-tabs>
+            </div>
 
-    </q-header>
+        </q-header>
 
-    <q-page class="w-full overflow-hidden flex flex-col relative bg-gray-100 dark:bg-gray-900">
-        <!-- <div class="h-16 lg:flex w-full border-b border-gray-200 dark:border-gray-800 hidden px-10"> -->
-        <div class="flex overflow-hidden">
+        <q-page class="w-full overflow-hidden flex flex-col relative bg-gray-100 dark:bg-gray-900">
+            <!-- <div class="h-16 lg:flex w-full border-b border-gray-200 dark:border-gray-800 hidden px-10"> -->
+            <div class="flex overflow-hidden">
 
-            <div
-                class="overflow-hidden xl:w-72 w-48 mx-1 flex-shrink-0 border-r border-gray-200 dark:border-gray-800 lg:block">
-                <div class="text-md q-pa-sm text-gray-400 tracking-wider">CLIENTS</div>
-                <div class="relative my-2 mr-3 shadow">
-                    <input type="text" v-model="searchQuery"
-                        class="pl-8 h-9 bg-transparent border border-gray-300 dark:border-gray-700 dark:text-white w-full rounded-md text-sm"
-                        placeholder="Search" />
-                    <svg viewBox="0 0 24 24"
+                <div
+                    class="overflow-hidden xl:w-72 w-48 mx-1 flex-shrink-0 border-r border-gray-200 dark:border-gray-800 lg:block">
+                    <div class="text-md q-pa-sm text-gray-400 tracking-wider">CLIENTS</div>
+                    <div class="relative my-2 mr-3 shadow">
+                        <input type="text" v-model="searchQuery"
+                            class="pl-8 h-9 bg-transparent border border-gray-300 dark:border-gray-700 dark:text-white w-full rounded-md text-sm"
+                            placeholder="Search" />
+                        <svg viewBox="0 0 24 24"
                             class="w-4 absolute text-gray-400 top-1/2 transform translate-x-0.5 -translate-y-1/2 left-2"
                             stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"
                             stroke-linejoin="round">
@@ -143,45 +143,8 @@ function onEventDragStart(e: any, client: Client) {
                     </div>
                     <div v-else class="max-h-[50em] overflow-y-auto px-1  pb-16">
                         <div v-if="filteredClients" class="space-y-2 mt-3">
-                            <q-list bordered>
+                            <ClientsList :filteredClients="filteredClients" />
 
-                                <div v-for="client in filteredClients" :key="client.id" draggable="true"
-                                    @dragstart="onDragStart($event, client)">
-                                    <q-item :active="selectedClient === client.id" clickable v-ripple
-                                        active-class="bg-pink-200" @click="selectClient(client.id)"
-                                        class="rounded-sm border-b mb-1">
-                                        <q-item-section avatar>
-                                            <q-avatar class="rounded-sm">
-                                                <img :src="client.image" class=" object-cover">
-                                            </q-avatar>
-                                        </q-item-section>
-                                        <q-item-section>
-                                            <q-item-label>{{ client.name }}</q-item-label>
-                                            <!-- <q-item-label caption lines="1">{{ 'client.email' }}</q-item-label> -->
-                                        </q-item-section>
-                                        <q-item-section side>
-                                            <div class="col-auto ">
-                                                <q-btn padding="xs" color="grey-7" round flat icon="more_vert"
-                                                    style="padding-inline: 0;">
-                                                    <q-menu cover auto-close>
-                                                        <q-list>
-                                                            <q-item clickable>
-                                                                <q-item-section>Remove Card</q-item-section>
-                                                            </q-item>
-                                                            <q-item clickable>
-                                                                <q-item-section>Send Feedback</q-item-section>
-                                                            </q-item>
-                                                            <q-item clickable>
-                                                                <q-item-section>Share</q-item-section>
-                                                            </q-item>
-                                                        </q-list>
-                                                    </q-menu>
-                                                </q-btn>
-                                            </div>
-                                        </q-item-section>
-                                    </q-item>
-                                </div>
-                            </q-list>
                         </div>
                         <div v-else-if="clients">No clients found.</div>
                         <div v-else class="h-full w-full flex justify-center items-center">
@@ -208,34 +171,34 @@ function onEventDragStart(e: any, client: Client) {
                                     :withClients="false" />
 
                                 <!-- <vue-cal ref="vuecal" :small="true" :selected-date="date_today" :time-from="12 * 60"
-                                                                                                                                                                                                                                                                                                                                                                :time-to="22 * 60" :timeStep="120" :timeCellHeight="90" active-view="week"
-                                                                                                                                                                                                                                                                                                                                                                :snapToTime="30" :watchRealTime="true" :startWeekOnSunday="true"
-                                                                                                                                                                                                                                                                                                                                                                @event-duration-change="onEventDurationChange" :on-event-click="onEventClick"
-                                                                                                                                                                                                                                                                                                                                                                :editable-events="{
-                                                                                                                                                                                                                                                                                                                                                                    title: false,
-                                                                                                                                                                                                                                                                                                                                                                    drag: true,
-                                                                                                                                                                                                                                                                                                                                                                    resize: true,
-                                                                                                                                                                                                                                                                                                                                                                    delete: true,
-                                                                                                                                                                                                                                                                                                                                                                    create: true
-                                                                                                                                                                                                                                                                                                                                                                }" :events="[]" :onEventDblclick="onEventDoubleClick" @view-change="onViewChange"
-                                                                                                                                                                                                                                                                                                                                                                @event-drop="onEventDrop" @event-drag-create="showEventCreationDialog = true"
-                                                                                                                                                                                                                                                                                                                                                                @cell-focus="selectedDate = $event" @event-delete="onEventDelete"
-                                                                                                                                                                                                                                                                                                                                                                :show-week-numbers="true">
+                                                                                                                                                                                                                                                                                                                                                                    :time-to="22 * 60" :timeStep="120" :timeCellHeight="90" active-view="week"
+                                                                                                                                                                                                                                                                                                                                                                    :snapToTime="30" :watchRealTime="true" :startWeekOnSunday="true"
+                                                                                                                                                                                                                                                                                                                                                                    @event-duration-change="onEventDurationChange" :on-event-click="onEventClick"
+                                                                                                                                                                                                                                                                                                                                                                    :editable-events="{
+                                                                                                                                                                                                                                                                                                                                                                        title: false,
+                                                                                                                                                                                                                                                                                                                                                                        drag: true,
+                                                                                                                                                                                                                                                                                                                                                                        resize: true,
+                                                                                                                                                                                                                                                                                                                                                                        delete: true,
+                                                                                                                                                                                                                                                                                                                                                                        create: true
+                                                                                                                                                                                                                                                                                                                                                                    }" :events="[]" :onEventDblclick="onEventDoubleClick" @view-change="onViewChange"
+                                                                                                                                                                                                                                                                                                                                                                    @event-drop="onEventDrop" @event-drag-create="showEventCreationDialog = true"
+                                                                                                                                                                                                                                                                                                                                                                    @cell-focus="selectedDate = $event" @event-delete="onEventDelete"
+                                                                                                                                                                                                                                                                                                                                                                    :show-week-numbers="true">
 
-                                                                                                                                                                                                                                                                                                                                                                <template v-slot:title="{ title, view }">
+                                                                                                                                                                                                                                                                                                                                                                    <template v-slot:title="{ title, view }">
 
 
-                                                                                                                                                                                                                                                                                                                                                                    <span v-if="view.id === 'years'">Years</span>
-                                                                                                                                                                                                                                                                                                                                                                    <span v-else-if="view.id === 'year'">{{ view.startDate.format('YYYY') }}</span>
-                                                                                                                                                                                                                                                                                                                                                                    <span v-else-if="view.id === 'month'">{{ view.startDate.format('MMMM YYYY')
-                                                                                                                                                                                                                                                                                                                                                                    }}</span>
-                                                                                                                                                                                                                                                                                                                                                                    <span class="text-right" v-else-if="view.id === 'week'">{{
-                                                                                                                                                                                                                                                                                                                                                                        view.startDate.format('MMMM (YYYY)') }}</span>
-                                                                                                                                                                                                                                                                                                                                                                    <span v-else-if="view.id === 'day'">{{ view.startDate.format('dddd D MMMM (YYYY)')
-                                                                                                                                                                                                                                                                                                                                                                    }}</span>
+                                                                                                                                                                                                                                                                                                                                                                        <span v-if="view.id === 'years'">Years</span>
+                                                                                                                                                                                                                                                                                                                                                                        <span v-else-if="view.id === 'year'">{{ view.startDate.format('YYYY') }}</span>
+                                                                                                                                                                                                                                                                                                                                                                        <span v-else-if="view.id === 'month'">{{ view.startDate.format('MMMM YYYY')
+                                                                                                                                                                                                                                                                                                                                                                        }}</span>
+                                                                                                                                                                                                                                                                                                                                                                        <span class="text-right" v-else-if="view.id === 'week'">{{
+                                                                                                                                                                                                                                                                                                                                                                            view.startDate.format('MMMM (YYYY)') }}</span>
+                                                                                                                                                                                                                                                                                                                                                                        <span v-else-if="view.id === 'day'">{{ view.startDate.format('dddd D MMMM (YYYY)')
+                                                                                                                                                                                                                                                                                                                                                                        }}</span>
 
-                                                                                                                                                                                                                                                                                                                                                                </template>
-                                                                                                                                                                                                                                                                                                                                                            </vue-cal> -->
+                                                                                                                                                                                                                                                                                                                                                                    </template>
+                                                                                                                                                                                                                                                                                                                                                                </vue-cal> -->
                             </q-tab-panel>
                             <q-tab-panel name="users">
                                 <div class="text-h6">Users</div>

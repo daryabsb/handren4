@@ -14,18 +14,18 @@
             </svg>
         </div>
         <div class="app w-full max-w-[1250px] max-h-[860px] h-[90vh] flex flex-col overflow-hidden
-                                                                                                                                            relative rounded-md backdrop-blur-sm text-md font-semibold"
+                                                                                                                                                                                                                        relative rounded-md backdrop-blur-sm text-md font-semibold"
             style="background-color: var(--theme-bg-color);">
             <div
                 class="header mobile-hide w-full flex  items-center h-16 
-                                                                                                                    border-b border-[var(--border-color)] px-4 ">
+                                                                                                                                                                                                border-b border-[var(--border-color)] px-4 ">
                 <div class="gt-sm  menu-circle flex space-x-4 ml-2 mr-6">
                     <div class=" flex-shrink-0 w-4 h-4 bg-[#f96057] rounded-full"></div>
                     <div class="menu-circle flex-shrink-0 w-4 h-4 bg-[#f8ce52] rounded-full"></div>
                     <div class="menu-circle flex-shrink-0 w-4 h-4 bg-[#5fcf65] rounded-full"></div>
                 </div>
                 <q-btn size="lg" padding="none" color="transparent" text-color="white" class="lt-md mx-2" flat
-                    icon="dehaze" />
+                    @click="toggleLeftDrawer" icon="dehaze" />
                 <q-tabs active-class="text-pink-400" dense :breakpoint="600"
                     class="header-menu gt-sm sm:flex  items-center">
                     <q-route-tab v-for="item in navigation.topNavigation" :key="item.id"
@@ -34,91 +34,64 @@
                     </q-route-tab>
                 </q-tabs>
 
-                <div class="search-bar max-w-[600px] m-auto transition-all pl-0 box-border shadow-[var(--border-color)]">
+                <div
+                    class="search-bar max-w-[600px] m-auto transition-all mr-3 pl-0 box-border shadow-[var(--border-color)]">
                     <input type="text" placeholder="Search"
                         class="px-2 py-1.5 w-full h-full rounded-md pl-4 pr-8 text-[var(--theme-color)] bg-[var(--search-bg)] shadow-sm shadow-[rgb(134 140 160 / 2%)]
-                                                                                                                                                placeholder:text-[var(--inactive-color)] placeholder:font-thin" />
+                                                                                                                                                                                                                            placeholder:text-[var(--inactive-color)] placeholder:font-thin" />
                 </div>
                 <div class="header-profile row space-x-2 items-center ml-auto flex-shrink-0">
-                    <div class="gt-sm notification relative">
+                    <div class="gt-md notification relative">
                         <q-icon size="md" color="white" name="notifications"></q-icon>
                         <q-badge color="red" floating>3</q-badge>
 
                     </div>
-                    <q-icon size="md" class="gt-sm" color="white" name="thunderstorm"></q-icon>
+
                     <img class="gt-sm profile-img ml-6 w-8 h-8 rounded-full object-cover border-2 border-[var(--theme-color)]"
                         src="https://images.unsplash.com/photo-1600353068440-6361ef3a86e8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80"
                         alt="" />
                 </div>
+
             </div>
-            <div class=" wrapper flex flex-1 overflow-hidden">
-                <div
-                    class="left-side flex gt-sm  basis-60 border-r border-[var(--border-color)] p-4 overflow-auto flex-shrink-0">
-                    <q-item flat clickable v-ripple active-class="bg-pink-200 " draggable="true"
-                        class="bg-[var(--theme-bg-color)] rounded-sm border border-[var(--border-color)]">
-                        <q-item-section avatar>
-                            <q-avatar class="rounded-sm">
-                                <img class="object-cover"
-                                    src="https://images.unsplash.com/photo-1600353068440-6361ef3a86e8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80"
-                                    alt="" />
-                            </q-avatar>
-                        </q-item-section>
-                        <q-item-section>
-                            <q-item-label class="text-white">{{ 'client.name' }}</q-item-label>
-                            <!-- <q-item-label caption lines="1">{{ 'client.email' }}</q-item-label> -->
-                        </q-item-section>
-                        <q-item-section side>
-                            <div class="col-auto ">
-                                <q-btn padding="xs" color="grey-7" round flat icon="more_vert" style="padding-inline: 0;">
-                                    <q-menu cover auto-close>
-                                        <q-list>
-                                            <q-item clickable>
-                                                <q-item-section>Remove Card</q-item-section>
-                                            </q-item>
-                                            <q-item clickable>
-                                                <q-item-section>Send Feedback</q-item-section>
-                                            </q-item>
-                                            <q-item clickable>
-                                                <q-item-section>Share</q-item-section>
-                                            </q-item>
-                                        </q-list>
-                                    </q-menu>
-                                </q-btn>
-                            </div>
-                        </q-item-section>
-                    </q-item>
-                    <div v-for="item in navigation.sideNavigation" :key="item.id" class="side-wrapper mt-5">
-                        <div class="side-title text-[var(--inactive-color)] mb-3">{{ item.title }}</div>
-                        <div class="side-menu  flex flex-col whitespace-nowrap">
-                            <a v-for="(link, index) in item.sections" :key="index" href="#"
-                                class="relative
-                                                                                                                                                    w-full hover:bg-[var(--hover-menu-bg)] decoration-[none] 
-                                                                                                                                                    text-[var(--theme-color)] flex items-center py-2 text-sm rounded-md transition-all">
-                                <q-icon class="mr-3 w-4" :name="link.icon" size="sm" />
-
-                                {{ link.title }}
-                                <q-badge v-if="index === 1" color="blue" class="ml-4">4</q-badge>
 
 
-                            </a>
+            <!-- <q-item flat clickable v-ripple active-class="bg-pink-200 " draggable="true"
+                    class="bg-[var(--theme-bg-color)] rounded-sm border border-[var(--border-color)]">
+                    <q-item-section avatar>
+                        <q-avatar class="rounded-sm">
+                            <img class="object-cover"
+                                src="https://images.unsplash.com/photo-1600353068440-6361ef3a86e8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80"
+                                alt="" />
+                        </q-avatar>
+                    </q-item-section>
+                    <q-item-section>
+                        <q-item-label class="text-white">{{ 'client.name' }}</q-item-label>
+                    </q-item-section>
+                    <q-item-section side>
+                        <div class="col-auto ">
+                            <q-btn padding="xs" color="grey-7" round flat icon="more_vert" style="padding-inline: 0;">
+                                <q-menu cover auto-close>
+                                    <q-list>
+                                        <q-item clickable>
+                                            <q-item-section>Remove Card</q-item-section>
+                                        </q-item>
+                                        <q-item clickable>
+                                            <q-item-section>Send Feedback</q-item-section>
+                                        </q-item>
+                                        <q-item clickable>
+                                            <q-item-section>Share</q-item-section>
+                                        </q-item>
+                                    </q-list>
+                                </q-menu>
+                            </q-btn>
                         </div>
-                    </div>
-                </div>
+                    </q-item-section>
+                </q-item> -->
 
-                <div class="col grow">
-                    <q-layout view="hHr LpR lFf" container>
-                        <q-page-container>
+            <router-view v-slot="{ Component }">
+                <component :is="Component" />
+            </router-view>
 
-                            <router-view v-slot="{ Component }">
-                                <component :is="Component" />
-                            </router-view>
-                        </q-page-container>
-                    </q-layout>
-
-
-
-                </div>
-            </div>
             <div
                 class="overlay-app w-full h-full fixed left-0 top-0 pointer-events-[all] bg-[rgba(36, 39, 59, 0.8)] opacity-0 hidden transition-colors">
             </div>
@@ -129,7 +102,7 @@
 <script setup lang="ts">
 import { ref } from "vue"
 import Provider from "@/providers/index.vue"
-import Calendar from "@/components/home/Calendar.vue"
+
 
 const loadedPage = ref('desktop')
 const menuLinks = ['Home', 'About', 'Contact'];
@@ -138,7 +111,10 @@ function selectTopNav(title: string) {
     activeTopNav.value = title;
 }
 
-
+const leftDrawerOpen = ref(false)
+function toggleLeftDrawer() {
+    leftDrawerOpen.value = !leftDrawerOpen.value
+}
 const navigation = {
     topNavigation: [
         {
@@ -152,6 +128,9 @@ const navigation = {
         },
         {
             id: 4, title: 'Visits', href: '/visits'
+        },
+        {
+            id: 4, title: 'Users', href: '/users'
         },
         {
             id: 4, title: 'Playground', href: '/playground'

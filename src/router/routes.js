@@ -36,7 +36,7 @@ const routes = [
       {
         path: "",
         name: "home",
-        component: () => import("@/pages/Index.vue"),
+        component: () => import("@/pages/home/index.vue"),
         meta: {
           authRequired: true,
         },
@@ -111,16 +111,7 @@ const routes = [
       import(
         /* webpackChunkName: "playground" */ "@/pages/playground/index.vue"
       ),
-    children: [
-      {
-        path: "",
-        name: "new",
-        component: () => import("../pages/playground/index.vue"),
-        meta: {
-          authRequired: true,
-        },
-      },
-    ],
+
     meta: {
       authRequired: true,
     },

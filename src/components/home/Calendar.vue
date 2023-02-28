@@ -4,9 +4,10 @@
       withClients
         ? '2/3'
         : 'w-full',
-      ' relative h-[450px]']">
+      ' relative h-[430px]']">
       <div class="flex items-center q-py-sm">
         <h2 v-if="vuecal" class="flex-auto text-2xl font-semibold text-white">{{ currentMonth }}</h2>
+
         <button type="button"
           class="-my-1.5 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500"
           @click="prevMonth">
@@ -22,13 +23,13 @@
         </button>
       </div>
 
-      <vue-cal ref="vuecal" :events="events" :small="false" :time-from="12 * 60" :time-to="22 * 60" :timeStep="120"
-        :hideTitleBar="true" @cell-click="selectDate($event)" :timeCellHeight="90" :active-view="activeView"
+      <vue-cal ref="vuecal" :events="events" :small="true" :time-from="12 * 60" :time-to="22 * 60" :timeStep="120"
+        :hideTitleBar="true" @cell-click="selectDate($event)" :timeCellHeight="70" :active-view="activeView"
         :snapToTime="30" :watchRealTime="true" :startWeekOnSunday="true" :disable-views="disableViews"
         :editable-events="{ title: false, drag: true, resize: true, delete: true, create: true }"
         @event-duration-change="onEventDrop" :selected-date="selectedDate" @view-change="viewChange($event)"
         @cell-focus="selectedDate = $event" hide-view-selector @event-drop="onEventDrop($event)"
-        :onEventCreate="onEventCreate" style="min-height: 20rem;">
+        :onEventCreate="onEventCreate" :style="{ minHeight: '20rem', maxWidth: width }">
         <!-- @event-duration-change="onEventDurationChange"
                               style="max-width: 450px;height: 350px" 
                               @cell-click="selectDate($event)" 
@@ -46,19 +47,19 @@
         </template>
         <!-- Custom cells -->
         <template #cell-content="{ cell, view, events, goNarrower }">
-          <span class="vuecal__cell-date" :class="view.id" v-if="view.id === 'day'" @click="goNarrower">
+          <!-- <span class="vuecal__cell-date" :class="view.id" v-if="view.id === 'day'" @click="goNarrower">
             {{ cell.date.getDate() }}
           </span>
-          <span class="vuecal__cell-events-count" v-if="view.id === 'month' && events.length">{{ events.length }}</span>
+          <span class="vuecal__cell-events-count" v-if="view.id === 'month' && events.length">{{ events.length }}</span> -->
           <span class="vuecal__no-event" v-if="['week', 'day'].includes(view.id) && !events.length">Nothing here
             👌</span>
         </template>
         <template #event="{ event, view }">
-          <q-card padding="xs" class="my-card q-pa-none" flat bordered>
+          <q-card padding="xs" class="my-card q-pa-none bg-transparent border-0 text-neutral-300" flat bordered>
             <q-item>
-              <q-item-section v-if="event.client" avatar>
+              <!-- <q-item-section v-if="event.client" avatar>
                 <q-avatar>
-                  <q-img :src="getClient(event.client).image">
+                  <q-img :src="getClient(event.client).image" class="hidden">
                     <template #loading>
                       <q-inner-loading>
                         <q-spinner-gears size="50px" color="primary" />
@@ -66,12 +67,12 @@
                     </template>
                   </q-img>
                 </q-avatar>
-              </q-item-section>
+              </q-item-section> -->
 
               <q-item-section>
                 <q-item-label>{{ event.title }}</q-item-label>
-                <q-item-label caption>
-                  {{ event.start.formatTime("hh:mm") }}-{{ event.end.formatTime("h:m") }}
+                <q-item-label caption class="text-sm tracking-tight text-neutral-400">
+                  {{ event.start.formatTime("hh:mm") }}-{{ event.end.formatTime("hh:mm") }}
                 </q-item-label>
               </q-item-section>
             </q-item>
@@ -109,12 +110,14 @@ import ClientsOfTheDay from "./ClientsOfTheDay.vue"
 import useCalendar from '@/composables/useCalendar';
 
 interface Props {
+  width: string,
   withClients: false,
   activeView?: string,
   disableViews: string[]
 }
 
 const props = withDefaults(defineProps<Props>(), {
+  width: '350px',
   withClients: false,
   activeView: 'month',
   disableViews: ['years']
@@ -231,11 +234,15 @@ function nextMonth() {
 }
 
 .vuecal__cell--selected {
-  @apply bg-pink-200 text-amber-800
+  @apply bg-teal-600 text-amber-800
+}
+
+.vuecal__cell--today {
+  @apply bg-[var(--theme-bg-color)]
 }
 
 .vuecal__event-title {
-  @apply text-zinc-900 font-semibold uppercase
+  @apply text-[var(--content-title-color)] font-semibold uppercase
 }
 
 .vuecal__event-time {
@@ -247,7 +254,7 @@ function nextMonth() {
 }
 
 .vuecal__event {
-  @apply flex flex-col bg-zinc-300 flex-wrap justify-center items-center cursor-pointer border border-zinc-400 p-0
+  @apply flex flex-col bg-[var(--content-bg)] flex-wrap justify-center items-center cursor-pointer border border-[var(--border-color)] p-0
 }
 
 /* .vuecal__time-column{}
