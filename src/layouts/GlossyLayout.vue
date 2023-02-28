@@ -14,11 +14,11 @@
             </svg>
         </div>
         <div class="app w-full max-w-[1250px] max-h-[860px] h-[90vh] flex flex-col overflow-hidden
-                                                                                                                                                                                                                        relative rounded-md backdrop-blur-sm text-md font-semibold"
+                                                                                                                                                                                                                                    relative rounded-md backdrop-blur-sm text-md font-semibold"
             style="background-color: var(--theme-bg-color);">
             <div
                 class="header mobile-hide w-full flex  items-center h-16 
-                                                                                                                                                                                                border-b border-[var(--border-color)] px-4 ">
+                                                                                                                                                                                                            border-b border-[var(--border-color)] px-4 ">
                 <div class="gt-sm  menu-circle flex space-x-4 ml-2 mr-6">
                     <div class=" flex-shrink-0 w-4 h-4 bg-[#f96057] rounded-full"></div>
                     <div class="menu-circle flex-shrink-0 w-4 h-4 bg-[#f8ce52] rounded-full"></div>
@@ -38,7 +38,7 @@
                     class="search-bar max-w-[600px] m-auto transition-all mr-3 pl-0 box-border shadow-[var(--border-color)]">
                     <input type="text" placeholder="Search"
                         class="px-2 py-1.5 w-full h-full rounded-md pl-4 pr-8 text-[var(--theme-color)] bg-[var(--search-bg)] shadow-sm shadow-[rgb(134 140 160 / 2%)]
-                                                                                                                                                                                                                            placeholder:text-[var(--inactive-color)] placeholder:font-thin" />
+                                                                                                                                                                                                                                        placeholder:text-[var(--inactive-color)] placeholder:font-thin" />
                 </div>
                 <div class="header-profile row space-x-2 items-center ml-auto flex-shrink-0">
                     <div class="gt-md notification relative">
@@ -54,39 +54,6 @@
 
             </div>
 
-
-            <!-- <q-item flat clickable v-ripple active-class="bg-pink-200 " draggable="true"
-                    class="bg-[var(--theme-bg-color)] rounded-sm border border-[var(--border-color)]">
-                    <q-item-section avatar>
-                        <q-avatar class="rounded-sm">
-                            <img class="object-cover"
-                                src="https://images.unsplash.com/photo-1600353068440-6361ef3a86e8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80"
-                                alt="" />
-                        </q-avatar>
-                    </q-item-section>
-                    <q-item-section>
-                        <q-item-label class="text-white">{{ 'client.name' }}</q-item-label>
-                    </q-item-section>
-                    <q-item-section side>
-                        <div class="col-auto ">
-                            <q-btn padding="xs" color="grey-7" round flat icon="more_vert" style="padding-inline: 0;">
-                                <q-menu cover auto-close>
-                                    <q-list>
-                                        <q-item clickable>
-                                            <q-item-section>Remove Card</q-item-section>
-                                        </q-item>
-                                        <q-item clickable>
-                                            <q-item-section>Send Feedback</q-item-section>
-                                        </q-item>
-                                        <q-item clickable>
-                                            <q-item-section>Share</q-item-section>
-                                        </q-item>
-                                    </q-list>
-                                </q-menu>
-                            </q-btn>
-                        </div>
-                    </q-item-section>
-                </q-item> -->
 
             <router-view v-slot="{ Component }">
                 <component :is="Component" />
@@ -118,7 +85,7 @@ function toggleLeftDrawer() {
 const navigation = {
     topNavigation: [
         {
-            id: 1, title: 'Dashboard', href: '#/dashboard'
+            id: 1, title: 'Dashboard', href: '/'
         },
         {
             id: 2, title: 'Clients', href: '/clients'

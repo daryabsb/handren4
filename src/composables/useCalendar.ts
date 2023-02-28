@@ -20,6 +20,8 @@ function notify({
   Notify.create({ position, type, message });
 }
 
+const loading = ref(false);
+
 export default function useCalendar() {
   const {
     addAppointment,
@@ -50,11 +52,12 @@ export default function useCalendar() {
   }
 
   function onEventClick(event: any, e: MouseEvent) {
-    selectedClient.value = patientsData.results.find(
-      (p: any) => p.id === event.patient
-    );
-    selectedEvent.value = event;
-    e.stopPropagation();
+    // console.log(event);
+    // selectedClient.value = patientsData.results.find(
+    // (p: any) => p.id === event.patient
+    // );
+    // selectedEvent.value = event;
+    // e.stopPropagation();
   }
 
   function onEventDoubleClick(event: any, e: MouseEvent) {
@@ -84,6 +87,7 @@ export default function useCalendar() {
     { event, originalEvent, external }: any,
     onEventDelete: void
   ) {
+    loading.value = true;
     if (external) {
       let data = {
         client: event.id,
@@ -104,7 +108,9 @@ export default function useCalendar() {
         date_to: moment(event.end).format("YYYY-MM-DDTHH:mm"),
       };
       await editAppointment(data);
-      Notify.create("Appointment edited successfully");
+      notify({
+        message: "Appointment edited successfully.",
+      });
     }
   }
 
@@ -112,7 +118,10 @@ export default function useCalendar() {
     const id = event.id;
     deleteAppointment(id);
     const $q = useQuasar();
-    $q.notify("Appointment deleted successfully");
+    notify({
+      type: "negative",
+      message: "Appointment deleted successfully.",
+    });
   }
 
   return {

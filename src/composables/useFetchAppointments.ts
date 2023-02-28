@@ -1,7 +1,7 @@
 import { ref, watch, Ref } from "vue";
 import axios, { AxiosError } from "axios";
 import moment from "moment";
-
+import { Loading } from "quasar";
 import {
   Appointment,
   Data,
@@ -22,6 +22,7 @@ export default function useFetchAppointments({
   const url = ref<string>("http://127.0.0.1:8000/appointment/all/");
 
   async function fetchData() {
+    Loading.show();
     // Sample of the mont queryset is: ?month=March 2023
     let query = "";
     try {
@@ -41,11 +42,11 @@ export default function useFetchAppointments({
     } catch (e) {
       error.value = e;
     }
+    Loading.hide();
   }
 
   watch([viewForFetch, viewStartDate], fetchData, {
     immediate: true,
   });
-
   return { data, error, fetchData };
 }

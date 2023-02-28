@@ -1,9 +1,10 @@
 <template>
-    <div class="left-side flex gt-sm  border-r border-[var(--border-color)] overflow-y-auto flex-shrink-0">
+    <div class="left-side flex gt-sm  border-r border-[var(--border-color)] 
+                overflow-hidden flex-shrink-0">
         <div v-if="isNav" class="side-wrapper mt-5">
             <SideNavigationMenuItems v-for="item in menu" :key="item.id" :menu-item="item" />
         </div>
-        <slot />
+        <slot v-else />
     </div>
 </template>
 

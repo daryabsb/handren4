@@ -2,6 +2,13 @@ import { ref } from "vue";
 import axios, { AxiosError } from "axios";
 import { useClientStore } from "@/stores/client";
 import { Client } from "./interfaces";
+import {
+  Loading,
+
+  // optional!, for example below
+  // with custom spinner
+  QSpinnerGears,
+} from "quasar";
 
 interface UseFetchClientsReturn {
   clients: Client[] | null;
@@ -9,6 +16,7 @@ interface UseFetchClientsReturn {
 }
 
 export default function useFetchClients(): UseFetchClientsReturn {
+  Loading.show();
   const clients = ref<Client[] | null>(null);
   const error = ref<AxiosError | null>(null);
 
@@ -42,6 +50,6 @@ export default function useFetchClients(): UseFetchClientsReturn {
   };
 
   fetchClients();
-
+  Loading.hide();
   return { clients, error };
 }

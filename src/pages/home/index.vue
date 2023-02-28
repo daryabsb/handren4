@@ -8,10 +8,10 @@
                 <div class="relative my-2 mr-3 shadow">
                     <input type="text" v-model="searchQuery"
                         class="w-full m-1 pl-8 h-9 bg-[var(--search-bg)] 
-                                                                                     font-extralight        border border-gray-300 dark:border-gray-700 
+                                                                                                                                                                                                                                                         font-extralight        border border-gray-300 dark:border-gray-700 
 
-                                                                                            text-[var(--theme-color)] placeholder:text-[var(--inactive-color)]  
-                                                                                                                             rounded-md text-sm"
+                                                                                                                                                                                                                                                                text-[var(--theme-color)] placeholder:text-[var(--inactive-color)]  
+                                                                                                                                                                                                                                                                                                 rounded-md text-sm"
                         placeholder="Search" />
                     <svg viewBox="0 0 24 24"
                         class="w-4 absolute text-gray-400 top-1/2 transform translate-x-0.5 -translate-y-1/2 left-3"
@@ -23,7 +23,7 @@
                 <div v-if="error">
                     {{ error }}
                 </div>
-                <div v-else class="max-h-[50em] overflow-y-auto px-1.5">
+                <div v-else class="max-h-[50em] overflow-auto px-1.5">
                     <div v-if="filteredClients">
                         <ClientsList :clients="filteredClients" />
 
@@ -37,13 +37,14 @@
             </div>
 
         </SideNavigation>
-        <div class="col grow">
+        <div class="col grow overflow-hidden">
             <q-layout view="hHr LpR lFf" container>
                 <q-drawer overlay side="left" v-model="leftDrawerOpen" bordered>
                     Put something here
                 </q-drawer>
                 <q-page-container>
-                    <div class="row items-center justify-center border-b border-[var(--border-color)] h-14 flex-shrink-0">
+                    <div
+                        class="overflow-hidden row items-center justify-center border-b border-[var(--border-color)] h-14 flex-shrink-0">
 
                         <q-tabs v-model="loadedPage" class="text-[var(--theme-color)]">
                             <q-tab as="a" v-for="link in menu" :key="link.id" class="main-header-link " :name="link.name"
@@ -51,15 +52,16 @@
                                 {{ link.title }}</q-tab>
                         </q-tabs>
                     </div>
-                    <q-tab-panels animated v-model="loadedPage" class="bg-transparent h-full"
+                    <q-tab-panels animated v-model="loadedPage" class=" bg-[var(--theme-bg-color)]"
                         style="background-color: none;">
-                        <q-tab-panel class="bg-none q-pa-none" name="overview">
+                        <q-tab-panel class="bg-none q-pa-none " name="overview">
+
                             <div
-                                class="content-wrapper w-full col text-[var(--theme-color)] py-4 px-4 h-full overflow-auto bg-[var(--theme-bg-color)]">
+                                class="content-wrapper min-h-[720px] overflow-hidden w-full col text-[var(--theme-color)] py-4 px-4 bg-[var(--theme-bg-color)]">
                                 <div class="text-2xl font-extralight uppercase">Overview</div>
                                 <div class="w-full h-full">
                                     <Calendar width="350px" :disable-views="['years', 'year', 'week', 'day']"
-                                        :withClients="true" />
+                                        active-view="month" :withClients="true" />
                                 </div>
                             </div>
                         </q-tab-panel>
@@ -77,8 +79,8 @@
                                 class="content-wrapper w-full col text-[var(--theme-color)] py-4 px-4 h-full overflow-auto bg-[var(--theme-bg-color)]">
                                 <div class="text-2xl font-extralight uppercase">Schedule</div>
                                 <div class="w-full h-full">
-                                    <Calendar width="850px" :disable-views="['years', 'year', 'month', 'day']"
-                                        :withClients="false" />
+                                    <Calendar height="600px" width="850px" active-view="week"
+                                        :disable-views="['years', 'year', 'month', 'day']" :withClients="false" />
                                 </div>
                             </div>
                         </q-tab-panel>

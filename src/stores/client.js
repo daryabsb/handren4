@@ -46,7 +46,6 @@ export const useClientStore = defineStore("client", {
 
   actions: {
     async fetchClients() {
-      console.log("FRONT PAGE MOUNTED");
       try {
         const res = await axios.get(
           "http://127.0.0.1:8000/clients/all/",

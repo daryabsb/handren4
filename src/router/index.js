@@ -5,6 +5,7 @@ import {
   createWebHistory,
   createWebHashHistory,
 } from "vue-router";
+import { Loading } from "quasar";
 import routes from "./routes";
 import { useUserStore } from "../stores/user";
 /*
@@ -36,10 +37,15 @@ const Router = createRouter({
 Router.beforeEach((to) => {
   // ✅ This will work because the router starts its navigation after
   // the router is installed and pinia will be installed too
+  Loading.show();
   const store = useUserStore();
   // console.log("router", to.meta.authRequired && store.signedIn);
   // console.log("router", to, store.signedIn);
-  if (to.meta.authRequired && !store.signedIn) return "/login";
+  if (to.meta.authRequired && !store.signedIn) {
+    return "/login";
+  } else {
+    Loading.hide();
+  }
 });
 
 export default Router;

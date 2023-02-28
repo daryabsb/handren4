@@ -1,5 +1,6 @@
 <template>
-    <div class=" md:mt-0 pl-10  py-12 sm-col  mx-auto bg-zinc-900 bg-opacity-10 w-96">
+    <div
+        class=" md:mt-0 ml-5 max-h-full min-h-[500px] overflow-hidden pl-10  py-12 sm-col  mx-auto bg-[var(--content-bg)] bg-opacity-10 grow">
 
         <h1 class=" font-semibold text-3xl text-white py-2"><time> {{
             moment(selectedDate).format("MMMM DD, YYYY")
@@ -8,7 +9,7 @@
         <q-separator></q-separator>
         <ol class="mt-4 space-y-1 text-sm leading-6  text-white">
             <li v-for="item in appointments" :key="item.id"
-                class="group relative flex items-center space-x-4 rounded-xl py-2 px-4 focus-within:bg-gray-100 hover:bg-gray-100"
+                class="group relative flex items-center space-x-4  py-2 px-4 focus-within:bg-[var(--hover-menu-bg)] hover:bg-[var(--hover-menu-bg)]"
                 @click="toggleQuickView(item.client)">
                 <img :src="getClient(item.client).image" alt=""
                     class="h-10 w-10 flex-none transition-all object-cover hover:scale-150 rounded-full" />

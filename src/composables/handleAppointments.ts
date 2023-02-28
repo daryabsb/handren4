@@ -29,7 +29,7 @@ export default function handleAppointments(): UseHandleAppointmentReturn {
   const addAppointment = async (data: NewAppointment) => {
     if (!data.date_to) {
       data.date_to = moment(data.date)
-        .add(2, "hours")
+        .add(1, "hours")
         .format("YYYY-MM-DDTHH:mm");
     }
 

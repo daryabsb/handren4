@@ -1,5 +1,5 @@
 import { createApp } from "vue";
-import { Quasar, Notify } from "quasar";
+import { Quasar, Notify, Loading } from "quasar";
 import App from "./App.vue";
 import axios from "axios";
 import router from "@/router";
@@ -9,13 +9,13 @@ import moment from "moment";
 import VueCal from "vue-cal";
 import "vue-cal/dist/vuecal.css";
 
-import {
-  Loading,
+// import {
+//   Loading,
 
-  // optional!, for example below
-  // with custom spinner
-  QSpinnerGears,
-} from "quasar";
+// optional!, for example below
+// with custom spinner
+//   QSpinnerGears,
+// } from "quasar";
 
 import "@quasar/extras/material-icons/material-icons.css";
 import "quasar/src/css/index.sass";
@@ -70,9 +70,13 @@ app
   .use(Quasar, {
     plugins: {
       Notify,
+      Loading,
     },
     config: {
       notify: {
+        /* look at QuasarConfOptions from the API card */
+      },
+      loading: {
         /* look at QuasarConfOptions from the API card */
       },
     },

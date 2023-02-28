@@ -1,5 +1,5 @@
 <template>
-  <div class="max-h-full q-pa-md flex divide-x divide-[var(--border-color)]">
+  <div class="max-h-full h-[45rem] q-pa-md flex divide-x divide-[var(--border-color)] overflow-hidden">
     <section :class="[
       withClients
         ? '2/3'
@@ -23,22 +23,23 @@
         </button>
       </div>
 
-      <vue-cal ref="vuecal" :events="events" :small="true" :time-from="12 * 60" :time-to="22 * 60" :timeStep="120"
-        :hideTitleBar="true" @cell-click="selectDate($event)" :timeCellHeight="70" :active-view="activeView"
-        :snapToTime="30" :watchRealTime="true" :startWeekOnSunday="true" :disable-views="disableViews"
+      <vue-cal ref="vuecal" :events="events" :small="true" :time-from="12 * 60" :time-to="24 * 60" :timeStep="15"
+        :twelve-hour="true" :hideTitleBar="true" @cell-click="selectDate($event)" :timeCellHeight="20"
+        :active-view="activeView" :snapToTime="30" :watchRealTime="true" :startWeekOnSunday="true"
+        :disable-views="disableViews" :on-event-click="onEventClick"
         :editable-events="{ title: false, drag: true, resize: true, delete: true, create: true }"
-        @event-duration-change="onEventDrop" :selected-date="selectedDate" @view-change="viewChange($event)"
-        @cell-focus="selectedDate = $event" hide-view-selector @event-drop="onEventDrop($event)"
-        :onEventCreate="onEventCreate" :style="{ minHeight: '20rem', maxWidth: width }">
+        @event-duration-change="onDrop" :selected-date="selectedDate" @view-change="viewChange($event)"
+        @cell-focus="selectedDate = $event" hide-view-selector @event-drop="onEventDrop($event)" :time="true"
+        :onEventCreate="onEventCreate" :style="{ minHeight: height, maxWidth: width }" @event-delete="onDelete">
         <!-- @event-duration-change="onEventDurationChange"
-                              style="max-width: 450px;height: 350px" 
-                              @cell-click="selectDate($event)" 
-                                :time="false"
-                                  :onEventDblclick="onEventDoubleClick"
-                                  :events="appToCalendar"
-                                  :on-event-click="onEventClick"
-                                  @event-drag-create="showEventCreationDialog = true"
-                                  @event-delete="onEventDelete"-->
+                              :showTimeInCells="true"
+                                                                                                                  style="max-width: 450px;height: 350px" 
+                                                                                                                  @cell-click="selectDate($event)" 
+                                                                                                                    :time="false"
+                                                                                                                      :onEventDblclick="onEventDoubleClick"
+                                                                                                                      :events="appToCalendar"
+                                                                                                                      @event-drag-create="showEventCreationDialog = true"
+                                                                                                                      -->
         <template #time-cell="{ hours, minutes }">
           <div :class="{ 'vuecal__time-cell-line': true, hours: !minutes }">
             <strong v-if="!minutes" style="font-size: 15px">{{ hours }}</strong>
@@ -48,9 +49,9 @@
         <!-- Custom cells -->
         <template #cell-content="{ cell, view, events, goNarrower }">
           <!-- <span class="vuecal__cell-date" :class="view.id" v-if="view.id === 'day'" @click="goNarrower">
-            {{ cell.date.getDate() }}
-          </span>
-          <span class="vuecal__cell-events-count" v-if="view.id === 'month' && events.length">{{ events.length }}</span> -->
+                                                                                                {{ cell.date.getDate() }}
+                                                                                              </span>
+                                                                                              <span class="vuecal__cell-events-count" v-if="view.id === 'month' && events.length">{{ events.length }}</span> -->
           <span class="vuecal__no-event" v-if="['week', 'day'].includes(view.id) && !events.length">Nothing here
             👌</span>
         </template>
@@ -58,16 +59,16 @@
           <q-card padding="xs" class="my-card q-pa-none bg-transparent border-0 text-neutral-300" flat bordered>
             <q-item>
               <!-- <q-item-section v-if="event.client" avatar>
-                <q-avatar>
-                  <q-img :src="getClient(event.client).image" class="hidden">
-                    <template #loading>
-                      <q-inner-loading>
-                        <q-spinner-gears size="50px" color="primary" />
-                      </q-inner-loading>
-                    </template>
-                  </q-img>
-                </q-avatar>
-              </q-item-section> -->
+                                                                                                    <q-avatar>
+                                                                                                      <q-img :src="getClient(event.client).image" class="hidden">
+                                                                                                        <template #loading>
+                                                                                                          <q-inner-loading>
+                                                                                                            <q-spinner-gears size="50px" color="primary" />
+                                                                                                          </q-inner-loading>
+                                                                                                        </template>
+                                                                                                      </q-img>
+                                                                                                    </q-avatar>
+                                                                                                  </q-item-section> -->
 
               <q-item-section>
                 <q-item-label>{{ event.title }}</q-item-label>
@@ -81,12 +82,12 @@
 
 
           <!-- <div class="vuecal__event-title vuecal__event-title--edit" contenteditable
-                                                                                                                        @blur="event.title = $event.target.innerHTML" v-html="event.title" /> -->
+                                                                                                                                                                                                            @blur="event.title = $event.target.innerHTML" v-html="event.title" /> -->
 
           <!-- <small class="vuecal__event-time">
-                                                                                                                        <strong>Event start:</strong> <span>{{ event.start.formatTime("h O'clock") }}</span><br />
-                                                                                                                        <strong>Event end:</strong> <span>{{ event.end.formatTime("h O'clock") }}</span>
-                                                                                                                      </small> -->
+                                                                                                                                                                                                            <strong>Event start:</strong> <span>{{ event.start.formatTime("h O'clock") }}</span><br />
+                                                                                                                                                                                                            <strong>Event end:</strong> <span>{{ event.end.formatTime("h O'clock") }}</span>
+                                                                                                                                                                                                          </small> -->
         </template>
       </vue-cal>
 
@@ -97,7 +98,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed, inject } from "vue"
+import { ref, onMounted, computed, inject, nextTick } from "vue"
 import { Appointment, Client, ViewChange } from "@/composables/interfaces"
 import moment from "moment"
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/20/solid'
@@ -108,16 +109,25 @@ import useFetchAppointments from '@/composables/useFetchAppointments'
 import { useClientStore } from "@/stores/client"
 import ClientsOfTheDay from "./ClientsOfTheDay.vue"
 import useCalendar from '@/composables/useCalendar';
+import {
+  Loading,
+
+  // optional!, for example below
+  // with custom spinner
+  QSpinnerGears
+} from 'quasar'
 
 interface Props {
-  width: string,
-  withClients: false,
+  width?: string,
+  height?: string,
+  withClients: boolean,
   activeView?: string,
   disableViews: string[]
 }
 
 const props = withDefaults(defineProps<Props>(), {
   width: '350px',
+  height: '20rem',
   withClients: false,
   activeView: 'month',
   disableViews: ['years']
@@ -192,12 +202,25 @@ function viewChange({ view, startDate }: ViewChange) {
 }
 
 async function onEventCreate(event: any, deleteEventFunction: void) {
-  // selectedEvent.value = event
-  // console.log("IS IT CREATED OR WHAT?!");
-
   await fetchData()
   return event
 }
+async function onDrop(event: any) {
+  Loading.show()
+  await onEventDrop(event)
+  await nextTick()
+  await fetchData()
+  Loading.hide()
+}
+async function onDelete(event: Appointment) {
+  console.log(event);
+  Loading.show()
+  event.class = "line-throug"
+  await onEventDelete(event)
+  await fetchData()
+  Loading.hide()
+}
+
 function getClient(id: number) {
   return store.useClients.find((client: Client) => client.id === id)
 }
@@ -234,7 +257,7 @@ function nextMonth() {
 }
 
 .vuecal__cell--selected {
-  @apply bg-teal-600 text-amber-800
+  @apply bg-teal-600 text-amber-800 bg-opacity-30
 }
 
 .vuecal__cell--today {
@@ -243,6 +266,10 @@ function nextMonth() {
 
 .vuecal__event-title {
   @apply text-[var(--content-title-color)] font-semibold uppercase
+}
+
+.vuecal__time-column {
+  @apply w-2
 }
 
 .vuecal__event-time {
