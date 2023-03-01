@@ -2,7 +2,7 @@
     <q-list bordered>
         <div v-for="client in clients" :key="client.id" draggable="true" @dragstart="onDragStart($event, client)"
             class="overflow-y-hidden">
-            <ClientListItem :active="selectedClient === client.id" :client="client" @click="selectClient(client.id)" />
+            <ClientListItem :active="selectedClient === client" :client="client" @click="selectClient(client)" />
 
         </div>
     </q-list>
@@ -13,15 +13,20 @@ import useCalendar from '@/composables/useCalendar';
 import { Client } from "@/composables/interfaces"
 import ClientListItem from './ClientListItem.vue';
 interface Props {
+    activeClient?: Client;
     clients: Client[];
 }
 
 withDefaults(defineProps<Props>(), {
     clients: []
 })
-function selectClient(id: number) {
-    console.log("active client: ", id)
-    selectedClient.value = id
+
+const emit = defineEmits(['update:activeClient'])
+
+function selectClient(client: Client) {
+    // console.log("active client: ", client)
+    selectedClient.value = client
+    emit('update:activeClient', client)
 }
 const {
     selectedClient,

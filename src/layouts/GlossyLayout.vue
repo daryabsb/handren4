@@ -14,11 +14,11 @@
             </svg>
         </div>
         <div class="app w-full max-w-[1250px] max-h-[860px] h-[90vh] flex flex-col overflow-hidden
-                                                                                                                                                                                                                                    relative rounded-md backdrop-blur-sm text-md font-semibold"
+                                                                                                                                                                                                                                                                            relative rounded-md backdrop-blur-sm text-md font-semibold"
             style="background-color: var(--theme-bg-color);">
             <div
                 class="header mobile-hide w-full flex  items-center h-16 
-                                                                                                                                                                                                            border-b border-[var(--border-color)] px-4 ">
+                                                                                                                                                                                                                                                    border-b border-[var(--border-color)] px-4 ">
                 <div class="gt-sm  menu-circle flex space-x-4 ml-2 mr-6">
                     <div class=" flex-shrink-0 w-4 h-4 bg-[#f96057] rounded-full"></div>
                     <div class="menu-circle flex-shrink-0 w-4 h-4 bg-[#f8ce52] rounded-full"></div>
@@ -26,10 +26,10 @@
                 </div>
                 <q-btn size="lg" padding="none" color="transparent" text-color="white" class="lt-md mx-2" flat
                     @click="toggleLeftDrawer" icon="dehaze" />
-                <q-tabs active-class="text-pink-400" dense :breakpoint="600"
-                    class="header-menu gt-sm sm:flex  items-center">
+
+                <q-tabs active-class="text-pink-400" dense :breakpoint="400" class="header-menu gt-sm   items-center">
                     <q-route-tab v-for="item in navigation.topNavigation" :key="item.id"
-                        class="  text-[var(--inactive-color)] py-4 px-6 decoration-transparent " :name="item.title" exact
+                        class="  text-[var(--inactive-color)] py-4 decoration-transparent " :name="item.title" exact
                         :to="item.href" :label="item.title">
                     </q-route-tab>
                 </q-tabs>
@@ -38,7 +38,7 @@
                     class="search-bar max-w-[600px] m-auto transition-all mr-3 pl-0 box-border shadow-[var(--border-color)]">
                     <input type="text" placeholder="Search"
                         class="px-2 py-1.5 w-full h-full rounded-md pl-4 pr-8 text-[var(--theme-color)] bg-[var(--search-bg)] shadow-sm shadow-[rgb(134 140 160 / 2%)]
-                                                                                                                                                                                                                                        placeholder:text-[var(--inactive-color)] placeholder:font-thin" />
+                                                                                                                                                                                                                                                                                placeholder:text-[var(--inactive-color)] placeholder:font-thin" />
                 </div>
                 <div class="header-profile row space-x-2 items-center ml-auto flex-shrink-0">
                     <div class="gt-md notification relative">
@@ -55,9 +55,13 @@
             </div>
 
 
+
+
+
             <router-view v-slot="{ Component }">
                 <component :is="Component" />
             </router-view>
+
 
             <div
                 class="overlay-app w-full h-full fixed left-0 top-0 pointer-events-[all] bg-[rgba(36, 39, 59, 0.8)] opacity-0 hidden transition-colors">
@@ -77,7 +81,14 @@ const activeTopNav = ref('Apps')
 function selectTopNav(title: string) {
     activeTopNav.value = title;
 }
+function myTweak(offset: number) {
+    // "offset" is a Number (pixels) that refers to the total
+    // height of header + footer that occupies on screen,
+    // based on the QLayout "view" prop configuration
 
+    // this is actually what the default style-fn does in Quasar
+    return { minHeight: offset ? `calc(65vh - ${offset}px)` : '65vh' }
+}
 const leftDrawerOpen = ref(false)
 function toggleLeftDrawer() {
     leftDrawerOpen.value = !leftDrawerOpen.value

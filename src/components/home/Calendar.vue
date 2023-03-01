@@ -48,17 +48,19 @@
         </template>
         <!-- Custom cells -->
         <template #cell-content="{ cell, view, events, goNarrower }">
-          <!-- <span class="vuecal__cell-date" :class="view.id" v-if="view.id === 'day'" @click="goNarrower">
-                                                                                                {{ cell.date.getDate() }}
-                                                                                              </span>
-                                                                                              <span class="vuecal__cell-events-count" v-if="view.id === 'month' && events.length">{{ events.length }}</span> -->
+          <span class="vuecal__cell-date" :class="view.id" v-if="view.id === 'day'" @click="goNarrower">
+            {{ cell.date.getDate() }}
+          </span>
+          <!-- <span class="vuecal__cell-events-count" v-if="view.id === 'month' && events.length">{{ events.length }}</span> -->
           <span class="vuecal__no-event" v-if="['week', 'day'].includes(view.id) && !events.length">Nothing here
             👌</span>
         </template>
         <template #event="{ event, view }">
           <q-card padding="xs" class="my-card q-pa-none bg-transparent border-0 text-neutral-300" flat bordered>
             <q-item>
+
               <!-- <q-item-section v-if="event.client" avatar>
+                                                                                         </q-avatar>
                                                                                                     <q-avatar>
                                                                                                       <q-img :src="getClient(event.client).image" class="hidden">
                                                                                                         <template #loading>
@@ -67,12 +69,13 @@
                                                                                                           </q-inner-loading>
                                                                                                         </template>
                                                                                                       </q-img>
-                                                                                                    </q-avatar>
                                                                                                   </q-item-section> -->
 
               <q-item-section>
-                <q-item-label>{{ event.title }}</q-item-label>
-                <q-item-label caption class="text-sm tracking-tight text-neutral-400">
+                <q-item-label class="text-xs drop-shadow-sm leading-tighter text-white uppercase font-normal">{{
+                  event.title
+                }}</q-item-label>
+                <q-item-label caption class="text-sm tracking-tighter text-neutral-400">
                   {{ event.start.formatTime("hh:mm") }}-{{ event.end.formatTime("hh:mm") }}
                 </q-item-label>
               </q-item-section>
@@ -82,12 +85,12 @@
 
 
           <!-- <div class="vuecal__event-title vuecal__event-title--edit" contenteditable
-                                                                                                                                                                                                            @blur="event.title = $event.target.innerHTML" v-html="event.title" /> -->
+                @blur="event.title = $event.target.innerHTML" v-html="event.title" /> -->
 
           <!-- <small class="vuecal__event-time">
-                                                                                                                                                                                                            <strong>Event start:</strong> <span>{{ event.start.formatTime("h O'clock") }}</span><br />
-                                                                                                                                                                                                            <strong>Event end:</strong> <span>{{ event.end.formatTime("h O'clock") }}</span>
-                                                                                                                                                                                                          </small> -->
+            <strong>Event start:</strong> <span>{{ event.start.formatTime("h O'clock") }}</span><br />
+            <strong>Event end:</strong> <span>{{ event.end.formatTime("h O'clock") }}</span>
+          </small> -->
         </template>
       </vue-cal>
 
@@ -98,7 +101,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed, inject, nextTick } from "vue"
+import { ref, onMounted, computed, inject, nextTick, watchEffect } from "vue"
 import { Appointment, Client, ViewChange } from "@/composables/interfaces"
 import moment from "moment"
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/20/solid'
@@ -193,6 +196,8 @@ onMounted(async () => {
   await store.fetchClients()
 })
 
+watchEffect(async () => await fetchData())
+
 function selectDate(e: any) {
   selectedDate.value = new Date(new Date(e).getFullYear(), new Date(e).getMonth(), new Date(e).getDate())
 }
@@ -202,14 +207,14 @@ function viewChange({ view, startDate }: ViewChange) {
 }
 
 async function onEventCreate(event: any, deleteEventFunction: void) {
-  await fetchData()
+  // await fetchData()
   return event
 }
 async function onDrop(event: any) {
   Loading.show()
   await onEventDrop(event)
   await nextTick()
-  await fetchData()
+  // await fetchData()
   Loading.hide()
 }
 async function onDelete(event: Appointment) {
@@ -217,7 +222,7 @@ async function onDelete(event: Appointment) {
   Loading.show()
   event.class = "line-throug"
   await onEventDelete(event)
-  await fetchData()
+  // await fetchData()
   Loading.hide()
 }
 
@@ -257,7 +262,7 @@ function nextMonth() {
 }
 
 .vuecal__cell--selected {
-  @apply bg-teal-600 text-amber-800 bg-opacity-30
+  @apply bg-teal-600 text-green-400 bg-opacity-40
 }
 
 .vuecal__cell--today {
@@ -273,7 +278,7 @@ function nextMonth() {
 }
 
 .vuecal__event-time {
-  @apply text-pink-500 bg-opacity-25
+  @apply text-pink-500 bg-opacity-30
 }
 
 .vuecal__time-cell-line.hours:before {
