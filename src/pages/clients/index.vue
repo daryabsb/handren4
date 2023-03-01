@@ -1,6 +1,6 @@
 <template>
     <div class="">
-        <div class="mx-auto  max-w-full py-12 px-12 text-center lg:px-8 lg:py-16">
+        <div class="mx-auto text-center">
             <div class="space-y-6 sm:space-y-8 ">
                 <div class="space-y-2 sm:mx-auto sm:max-w-xl sm:space-y-1 lg:max-w-5xl">
                     <h2 class="text-3xl font-bold tracking-tight sm:text-4xl text-[var(--content-title-color)]">Clients</h2>

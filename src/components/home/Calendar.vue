@@ -2,10 +2,10 @@
   <div class="max-h-full h-[45rem] q-pa-md flex divide-x divide-[var(--border-color)] overflow-hidden">
     <section :class="[
       withClients
-        ? '2/3'
+        ? 'w-1/2 row'
         : 'w-full',
-      ' relative h-[430px]']">
-      <div class="flex items-center q-py-sm">
+      ' relative  h-[430px]']">
+      <div class="flex items-center space-x-12 q-py-sm">
         <h2 v-if="vuecal" class="flex-auto text-2xl font-semibold text-white">{{ currentMonth }}</h2>
 
         <button type="button"

@@ -65,7 +65,7 @@
                 </q-tab-panel>
                 <q-tab-panel class="bg-none q-pa-none" name="client">
                     <div v-if="activeClient"
-                        class="content-wrapper w-full col text-[var(--theme-color)] py-4 px-4 h-full overflow-auto bg-[var(--theme-bg-color)]">
+                        class="content-wrapper w-full col text-[var(--theme-color)]  h-full overflow-auto bg-[var(--theme-bg-color)]">
 
                         <!-- <div class="text-2xl font-extralight uppercase">{{ activeClient.name }}</div> -->
                         <div class="w-full">

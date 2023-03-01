@@ -12,10 +12,10 @@
                 class="group relative flex items-center space-x-4  py-2 px-4 focus-within:bg-[var(--hover-menu-bg)] hover:bg-[var(--hover-menu-bg)]"
                 @click="toggleQuickView(item.client)">
                 <img :src="getClient(item.client).image" alt=""
-                    class="h-10 w-10 flex-none transition-all object-cover hover:scale-150 rounded-full" />
+                    class="h-12 w-12 flex-none transition-all object-cover hover:scale-150 rounded-full" />
                 <div class="flex-auto">
                     <Suspense>
-                        <p class="">{{ getClient(item.client).name }}</p>
+                        <h2 class="text-xl font-thin">{{ getClient(item.client).name }}</h2>
                         <template #fallback>
                             Comming...
                         </template>
