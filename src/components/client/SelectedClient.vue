@@ -362,7 +362,7 @@ watch(id, fetchClient)
 }
 
 .timeline-right {
-    @apply flex-1 pl-2
+    @apply flex-1
 }
 
 // @media screen and (max-width: 768px) {
