@@ -22,19 +22,18 @@
           <ChevronRightIcon class="h-5 w-5" aria-hidden="true" />
         </button>
       </div>
-
-      <vue-cal ref="vuecal" :events="events" :small="true" :time-from="12 * 60" :time-to="24 * 60" :timeStep="15"
-        :twelve-hour="true" :hideTitleBar="true" @cell-click="selectDate($event)" :timeCellHeight="20"
-        :active-view="activeView" :snapToTime="30" :watchRealTime="true" :startWeekOnSunday="true"
-        :disable-views="disableViews" :on-event-click="onEventClick"
+      <!--  :time-to="24 * 60" -->
+      <vue-cal ref="vuecal" :events="events" :small="true" :time-from="12 * 60" :timeStep="15" :twelve-hour="true"
+        :hideTitleBar="false" :timeCellHeight="20" :active-view="activeView" :snapToTime="30" :watchRealTime="true"
+        :startWeekOnSunday="false" :disable-views="disableViews" :on-event-click="onEventClick"
         :editable-events="{ title: false, drag: true, resize: true, delete: true, create: true }"
-        @event-duration-change="onDrop" :selected-date="selectedDate" @view-change="viewChange($event)"
-        @cell-focus="selectedDate = $event" hide-view-selector @event-drop="onEventDrop($event)" :time="true"
-        :onEventCreate="onEventCreate" :style="{ minHeight: height, maxWidth: width }" @event-delete="onDelete">
+        :selected-date="selectedDate" @cell-click="selectDate($event)" @event-duration-change="onDrop"
+        @view-change="viewChange($event)" @cell-focus="selectedDate = $event" hide-view-selector
+        @event-drop="onEventDrop($event)" @event-delete="onDelete" :time="true" :onEventCreate="onEventCreate"
+        :style="{ minHeight: height, maxWidth: width }">
         <!-- @event-duration-change="onEventDurationChange"
-                              :showTimeInCells="true"
+                            :showTimeInCells="true"
                                                                                                                   style="max-width: 450px;height: 350px" 
-                                                                                                                  @cell-click="selectDate($event)" 
                                                                                                                     :time="false"
                                                                                                                       :onEventDblclick="onEventDoubleClick"
                                                                                                                       :events="appToCalendar"
@@ -47,14 +46,14 @@
           </div>
         </template>
         <!-- Custom cells -->
-        <template #cell-content="{ cell, view, events, goNarrower }">
-          <span class="vuecal__cell-date" :class="view.id" v-if="view.id === 'day'" @click="goNarrower">
-            {{ cell.date.getDate() }}
-          </span>
-          <!-- <span class="vuecal__cell-events-count" v-if="view.id === 'month' && events.length">{{ events.length }}</span> -->
-          <span class="vuecal__no-event" v-if="['week', 'day'].includes(view.id) && !events.length">Nothing here
+        <!-- <template #cell-content="{ cell, view, events, goNarrower }"> -->
+        <!-- <span class="vuecal__cell-date" :class="view.id" v-if="view.id === 'day'" @click="goNarrower"> -->
+        <!-- {{ cell.date.getDate() }} -->
+        <!-- </span> -->
+        <!-- <span class="vuecal__cell-events-count" v-if="view.id === 'month' && events.length">{{ events.length }}</span> -->
+        <!-- <span class="vuecal__no-event" v-if="['week', 'day'].includes(view.id) && !events.length">Nothing here
             👌</span>
-        </template>
+        </template> -->
         <template #event="{ event, view }">
           <q-card padding="xs" class="my-card q-pa-none bg-transparent border-0 text-neutral-300" flat bordered>
             <q-item>
@@ -182,11 +181,6 @@ const appointments = computed(() => {
 
 })
 
-
-
-
-
-
 onMounted(async () => {
   today.value = new Date(selectedDate.value)
   currentView.value = props.activeView
@@ -198,8 +192,9 @@ onMounted(async () => {
 
 watchEffect(async () => await fetchData())
 
-function selectDate(e: any) {
-  selectedDate.value = new Date(new Date(e).getFullYear(), new Date(e).getMonth(), new Date(e).getDate())
+function selectDate(event: any) {
+  selectedDate.value = new Date(new Date(event).getFullYear(), new Date(event).getMonth(), new Date(event).getDate())
+
 }
 function viewChange({ view, startDate }: ViewChange) {
   viewStartDate.value = startDate;
@@ -207,22 +202,20 @@ function viewChange({ view, startDate }: ViewChange) {
 }
 
 async function onEventCreate(event: any, deleteEventFunction: void) {
-  // await fetchData()
+  await fetchData()
   return event
 }
 async function onDrop(event: any) {
   Loading.show()
   await onEventDrop(event)
-  await nextTick()
-  // await fetchData()
+  await fetchData()
   Loading.hide()
 }
 async function onDelete(event: Appointment) {
-  console.log(event);
   Loading.show()
-  event.class = "line-throug"
+  event.class = "line-throgh"
   await onEventDelete(event)
-  // await fetchData()
+  await fetchData()
   Loading.hide()
 }
 

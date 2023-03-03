@@ -47,8 +47,8 @@ class AllAppointmentsViewSet(viewsets.ModelViewSet):
         else:
             next_month = month + 1
             next_year = year
-            month_end = datetime.strptime(
-                f'{next_year}-{next_month:02d}-01', '%Y-%m-%d') - timedelta(days=1)
+        month_end = datetime.strptime(
+            f'{next_year}-{next_month:02d}-01', '%Y-%m-%d') - timedelta(days=1)
         return month_start, month_end
 
     def filter_by_week(self, queryset):
@@ -58,6 +58,15 @@ class AllAppointmentsViewSet(viewsets.ModelViewSet):
             end_date = start_date + timedelta(days=6)
             return queryset.filter(date__range=[start_date, end_date])
         return queryset
+
+    # def filter_by_week(self, queryset):
+    #     date_str = self.request.query_params.get('week', None)
+    #     if date_str:
+    #         start_date = datetime.strptime(date_str, '%Y-%m-%d')
+    #         start_date = start_date - timedelta(days=start_date.weekday()+1)
+    #         end_date = start_date + timedelta(days=7)
+    #         return queryset.filter(date__range=[start_date, end_date])
+    #     return queryset
 
     def filter_by_date(self, queryset):
         # today = datetime.now()

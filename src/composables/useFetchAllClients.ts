@@ -23,17 +23,15 @@ export default function useFetchClients(): UseFetchClientsReturn {
   const store = useClientStore();
   const config = store.useConfig;
 
-  const fetchClients = async (page: number, page_size: number) => {
-    const baseUrl = ref("http://127.0.0.1:8000/clients");
-
+  const fetchClients = async () => {
     try {
       const response = await axios.get<Client[]>(
-        `http://127.0.0.1:8000/clients/clients/?page=${page}&page_size=${page_size}`,
+        "http://127.0.0.1:8000/clients/all/",
         config
       );
 
       // Map over the clients and fetch the related counts for each one
-      const clientCountPromises = response.data.results.map(async (client) => {
+      const clientCountPromises = response.data.map(async (client) => {
         const countResponse = await axios.get(
           `http://127.0.0.1:8000/clients/${client.id}/counts`,
           config
@@ -51,7 +49,7 @@ export default function useFetchClients(): UseFetchClientsReturn {
     }
   };
 
-  // fetchClients();
+  fetchClients();
   Loading.hide();
-  return { clients, error, fetchClients };
+  return { clients, error };
 }

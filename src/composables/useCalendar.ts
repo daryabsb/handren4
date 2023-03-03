@@ -114,14 +114,15 @@ export default function useCalendar() {
     }
   }
 
-  function onEventDelete(event: Appointment) {
+  async function onEventDelete(event: Appointment) {
     const id = event.id;
-    deleteAppointment(id);
+    await deleteAppointment(id);
     const $q = useQuasar();
     notify({
       type: "negative",
       message: "Appointment deleted successfully.",
     });
+    await fetchData();
   }
 
   return {

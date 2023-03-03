@@ -31,7 +31,9 @@ export default function useFetchAppointments({
       } else if (viewForFetch.value == "month") {
         query = `?month=${moment(viewStartDate.value).format("MMMM YYYY")}`;
       } else if (viewForFetch.value == "week") {
-        query = `?week=${moment(viewStartDate.value).format("YYYY-MM-DD")}`;
+        query = `?week=${moment(viewStartDate.value)
+          .subtract(1, "days")
+          .format("YYYY-MM-DD")}`;
       } else if (viewForFetch.value == "day") {
         query = `?date=${moment(viewStartDate.value).format("YYYY-MM-DD")}`;
       }

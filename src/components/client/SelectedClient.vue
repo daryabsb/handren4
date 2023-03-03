@@ -34,14 +34,14 @@
                     </div>
                 </div>
                 <div class="timeline">
-                    <div class="timeline-left">
-                        <div class="box p-4">
+                    <!--  <div class="timeline-left">
+                       <div class="box p-4">
                             <div class="row justify-between items-center pb-2">
                                 <h2 class="text-xl font-thin">Introduction</h2>
 
                                 <button class="bg-[var(--button)]"></button>
                             </div>
-                            <div class="text-sm">
+                            <div class="text-sm space-y-2">
                                 <div class="row items-center text-[var(--theme-color)]">
                                     <svg class="w-4 h-4 mr-3" xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 503.889 503.889" fill="currentColor">
@@ -59,7 +59,7 @@
                                     </svg>
                                     Live in <a href="#">Hanoi, Vietnam</a>
                                 </div>
-                                <div class="info-item">
+                                <div class="row items-center text-[var(--theme-color)]">
                                     <svg class="w-4 h-4 mr-3" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"
                                         fill="currentColor">
                                         <path
@@ -68,8 +68,8 @@
                                     Player name <a href="#">Quan Ha</a>
                                 </div>
                             </div>
-                        </div>
-                        <!-- <div class="event box">
+                        </div> 
+                        <div class="event box">
                             <div class="event-wrapper">
                                 <img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80"
                                     class="event-img" />
@@ -80,8 +80,8 @@
                                 <div class="event-title">Winter Wonderland</div>
                                 <div class="event-subtitle">01st Jan, 2019 07:00AM</div>
                             </div>
-                        </div> -->
-                        <div class="pages box">
+                        </div>
+                         <div class="pages box">
                             <div class="intro-title">
                                 Your pages
                                 <button class="intro-menu"></button>
@@ -102,7 +102,7 @@
                                 <div class="username">Patrick Watsons</div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="timeline-right h-[30rem]  overflow-auto">
                         <div class="box">
                             <div class="status-menu">
