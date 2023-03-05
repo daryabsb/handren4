@@ -2,13 +2,7 @@ import { ref } from "vue";
 import axios, { AxiosError } from "axios";
 import { useClientStore } from "@/stores/client";
 import { Client } from "./interfaces";
-import {
-  Loading,
-
-  // optional!, for example below
-  // with custom spinner
-  QSpinnerGears,
-} from "quasar";
+import { Loading } from "quasar";
 
 interface UseFetchClientsReturn {
   clients: Client[] | null;
@@ -23,35 +17,20 @@ export default function useFetchClients(): UseFetchClientsReturn {
   const store = useClientStore();
   const config = store.useConfig;
 
-  const fetchClients = async (page: number, page_size: number) => {
-    const baseUrl = ref("http://127.0.0.1:8000/clients");
-
+  const fetchClients = async () => {
     try {
       const response = await axios.get<Client[]>(
-        `http://127.0.0.1:8000/clients/clients/?page=${page}&page_size=${page_size}`,
+        "http://127.0.0.1:8000/clients/all/",
         config
       );
 
-      // Map over the clients and fetch the related counts for each one
-      const clientCountPromises = response.data.results.map(async (client) => {
-        const countResponse = await axios.get(
-          `http://127.0.0.1:8000/clients/${client.id}/counts`,
-          config
-        );
-        return {
-          ...client,
-          ...countResponse.data,
-        };
-      });
-
-      // Wait for all the count requests to finish and set the clients with counts
-      clients.value = await Promise.all(clientCountPromises);
+      clients.value = response.data;
     } catch (e) {
       error.value = e;
     }
   };
 
-  // fetchClients();
+  fetchClients();
   Loading.hide();
-  return { clients, error, fetchClients };
+  return { clients, error };
 }

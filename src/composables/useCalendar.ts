@@ -122,7 +122,6 @@ export default function useCalendar() {
       type: "negative",
       message: "Appointment deleted successfully.",
     });
-    await fetchData();
   }
 
   return {

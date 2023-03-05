@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.utils import timezone
+from rest_framework.decorators import action
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.db.models import Count, Min
@@ -139,6 +140,35 @@ class CountByForeignKeyView(APIView):
                 Min('date'))['date__min']
 
         # Add more models and counts as needed
+        response_data = {
+            'appointment_count': appointment_count,
+            'treatment_count': treatment_count,
+            'next_appointment': next_appointment,
+            # Add more counts as needed
+        }
+        return Response(response_data)
+
+
+class ClientAppointmentViewSet(viewsets.ModelViewSet):
+    serializer_class = ClientSerializer
+    pagination_class = None
+    lookup_field = 'id'
+
+    def get_queryset(self):
+        queryset = Client.objects.annotate(
+            appointment_count=Count('appointments'),
+            next_appointment=Min('appointments__date', filter=Q(
+                appointments__date__gte=timezone.now().date()))
+        ).order_by('-id', '-next_appointment')
+        return queryset
+
+    @action(detail=True, url_path='count-by-foreign-key')
+    def count_by_foreign_key(self, request, id=None):
+        client = self.get_object()
+        appointment_count = client.appointment_count
+        treatment_count = client.treatments.count()
+        next_appointment = client.next_appointment
+
         response_data = {
             'appointment_count': appointment_count,
             'treatment_count': treatment_count,

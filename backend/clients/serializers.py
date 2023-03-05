@@ -1,5 +1,6 @@
 from io import BytesIO
 import imghdr
+from django.utils import timezone
 from django.contrib.auth import get_user_model, authenticate
 from rest_framework import serializers
 import base64
@@ -7,6 +8,7 @@ from django.core.files.base import ContentFile
 from core.models import (
     Client, Attachment, ClinicalExamination, ClientHealthStatus
 )
+from appointments.serializers import AppointmentSerializer
 
 
 class AttachmentSerializer(serializers.ModelSerializer):
@@ -28,18 +30,31 @@ class ClinicalExaminationSerializer(serializers.ModelSerializer):
 
 
 class ClientSerializer(serializers.ModelSerializer):
+    appointment_count = serializers.IntegerField(read_only=True)
+    treatment_count = serializers.IntegerField(read_only=True)
+    next_appointment = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = Client
         fields = [
             'id', 'name', 'dob', 'age', 'gender', 'description', 'phone',
-            'email', 'image', 'status',
-            # 'treatments', 'appointments', 'attachments',
-            # 'examinations','medicals',
-
+            'email', 'image', 'status', 'appointment_count', 'treatment_count', 'next_appointment',
         ]
-        read_only_Fields = ('id',)
-        not_required_fields = ('age')
+        read_only_fields = ('id',)
+        extra_kwargs = {'age': {'required': False}}
+
+    def get_appointment_count(self, obj):
+        return obj.appointments.count()
+
+    def get_next_appointment(self, obj):
+        appointment = obj.appointments.filter(
+            date__gte=timezone.now().date()).order_by('date').first()
+        if appointment:
+            return appointment.date
+        return None
+
+    def get_treatment_count(self, obj):
+        return obj.appointments.treatments.count()
 
 
 class ClientHealthStatusSerializer(serializers.ModelSerializer):

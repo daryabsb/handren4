@@ -1,5 +1,5 @@
 <template>
-    <div class="">
+    <div class="py-16">
         <div class="mx-auto text-center">
             <div class="space-y-6 sm:space-y-8 ">
                 <div class="space-y-2 sm:mx-auto sm:max-w-xl sm:space-y-1 lg:max-w-5xl">
@@ -38,7 +38,7 @@
                 <nav class="flex items-center justify-between border-t border-[var(--border-color)]  px-4 pt-3 py-1 sm:px-6"
                     aria-label="Pagination">
                     <div class="block">
-                        <p class="text-sm text-white">
+                        <p class="text-sm text-[var(--theme-color)]">
                             Showing
                             {{ ' ' }}
                             <span class="font-medium">{{ startIndex + 1 }}</span>
@@ -56,10 +56,10 @@
                     </div>
                     <div class="flex flex-1 justify-between sm:justify-end">
                         <button
-                            class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                            class="relative inline-flex items-center rounded-md border border-[var(--border-color)] bg-[var(--button)] px-4 py-2 text-sm font-medium text-[var(--theme-color)] hover:bg-[var(--hover-menu-bg)]"
                             @click.prevent="changePage('prev')">Previous</button>
                         <button
-                            class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                            class="relative ml-3 inline-flex items-center rounded-md border border-[var(--border-color)] bg-[var(--button)] px-4 py-2 text-sm font-medium text-[var(--theme-color)] hover:bg-[var(--hover-menu-bg)]"
                             @click.prevent="changePage('next')">Next</button>
                     </div>
                 </nav>

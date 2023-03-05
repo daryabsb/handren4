@@ -1,14 +1,11 @@
 import { ref } from "vue";
 import axios from "axios";
-import { useClientStore } from "../stores/client.js";
-import { useProgressStore } from "../stores/progress.js";
-import fetchClientAppointmentsData from "../composables/useFetchAppointmentDetail";
+import { useClientStore } from "@/stores/client.js";
+import fetchClientAppointmentsData from "@/composables/useFetchAppointmentDetail";
 import { Client, Attachment, Examination, Appointment } from "./interfaces";
 
-const store = useClientStore(); // store has all the config, clients and appointments stuff
-const progress = useProgressStore();
-const config = store.useConfig; // config contains all headers and autjorizations for axios
-
+const store = useClientStore();
+const config = store.useConfig;
 const endpoints = {
   client: "http://127.0.0.1:8000/clients/clients/",
   attachments: "http://127.0.0.1:8000/clients/attachments/",
@@ -16,22 +13,11 @@ const endpoints = {
   status: "http://127.0.0.1:8000/clients/status/",
 };
 
-const asyncExec1 = async (promise: Promise<any>) => {
-  try {
-    const result = await promise;
-    return [null, result];
-  } catch (error) {
-    return [error, null];
-  }
-};
 const asyncExec = async (promise: Promise<any>) => {
   try {
-    progress.setTotalRequests(progress.totalRequests + 1);
     const result = await promise;
-    progress.incrementProgress();
     return [null, result];
   } catch (error) {
-    progress.incrementProgress();
     return [error, null];
   }
 };

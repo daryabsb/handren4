@@ -50,5 +50,5 @@ export default function useFetchAppointments({
   watch([viewForFetch, viewStartDate], fetchData, {
     immediate: true,
   });
-  return { data, error, fetchData };
+  return { data, error };
 }

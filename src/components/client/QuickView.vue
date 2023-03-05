@@ -1,27 +1,14 @@
-<!--
-This example requires some changes to your config:
 
-```
-// tailwind.config.js
-module.exports = {
-  // ...
-  plugins: [
-    // ...
-    require('@tailwindcss/aspect-ratio'),
-  ],
-}
-```
--->
 <template>
     <TransitionRoot as="template" :show="open">
         <Dialog as="div" class="relative z-50" @close="toggleQuickView">
             <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100"
                 leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
-                <div class="fixed inset-0 hidden bg-gray-500 bg-opacity-75 transition-opacity md:block" />
+                <div class="fixed inset-0 hidden bg-[var(--theme-bg-color)]  transition-opacity md:block" />
             </TransitionChild>
 
             <div class="fixed inset-0 z-10 overflow-y-auto">
-                <div class="absolute inset-0 bg-zinc-900 opacity-70" />
+                <div class="absolute inset-0 bg-[var(--theme-bg-color)] " />
                 <div class="flex min-h-full items-stretch justify-center text-center md:items-center md:px-2 lg:px-4">
                     <!-- This element is to trick the browser into centering the modal contents. -->
                     <span class="hidden md:inline-block md:h-screen md:align-middle" aria-hidden="true">&#8203;</span>
@@ -34,9 +21,9 @@ module.exports = {
                             class="h-[36em] flex w-full transform text-left  text-base transition md:my-8 md:max-w-2xl md:px-4 lg:max-w-4xl">
                             <Suspense>
                                 <div
-                                    class="relative flex w-full items-center border overflow-hidden bg-white px-4 pt-14 pb-8 shadow-2xl sm:px-6 sm:pt-8 md:p-6 lg:p-8">
+                                    class="relative flex w-full items-center border border-[var(--border-color)] overflow-hidden bg-[var(--popup-bg)] px-4 pt-14 pb-8 shadow-2xl sm:px-6 sm:pt-8 md:p-6 lg:p-8">
                                     <button type="button"
-                                        class="absolute top-4 right-4 text-gray-400 hover:text-gray-500 sm:top-8 sm:right-6 md:top-6 md:right-6 lg:top-8 lg:right-8"
+                                        class="absolute top-4 right-4 text-[var(--theme-color)] hover:text-[var(--inactive-color)] sm:top-8 sm:right-6 md:top-6 md:right-6 lg:top-8 lg:right-8"
                                         @click="toggleQuickView">
                                         <span class="sr-only">Close</span>
                                         <XMarkIcon class="h-6 w-6" aria-hidden="true" />
@@ -44,12 +31,12 @@ module.exports = {
                                     <div v-if="client"
                                         class="grid w-full grid-cols-1 items-start gap-y-8 gap-x-6 sm:grid-cols-12 lg:items-center lg:gap-x-8">
                                         <div
-                                            class="aspect-w-2 aspect-h-3 overflow-hidden rounded-lg bg-gray-100 sm:col-span-4 lg:col-span-5">
+                                            class="aspect-w-2 aspect-h-3 overflow-hidden rounded-sm bg-gray-100 sm:col-span-4 lg:col-span-5">
                                             <img :src="client.image" :alt="client.name"
                                                 class="object-cover object-center" />
                                         </div>
                                         <div class="sm:col-span-8 lg:col-span-7">
-                                            <h2 class="text-xl font-medium text-gray-900 sm:pr-12">
+                                            <h2 class="text-xl font-medium text-[var(--theme-color)] sm:pr-12">
                                                 {{ client.name }}
                                             </h2>
 
@@ -58,7 +45,7 @@ module.exports = {
                                                     Product information
                                                 </h3>
 
-                                                <p class="font-medium text-gray-900 capitalize">
+                                                <p class="font-medium text-[var(--theme-color)] capitalize">
                                                     {{ client.age }} - {{ client.gender }}
                                                 </p>
 
@@ -66,7 +53,7 @@ module.exports = {
                                                 <div class="mt-4">
                                                     <h4 class="sr-only">Reviews</h4>
                                                     <div class="flex items-center">
-                                                        <p class="text-sm text-gray-700">
+                                                        <p class="text-sm text-[var(--theme-color)]">
                                                             {{ product.rating }}
                                                             <span class="sr-only"> out of 5 stars</span>
                                                         </p>
@@ -75,15 +62,15 @@ module.exports = {
                                                                 :class="[
                                                                     product.rating > rating
                                                                         ? 'text-yellow-400'
-                                                                        : 'text-gray-200',
+                                                                        : 'text-[var(--theme-color)]',
                                                                     'h-5 w-5 flex-shrink-0',
                                                                 ]" aria-hidden="true" />
                                                         </div>
                                                         <div class="ml-4 hidden lg:flex lg:items-center">
-                                                            <span class="text-gray-300"
+                                                            <span class="text-[var(--theme-color)]"
                                                                 aria-hidden="true">&middot;</span>
                                                             <a href="#"
-                                                                class="ml-4 text-sm font-medium text-indigo-600 hover:text-indigo-500">See
+                                                                class="ml-4 text-sm font-medium text-[var(--theme-color)] hover:text-indigo-500">See
                                                                 all {{ product.reviewCount }} reviews</a>
                                                         </div>
                                                     </div>
@@ -123,7 +110,7 @@ module.exports = {
                                                                         </RadioGroupLabel>
                                                                         <span aria-hidden="true" :class="[
                                                                             color.bgColor,
-                                                                            'h-8 w-8 border border-black border-opacity-10 rounded-full',
+                                                                            'h-8 w-8 border border-[var(--border-color)] rounded-full',
                                                                         ]" />
                                                                     </div>
                                                                 </RadioGroupOption>
@@ -134,19 +121,19 @@ module.exports = {
                                                     <!-- Size picker -->
                                                     <div class="mt-8">
                                                         <div class="flex items-center justify-between">
-                                                            <h4 class="text-sm font-medium text-gray-900">
+                                                            <h4 class="text-sm font-medium text-[var(--theme-color)]">
                                                                 Size
                                                             </h4>
                                                             <a href="#"
-                                                                class="text-sm font-medium text-indigo-600 hover:text-indigo-500">Size
+                                                                class="text-sm font-medium text-[var(--theme-color)] hover:text-[var(--inactive-color)]">Size
                                                                 guide</a>
                                                         </div>
 
-                                                        <!-- <div class="loaders-container ">
+                                                    <!-- <div class="loaders-container ">
                                                             <div class="container-plaza">
                                                                 <div class="loading-box"></div>
                                                             </div>
-                                                        </div> -->
+                                                                                                                                                                                            </div> -->
 
                                                         <RadioGroup v-model="selectedSize" class="mt-2">
                                                             <RadioGroupLabel class="sr-only">
@@ -162,11 +149,11 @@ module.exports = {
                                                                             ? 'cursor-pointer focus:outline-none'
                                                                             : 'opacity-25 cursor-not-allowed',
                                                                         active
-                                                                            ? 'ring-2 ring-offset-2 ring-indigo-500'
+                                                                            ? 'ring-2 ring-offset-2 ring-[var(--border-color)]'
                                                                             : '',
                                                                         checked
-                                                                            ? 'bg-indigo-600 border-transparent text-white hover:bg-indigo-700'
-                                                                            : 'bg-white border-gray-200 text-gray-900 hover:bg-gray-50',
+                                                                            ? 'bg-[var(--inactive-color)] border-transparent text-[var(--theme-color)] hover:bg-[var(--hover-menu-bg)]'
+                                                                            : 'bg-[var(--button)] border-[var(--border-color)] text-[var(--theme-color)] hover:bg-[var(--hover-menu-bg)]',
                                                                         'border rounded-md py-3 px-3 flex items-center justify-center text-sm font-medium uppercase sm:flex-1',
                                                                     ]">
                                                                         <RadioGroupLabel as="span">{{ size.name }}
@@ -178,13 +165,13 @@ module.exports = {
                                                     </div>
 
                                                     <button type="submit"
-                                                        class="mt-8 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                                                        class="mt-8 flex w-full items-center justify-center rounded-md border border-[var(--border-color)] bg-[var(--button)] py-3 px-8 text-base font-medium text-[var(--theme-color)] hover:bg-[var(--hover-menu-bg)] focus:outline-none focus:ring-0 ">
                                                         Add to your schedule
                                                     </button>
 
                                                     <p class="absolute top-4 left-4 text-center sm:static sm:mt-8">
                                                         <button
-                                                            class="font-medium text-indigo-600 hover:text-indigo-500"
+                                                            class="font-medium text-[var(--theme-color)] hover:text-[var(--inactive-color)]"
                                                             @click="navigateToClientDetails(client.id)">View
                                                             full details of the client</button>
                                                     </p>
@@ -224,8 +211,6 @@ import {
 } from "@headlessui/vue";
 import { XMarkIcon } from "@heroicons/vue/24/outline";
 import { StarIcon, HeartIcon, } from "@heroicons/vue/20/solid";
-import AsyncLoader from "../shared/AsyncLoader.vue"
-
 
 import { useClientStore } from "../../stores/client"
 import fetchClientData from "../../composables/useFetchClientDetails"

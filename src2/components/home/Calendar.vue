@@ -106,7 +106,6 @@ import moment from "moment"
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/20/solid'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { EllipsisVerticalIcon } from '@heroicons/vue/24/outline'
-import useFetchData from '@/composables/useFetchData'
 import useFetchAppointments from '@/composables/useFetchAppointments'
 import { useClientStore } from "@/stores/client"
 import ClientsOfTheDay from "./ClientsOfTheDay.vue"
@@ -141,10 +140,10 @@ const {
   selectedClient,
   selectedEvent,
   // onEventCreate,
-  onDragStart,
-  onEventDurationChange,
+
+
   onEventClick,
-  onEventDoubleClick,
+
   onEventDrop, onEventDelete
 } = useCalendar();
 const today = ref(new Date())
@@ -158,10 +157,10 @@ const currentView = ref('')
 
 
 
-const month = computed({
-  get: () => currentMonth.value,
-  set: (value) => currentMonth.value = value
-});
+// const month = computed({
+//   get: () => currentMonth.value,
+//   set: (value) => currentMonth.value = value
+// });
 
 const viewForFetch = computed({
   get: () => currentView.value,

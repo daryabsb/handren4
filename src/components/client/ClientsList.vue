@@ -3,10 +3,10 @@
         <div class="relative my-2 mr-3 shadow">
             <input type="text" v-model="searchQuery"
                 class="w-full m-1 pl-8 h-9 bg-[var(--search-bg)] 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     font-extralight        border border-gray-300 dark:border-gray-700 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             font-extralight        border border-gray-300 dark:border-gray-700 
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            text-[var(--theme-color)] placeholder:text-[var(--inactive-color)]  
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             rounded-md text-sm"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    text-[var(--theme-color)] placeholder:text-[var(--inactive-color)]  
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     rounded-md text-sm"
                 placeholder="Search clients" />
             <svg viewBox="0 0 24 24"
                 class="w-4 absolute text-gray-400 top-1/2 transform translate-x-0.5 -translate-y-1/2 left-3"
@@ -45,7 +45,7 @@
 <script setup lang="ts">
 import { ref, computed, watchEffect, onMounted, onBeforeUnmount } from "vue"
 import { useQuasar } from 'quasar'
-import useFetchClients from "@/composables/useFetchAllClients";
+import useFetchClients from "@/composables/useFetchClients";
 import useCalendar from '@/composables/useCalendar';
 import { Client } from "@/composables/interfaces"
 import ClientListItem from './ClientListItem.vue';
@@ -102,6 +102,8 @@ const {
     selectedClient,
     onDragStart,
 } = useCalendar();
+
+
 
 // async function onLoad(index: number, done: any) {
 //     console.log(index);

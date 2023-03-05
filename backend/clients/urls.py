@@ -4,12 +4,13 @@ from rest_framework import routers
 from .views import (
     AttachmentViewSet, ClientViewSet, AllClientsViewSet,
     ClinicalExaminationViewset, ClientHealthStatusViewSet,
-    ClientImageUpdateView, CountByForeignKeyView
+    ClientImageUpdateView, CountByForeignKeyView, ClientAppointmentViewSet
 
 )
 
 router = routers.DefaultRouter()
-router.register('all', AllClientsViewSet)
+router.register('all', ClientAppointmentViewSet, basename='clients')
+# router.register('all', AllClientsViewSet)
 router.register('clients', ClientViewSet)
 router.register('attachments', AttachmentViewSet)
 router.register('status', ClientHealthStatusViewSet, basename="healthstatus")

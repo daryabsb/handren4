@@ -1,18 +1,20 @@
 <template>
     <div class="container  overflow-auto" x-data="{ rightSide: false, leftSide: false }">
+        <q-layout class="main-container">
 
 
-        <div class="main">
-            <!-- <div class="search-bar">
-                <input type="text" placeholder="Search" />
-                <button class="right-side-button" @click="rightSide = !rightSide">
-                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"
-                        stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
-                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                    </svg>
-                </button>
-            </div> -->
-            <div class="main-container">
+
+            <div class="main">
+                <div class="search-bar">
+                    <input type="text" placeholder="Search" />
+                    <button class="right-side-button" @click="rightSide = !rightSide">
+                        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"
+                            stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                    </button>
+                </div>
+
                 <div v-if="client" class="profile">
                     <div class="profile-avatar absolute flex items-center z-[1] bottom-4 left-8">
                         <img :src="client.image" alt=""
@@ -47,7 +49,7 @@
                                         viewBox="0 0 503.889 503.889" fill="currentColor">
                                         <path
                                             d="M453.727 114.266H345.151V70.515c0-20.832-16.948-37.779-37.78-37.779H196.517c-20.832 0-37.78 16.947-37.78 37.779v43.751H50.162C22.502 114.266 0 136.769 0 164.428v256.563c0 27.659 22.502 50.161 50.162 50.161h403.565c27.659 0 50.162-22.502 50.162-50.161V164.428c0-27.659-22.503-50.162-50.162-50.162zm-262.99-43.751a5.786 5.786 0 015.78-5.779h110.854a5.786 5.786 0 015.78 5.779v43.751H190.737zM32 164.428c0-10.015 8.147-18.162 18.162-18.162h403.565c10.014 0 18.162 8.147 18.162 18.162v23.681c0 22.212-14.894 42.061-36.22 48.27l-167.345 48.723a58.482 58.482 0 01-32.76 0L68.22 236.378C46.894 230.169 32 210.321 32 188.109zm421.727 274.725H50.162c-10.014 0-18.162-8.147-18.162-18.161V253.258c8.063 6.232 17.254 10.927 27.274 13.845 184.859 53.822 175.358 52.341 192.67 52.341 17.541 0 7.595 1.544 192.67-52.341 10.021-2.918 19.212-7.613 27.274-13.845v167.733c.001 10.014-8.147 18.162-18.161 18.162z" />
-                                    </svg>
+                                        </svg>
                                     <span>Product Designer at <a href="#">Bravebist</a></span>
                                 </div>
                                 <div class="row items-center text-[var(--theme-color)]">
@@ -99,20 +101,24 @@
                             <div class="user">
                                 <img src="https://images.unsplash.com/photo-1546539782-6fc531453083?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
                                     alt="" class="user-img">
-                                <div class="username">Patrick Watsons</div>
-                            </div>
+                                    <div class="username">Patrick Watsons</div>
+                                </div>
                         </div>
                     </div> -->
-                    <div class="timeline-right h-[30rem]  overflow-auto">
+                    <div class="timeline-right h-[35rem]  overflow-auto">
                         <div class="box">
-                            <div class="status-menu">
+                            <q-tabs v-model="statusUpdateTab" class="text-glossy">
+                                <q-tab name="mails" icon="status" label="Status" class="status-menu-item" />
+                                <q-tab name="alarms" icon="photos" label="Photos" />
+                                <q-tab name="movies" icon="videos" label="Videos" />
+                            </q-tabs>
+                            <!-- <div class="status-menu">
                                 <a class="status-menu-item active" href="#">Status</a>
                                 <a class="status-menu-item" href="#">Photos</a>
                                 <a class="status-menu-item" href="#">Videos</a>
-                            </div>
+                            </div> -->
                             <div class="status-main">
-                                <img src="https://images.genius.com/2326b69829d58232a2521f09333da1b3.1000x1000x1.jpg"
-                                    class="status-img">
+                                <!-- <img :src="client.image" class="status-img scale-125"> -->
                                 <textarea class="status-textarea" placeholder="Write something to Quan Ha.."></textarea>
                             </div>
                             <div class="status-actions">
@@ -162,7 +168,8 @@
                                 <img src="https://images.genius.com/2326b69829d58232a2521f09333da1b3.1000x1000x1.jpg"
                                     class="status-img" />
                                 <div class="album-detail">
-                                    <div class="album-title"><strong>Quan Ha</strong> create new <span>album</span></div>
+                                    <div class="album-title"><strong>Quan Ha</strong> create new <span>album</span>
+                                    </div>
                                     <div class="album-date">6 hours ago</div>
                                 </div>
                                 <button class="intro-menu"></button>
@@ -209,10 +216,10 @@
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="overlay" @click="rightSide = false; leftSide = false" :class="{ 'active': rightSide || leftSide }">
-        </div>
+            <div class="overlay" @click="rightSide = false; leftSide = false" :class="{ 'active': rightSide || leftSide }">
+            </div>
+        </q-layout>
     </div>
 </template>
 
@@ -221,8 +228,7 @@ import { ref, Ref, computed, onMounted, watch } from "vue"
 
 import { Client } from "@/composables/interfaces";
 
-import fetchClientAppointmentsData from "../../composables/useFetchAppointmentDetail"
-import fetchClientData from "../../composables/useFetchClientDetails"
+import fetchClientData from "@/composables/useFetchClientDetails"
 
 const props = defineProps<{
     clientId: number
@@ -231,23 +237,26 @@ const props = defineProps<{
 const rightSide = ref(true)
 const leftSide = ref(true)
 const profileTab = ref('timeline')
-
+const statusUpdateTab = ref('status')
 const client = ref<Client | null>(null)
 const status = ref<any | null>(null)
 const examination = ref(null)
 const attachments = ref([])
 const details = ref(null)
 
-onMounted(fetchClient);
 const id = computed(() => props.clientId)
 async function fetchClient() {
-    const { client: clientData, status: statusData, attachments: attachmentsData, examination: examinationData, details: detailsData } = await fetchClientData(id.value);
+    const { client: clientData, status: statusData,
+        attachments: attachmentsData, examination: examinationData,
+        details: detailsData } = await fetchClientData(id.value);
     client.value = clientData;
     status.value = statusData;
     examination.value = examinationData;
     attachments.value = attachmentsData;
     details.value = detailsData;
 }
+
+onMounted(fetchClient);
 watch(id, fetchClient)
 
 

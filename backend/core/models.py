@@ -135,10 +135,20 @@ class Address(models.Model):
         return self.address_line1
 
 
-class Client(models.Model):
+class BaseModel(models.Model):
     user = models.ForeignKey(
-        "User", on_delete=models.CASCADE, related_name="clients")
-    name = models.CharField(max_length=60)
+        "User", on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
+
+
+class Client(BaseModel):
+    # user = models.ForeignKey(
+    #     "User", on_delete=models.CASCADE, related_name="clients")
+    name = models.CharField(max_length=60, db_index=True)
     dob = models.DateField(null=True, blank=True)
     date_bonding = models.DateField(null=True, blank=True)
     age = models.PositiveIntegerField(null=True, blank=True)
@@ -150,8 +160,8 @@ class Client(models.Model):
     email = models.EmailField(max_length=60)
     description = models.TextField(null=True, blank=True)
     status = models.BooleanField(default=True)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    # created = models.DateTimeField(auto_now_add=True)
+    # updated = models.DateTimeField(auto_now=True)
 
     image = models.ImageField(null=True, blank=True,
                               upload_to=profile_image_file_path)
@@ -183,10 +193,10 @@ class Client(models.Model):
         super(Client, self).save(*args, **kwargs)
 
 
-class Attachment(models.Model):
-    user = models.ForeignKey("User", on_delete=models.CASCADE)
+class Attachment(BaseModel):
+    # user = models.ForeignKey("User", on_delete=models.CASCADE)
     client = models.ForeignKey(
-        "Client", on_delete=models.CASCADE, related_name="attachments"
+        "Client", on_delete=models.CASCADE, related_name="attachments", db_index=True
     )
     filename = models.CharField(max_length=120)
     file = models.FileField(upload_to="upload_files")
@@ -194,8 +204,8 @@ class Attachment(models.Model):
     file_type = models.CharField(
         max_length=15, choices=FILE_TYPE, null=True, blank=True
     )
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    # created = models.DateTimeField(auto_now_add=True)
+    # updated = models.DateTimeField(auto_now=True)
 
     # def __unicode__(self):
     #     return self.file.url
@@ -215,36 +225,36 @@ class Attachment(models.Model):
 post_save.connect(save_pdf_pages_attachment, Attachment)
 
 
-class Treatment(models.Model):
-    user = models.ForeignKey(
-        "User", on_delete=models.CASCADE, related_name="treatments"
-    )
+class Treatment(BaseModel):
+    # user = models.ForeignKey(
+    #     "User", on_delete=models.CASCADE, related_name="treatments"
+    # )
     client = models.ForeignKey(
-        "Client", on_delete=models.CASCADE, related_name="treatments"
+        "Client", on_delete=models.CASCADE, related_name="treatments", db_index=True
     )
     appointment = models.ForeignKey(
         "Appointment", on_delete=models.SET_NULL, null=True, blank=True,
         related_name="treatments"
     )
     note = models.TextField(null=True, blank=True)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    # created = models.DateTimeField(auto_now_add=True)
+    # updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f'{self.client.name} - {self.note}'
 
 
-class Appointment(models.Model):
-    user = models.ForeignKey("User", on_delete=models.CASCADE)
+class Appointment(BaseModel):
+    # user = models.ForeignKey("User", on_delete=models.CASCADE)
     client = models.ForeignKey(
-        "Client", on_delete=models.CASCADE, related_name="appointments"
+        "Client", on_delete=models.CASCADE, related_name="appointments", db_index=True
     )
     title = models.CharField(max_length=200, null=True, blank=True)
     description = models.CharField(max_length=200, null=True, blank=True)
     date = models.DateTimeField()
     date_to = models.DateTimeField(null=True, blank=True)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    # created = models.DateTimeField(auto_now_add=True)
+    # updated = models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ("-date",)
@@ -272,11 +282,11 @@ class Appointment(models.Model):
 #         return self.text
 
 
-class Prescription(models.Model):
-    user = models.ForeignKey(
-        "User", on_delete=models.CASCADE, related_name="prescriptions")
+class Prescription(BaseModel):
+    # user = models.ForeignKey(
+    #     "User", on_delete=models.CASCADE, related_name="prescriptions")
     client = models.ForeignKey(
-        "Client", on_delete=models.CASCADE, related_name="prescriptions"
+        "Client", on_delete=models.CASCADE, related_name="prescriptions", db_index=True
     )
     appointment = models.ForeignKey(
         "Appointment", on_delete=models.SET_NULL, null=True, blank=True,
@@ -285,27 +295,27 @@ class Prescription(models.Model):
     medication = models.ForeignKey(
         "Medication", on_delete=models.CASCADE, related_name="prescriptions"
     )
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    # created = models.DateTimeField(auto_now_add=True)
+    # updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f'{self.client.name} - {self.medication}'
 
 
 class Medication(models.Model):
-    user = models.ForeignKey(
-        "User", on_delete=models.SET_NULL, blank=True, null=True)
+    # user = models.ForeignKey(
+    #     "User", on_delete=models.SET_NULL, blank=True, null=True)
     medicine_name = models.CharField(max_length=100)
     dosage = models.CharField(max_length=20)
     duration = models.IntegerField()
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    # created = models.DateTimeField(auto_now_add=True)
+    # updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f'{self.medicine_name}'
 
 
-class ClinicalExamination(models.Model):
+class ClinicalExamination(BaseModel):
 
     CHOICES = (
         ('class1', 'CLASS I'),
@@ -331,10 +341,12 @@ class ClinicalExamination(models.Model):
         ('mand', 'MAND')
     )
 
-    user = models.ForeignKey(
-        "User", on_delete=models.SET_NULL, blank=True, null=True)
+    # user = models.ForeignKey(
+    #     "User", on_delete=models.SET_NULL, blank=True, null=True)
     client = models.OneToOneField(
-        'Client', on_delete=models.CASCADE, unique=True, related_name='examinations')
+        'Client', on_delete=models.CASCADE, unique=True,
+        related_name='examinations', db_index=True
+    )
     skeletal_class = models.CharField(
         max_length=200, choices=CHOICES, default="class1")
     nasolabial_angle = models.CharField(
@@ -370,16 +382,18 @@ class ClinicalExamination(models.Model):
     anchorage_upper = models.CharField(
         max_length=200, choices=CHOICES, default='class1')
     treatment_plan = models.TextField(null=True, blank=True)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    # created = models.DateTimeField(auto_now_add=True)
+    # updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f'{self.client.name} - {self.created}'
 
 
-class ClientHealthStatus(models.Model):
+class ClientHealthStatus(BaseModel):
     client = models.OneToOneField(
-        'Client', on_delete=models.CASCADE, related_name='health_status')
+        'Client', on_delete=models.CASCADE,
+        related_name='health_status', db_index=True
+    )
     heart_condition = models.CharField(max_length=100)
     blood_sugar = models.IntegerField()
     blood_pressure = models.CharField(max_length=100)

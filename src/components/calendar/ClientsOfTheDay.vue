@@ -2,12 +2,12 @@
     <div
         class=" md:mt-0 ml-5 max-h-full min-h-[500px] overflow-hidden pl-10  py-12 sm-col  mx-auto bg-[var(--content-bg)] bg-opacity-10 grow">
 
-        <h1 class=" font-semibold text-3xl text-white py-2"><time> {{
+        <h1 class=" font-semibold text-3xl text-[var(--content-title-color)] py-2"><time> {{
             moment(selectedDate).format("MMMM DD, YYYY")
         }}</time>
         </h1>
         <q-separator></q-separator>
-        <ol class="mt-4 space-y-1 text-sm leading-6  text-white">
+        <ol class="mt-4 space-y-1 text-sm leading-6  text-[var(--theme-color)]">
             <li v-for="item in appointments" :key="item.id"
                 class="group relative flex items-center space-x-4  py-2 px-4 focus-within:bg-[var(--hover-menu-bg)] hover:bg-[var(--hover-menu-bg)]"
                 @click="toggleQuickView(item.client)">
@@ -20,6 +20,7 @@
                             Comming...
                         </template>
                     </Suspense>
+                    <!-- <p>{{ moment(item.start).format('MMMM DD, YYYY') }}</p> -->
                     <p class="mt-0.5">
                         <time>{{ moment(item.start).format('HH:mm') }}</time>
                         -
@@ -28,7 +29,8 @@
                 </div>
                 <Menu as="div" class="relative opacity-0 focus-within:opacity-100 group-hover:opacity-100">
                     <div>
-                        <MenuButton class="-m-2 flex items-center rounded-full p-1.5 text-gray-500 hover:text-gray-600">
+                        <MenuButton
+                            class="-m-2 flex items-center rounded-full p-1.5 text-[var(--theme-color)] hover:text-[var(--inactive-color)]">
                             <span class="sr-only">Open options</span>
                             <EllipsisVerticalIcon class="h-6 w-6" aria-hidden="true" />
                         </MenuButton>
