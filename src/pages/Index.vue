@@ -66,7 +66,7 @@
                     <div
                         class="content-wrapper w-full col text-[var(--theme-color)] py-4 px-4 h-full overflow-auto bg-[var(--theme-bg-color)]">
                         <div class="text-2xl font-extralight uppercase">Users</div>
-                        <div class="w-full h-96 bg-pink-700"></div>
+                        <Timeline />
                     </div>
                 </q-tab-panel>
             </q-tab-panels>
@@ -84,7 +84,7 @@ import Calendar from "@/components/calendar/index.vue"
 import { Client, Appointment, ReturnedData } from "@/composables/interfaces";
 import ClientsList from "@/components/client/ClientsList.vue";
 import SelectedClient from "@/components/client/SelectedClient.vue";
-
+import Timeline from "@/components/timeline/index.vue"
 
 const leftDrawerOpen = ref(false)
 function toggleLeftDrawer() {

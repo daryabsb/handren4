@@ -173,7 +173,7 @@ class Client(BaseModel):
         ordering = ("-created",)
 
     def __str__(self):
-        return self.name
+        return f'{self.id}: {self.name}'
 
     def save(self, *args, **kwargs):
         if not self.pk is None:
@@ -225,20 +225,6 @@ class Attachment(BaseModel):
 post_save.connect(save_pdf_pages_attachment, Attachment)
 
 
-class Treatment(BaseModel):
-    client = models.ForeignKey(
-        "Client", on_delete=models.CASCADE, related_name="treatments", db_index=True
-    )
-    appointment = models.ForeignKey(
-        "Appointment", on_delete=models.SET_NULL, null=True, blank=True,
-        related_name="treatments"
-    )
-    note = models.TextField(null=True, blank=True)
-
-    def __str__(self):
-        return f'{self.client.name} - {self.note}'
-
-
 class Appointment(BaseModel):
     client = models.ForeignKey(
         "Client", on_delete=models.CASCADE, related_name="appointments", db_index=True
@@ -263,6 +249,20 @@ class Appointment(BaseModel):
         return f"{self.client.name} - {self.date}"
 
 
+class Treatment(BaseModel):
+    client = models.ForeignKey(
+        "Client", on_delete=models.CASCADE, related_name="treatments", db_index=True
+    )
+    appointment = models.ForeignKey(
+        "Appointment", on_delete=models.SET_NULL, null=True, blank=True,
+        related_name="treatments"
+    )
+    note = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return f'{self.client.name} - {self.note}'
+
+
 class Prescription(BaseModel):
     client = models.ForeignKey(
         "Client", on_delete=models.CASCADE, related_name="prescriptions", db_index=True
@@ -271,6 +271,10 @@ class Prescription(BaseModel):
         "Appointment", on_delete=models.SET_NULL, null=True, blank=True,
         related_name="prescriptions"
     )
+    treatment = models.ForeignKey(
+        "Treatment", on_delete=models.CASCADE, related_name="prescriptions"
+    )
+    note = models.TextField(null=True, blank=True)
     medication = models.ForeignKey(
         "Medication", on_delete=models.CASCADE, related_name="prescriptions"
     )

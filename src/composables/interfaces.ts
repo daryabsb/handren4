@@ -136,3 +136,40 @@ export interface ViewChange {
   events: any[]; // All the events in the current view.
   week: number; // Week number. Only returned if view is 'week'.
 }
+
+export interface Appointment {
+  id: number;
+  title: string;
+  date: string;
+  date_to: string;
+  treatments: Treatment[];
+  attachments: Attachment[];
+  prescriptions: Prescription[];
+}
+
+export interface Treatment {
+  id: number;
+  note: string;
+}
+
+export interface Attachment {
+  id: number;
+  file: string;
+}
+
+export interface Medication {
+  id: number;
+  medicine_name: string;
+  dosage: string;
+  duration: number;
+}
+
+export interface Prescription {
+  id: number;
+  medication: Medication;
+}
+export interface TimelineState {
+  appointments: Appointment[];
+  isLoading: boolean;
+  error: any;
+}
