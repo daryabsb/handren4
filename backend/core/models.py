@@ -226,9 +226,6 @@ post_save.connect(save_pdf_pages_attachment, Attachment)
 
 
 class Treatment(BaseModel):
-    # user = models.ForeignKey(
-    #     "User", on_delete=models.CASCADE, related_name="treatments"
-    # )
     client = models.ForeignKey(
         "Client", on_delete=models.CASCADE, related_name="treatments", db_index=True
     )
@@ -237,15 +234,12 @@ class Treatment(BaseModel):
         related_name="treatments"
     )
     note = models.TextField(null=True, blank=True)
-    # created = models.DateTimeField(auto_now_add=True)
-    # updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f'{self.client.name} - {self.note}'
 
 
 class Appointment(BaseModel):
-    # user = models.ForeignKey("User", on_delete=models.CASCADE)
     client = models.ForeignKey(
         "Client", on_delete=models.CASCADE, related_name="appointments", db_index=True
     )
@@ -253,8 +247,6 @@ class Appointment(BaseModel):
     description = models.CharField(max_length=200, null=True, blank=True)
     date = models.DateTimeField()
     date_to = models.DateTimeField(null=True, blank=True)
-    # created = models.DateTimeField(auto_now_add=True)
-    # updated = models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ("-date",)
@@ -271,20 +263,7 @@ class Appointment(BaseModel):
         return f"{self.client.name} - {self.date}"
 
 
-# class Note(models.Model):
-#     user = models.ForeignKey(
-#         "User", on_delete=models.SET_NULL, blank=True, null=True)
-#     text = models.TextField()
-#     created = models.DateTimeField(auto_now_add=True)
-#     updated = models.DateTimeField(auto_now=True)
-
-#     def __str__(self):
-#         return self.text
-
-
 class Prescription(BaseModel):
-    # user = models.ForeignKey(
-    #     "User", on_delete=models.CASCADE, related_name="prescriptions")
     client = models.ForeignKey(
         "Client", on_delete=models.CASCADE, related_name="prescriptions", db_index=True
     )
@@ -295,21 +274,15 @@ class Prescription(BaseModel):
     medication = models.ForeignKey(
         "Medication", on_delete=models.CASCADE, related_name="prescriptions"
     )
-    # created = models.DateTimeField(auto_now_add=True)
-    # updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f'{self.client.name} - {self.medication}'
 
 
 class Medication(models.Model):
-    # user = models.ForeignKey(
-    #     "User", on_delete=models.SET_NULL, blank=True, null=True)
     medicine_name = models.CharField(max_length=100)
     dosage = models.CharField(max_length=20)
     duration = models.IntegerField()
-    # created = models.DateTimeField(auto_now_add=True)
-    # updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f'{self.medicine_name}'
@@ -341,8 +314,6 @@ class ClinicalExamination(BaseModel):
         ('mand', 'MAND')
     )
 
-    # user = models.ForeignKey(
-    #     "User", on_delete=models.SET_NULL, blank=True, null=True)
     client = models.OneToOneField(
         'Client', on_delete=models.CASCADE, unique=True,
         related_name='examinations', db_index=True
@@ -382,8 +353,6 @@ class ClinicalExamination(BaseModel):
     anchorage_upper = models.CharField(
         max_length=200, choices=CHOICES, default='class1')
     treatment_plan = models.TextField(null=True, blank=True)
-    # created = models.DateTimeField(auto_now_add=True)
-    # updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f'{self.client.name} - {self.created}'
