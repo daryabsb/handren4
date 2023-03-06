@@ -1,3 +1,76 @@
+from django.db.models import Q
+from rest_framework import viewsets, serializers, pagination
+from .models import Appointment, Client, Treatment, Prescription, Medication
+
+
+class MedicationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Medication
+        fields = ('id', 'medicine_name', 'dosage', 'duration')
+
+
+class PrescriptionSerializer(serializers.ModelSerializer):
+    medication = MedicationSerializer()
+
+    class Meta:
+        model = Prescription
+        fields = ('id', 'medication', 'created', 'updated')
+
+
+class TreatmentSerializer(serializers.ModelSerializer):
+    prescriptions = PrescriptionSerializer(many=True)
+
+    class Meta:
+        model = Treatment
+        fields = ('id', 'note', 'created', 'updated', 'prescriptions')
+
+
+class ClientSerializer(serializers.ModelSerializer):
+    treatments = TreatmentSerializer(many=True)
+
+    class Meta:
+        model = Client
+        fields = ('id', 'name', 'created', 'updated', 'treatments')
+
+
+class AppointmentSerializer(serializers.ModelSerializer):
+    client = ClientSerializer()
+
+    class Meta:
+        model = Appointment
+        fields = ('id', 'title', 'date', 'date_to', 'created', 'updated', 'client')
+
+
+class AppointmentPagination(pagination.PageNumberPagination):
+    page_size_query_param = 'page_size'
+    max_page_size = 100
+
+
+class TimelineViewset(viewsets.ReadOnlyModelViewSet):
+    serializer_class = AppointmentSerializer
+    pagination_class = AppointmentPagination
+
+    def get_queryset(self):
+        queryset = Appointment.objects.select_related('client').order_by('-date')
+
+        # filter by client id if provided
+        client_id = self.request.query_params.get('client')
+        if client_id:
+            queryset = queryset.filter(client_id=client_id)
+
+        # filter by date range if provided
+        start_date = self.request.query_params.get('start_date')
+        end_date = self.request.query_params.get('end_date')
+        if start_date and end_date:
+            queryset = queryset.filter(
+                Q(date__gte=start_date) & Q(date__lte=end_date) | Q(date_to__gte=start_date) & Q(date_to__lte=end_date)
+            )
+
+        return queryset
+
+
+
+
 from rest_framework import viewsets, filters
 from rest_framework.pagination import PageNumberPagination
 from .serializers import (
