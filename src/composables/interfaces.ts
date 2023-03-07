@@ -173,3 +173,11 @@ export interface TimelineState {
   isLoading: boolean;
   error: any;
 }
+
+export interface TimelineParams {
+  clientId?: number;
+  startDate?: string;
+  endDate?: string;
+  page?: number;
+  pageSize?: number;
+}

@@ -1,88 +1,56 @@
-<script lang="ts">
-import { ref, reactive, watchEffect } from 'vue'
-import axios from 'axios'
-import useTimeline from "@/composables/useTimeline"
+<script setup lang="ts">
+import { ref, onMounted, watch } from 'vue';
+import useTimeline from '@/composables/useTimeline';
+import { Appointment } from '@/composables/interfaces';
 
-interface Appointment {
-    id: number
-    client: number
-    title: string | null
-    date: string
-    date_to: string | null
-    treatments: any[]
-    attachments: any[]
-    prescriptions: any[]
+interface Props {
+    clientId: number;
+    dateFrom?: string;
+    dateTo?: string;
+    page?: number;
+    pageSize?: number;
 }
 
-export default {
-    props: {
-        clientId: {
-            type: Number,
-            default: null
-        },
-        dateRange: {
-            type: Object,
-            default: null
-        }
-    },
-    setup(props) {
+const props: Props = defineProps({
+    clientId: { type: Number, required: true },
+    dateFrom: { type: String },
+    dateTo: { type: String },
+    page: { type: Number },
+    pageSize: { type: Number },
+});
 
-        const nextPageUrl = ref<string | null>(null)
-        const isLoading = ref(false)
-        const { loadAppointments, state } = useTimeline()
+const { state, loadAppointments } = useTimeline();
 
-        const loadAppointmentGuru = async () => {
-            isLoading.value = true
-            try {
-                let url = '/api/timeline/'
-                if (props.clientId) {
-                    url += `?client=${props.clientId}`
-                }
-                if (props.dateRange) {
-                    url += `&start=${props.dateRange.start}&end=${props.dateRange.end}`
-                }
-                const response = await axios.get(url)
-                // appointments.value = response.data.results
-                nextPageUrl.value = response.data.next
-            } catch (error) {
-                console.error(error)
-            } finally {
-                isLoading.value = false
-            }
-        }
+const appointments = ref<Appointment[]>([]);
 
-        watchEffect(() => {
-            loadAppointments()
-        })
+const load = async () => {
+    await loadAppointments(
+        props.clientId,
+        props.dateFrom,
+        props.dateTo,
+        props.page,
+        props.pageSize,
+    );
+};
 
-        const loadMore = async () => {
-            if (nextPageUrl.value) {
-                isLoading.value = true
-                try {
-                    const response = await axios.get(nextPageUrl.value)
-                    appointments.value.push(...response.data.results)
-                    nextPageUrl.value = response.data.next
-                } catch (error) {
-                    console.error(error)
-                } finally {
-                    isLoading.value = false
-                }
-            }
-        }
+onMounted(load);
 
-        return {
-            state,
-            isLoading,
-            loadMore
-        }
-    }
-}
+watch(
+    () => [props.clientId, props.dateFrom, props.dateTo, props.page, props.pageSize],
+    load,
+);
+
 </script>
-<template>
-    <button @click="loadMore">load more</button>
-    <pre>{{ state }}</pre>
-    <ul>
-        <li v-for="appointment in state.appointments" :key="appointment.id">{{ appointment }}</li>
 
-    </ul>
+<template>
+    <div v-if="state.isLoading">Loading...</div>
+    <div v-if="state.error">Error: {{ state.error.message }}</div>
+    <div v-if="!state.isLoading && !state.error">
+        <!-- Render appointment data here -->
+    </div>
+    <div v-for="appointment in state.appointments" :key="appointment.id">
+        <pre>
+                        {{ appointment }}
+                    </pre>
+    </div>
 </template>
