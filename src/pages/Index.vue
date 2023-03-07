@@ -37,20 +37,15 @@
                     </div>
                 </q-tab-panel>
                 <q-tab-panel class="bg-none q-pa-none" name="client">
-                    <div v-if="activeClient"
+                    <div
                         class="content-wrapper w-full col text-[var(--theme-color)]  h-full overflow-auto bg-[var(--theme-bg-color)]">
 
                         <!-- <div class="text-2xl font-extralight uppercase">{{ activeClient.name }}</div> -->
                         <div class="w-full">
-                            <SelectedClient :client-id="activeClient.id" />
+                            <SelectedClient />
                         </div>
                     </div>
-                    <div v-else
-                        class="content-wrapper w-full col text-[var(--theme-color)] py-4 px-4 h-full overflow-auto bg-[var(--theme-bg-color)]">
 
-                        <div class="text-2xl font-extralight uppercase">PLEASE SELECT A CLIENT TO SHOW</div>
-
-                    </div>
                 </q-tab-panel>
                 <q-tab-panel class="bg-none q-pa-none" name="schedule">
                     <div

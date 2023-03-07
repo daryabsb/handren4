@@ -1,4 +1,5 @@
 from django.db.models import Q
+from django.utils import timezone
 from rest_framework import viewsets, filters
 from rest_framework.pagination import PageNumberPagination
 from .serializers import (
@@ -24,7 +25,31 @@ class TimelineViewset(viewsets.ReadOnlyModelViewSet):
     pagination_class = PageNumberPagination
 
     def get_queryset(self):
-        queryset = Appointment.objects.all().order_by('-date')
+        now = timezone.now()
+        queryset = Appointment.objects.filter(date__lte=now).order_by('-date')
+        client_id = self.request.query_params.get('client_id', None)
+        date_from = self.request.query_params.get('date_from', None)
+        date_to = self.request.query_params.get('date_to', None)
+        if client_id is not None:
+            queryset = queryset.filter(client_id=client_id)
+        if date_from is not None and date_to is not None:
+            queryset = queryset.filter(date__range=[date_from, date_to])
+        return queryset.prefetch_related(
+            'treatments', 'prescriptions', 'prescriptions__medication'
+            # 'attachments',
+        )
+
+
+class UpcomingTimelineViewset(viewsets.ReadOnlyModelViewSet):
+    serializer_class = AppointmentSerializer
+    filter_backends = [filters.OrderingFilter, filters.SearchFilter]
+    ordering_fields = ['date']
+    search_fields = ['title', 'client__name']
+    pagination_class = PageNumberPagination
+
+    def get_queryset(self):
+        now = timezone.now()
+        queryset = Appointment.objects.filter(date__gte=now).order_by('date')
         client_id = self.request.query_params.get('client_id', None)
         date_from = self.request.query_params.get('date_from', None)
         date_to = self.request.query_params.get('date_to', None)

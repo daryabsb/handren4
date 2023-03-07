@@ -19,18 +19,15 @@ const props: Props = defineProps({
     pageSize: { type: Number },
 });
 
-const { state, loadAppointments } = useTimeline();
-
-const appointments = ref<Appointment[]>([]);
+const { state, loadPastAppointments, loadUpcomingAppointments } = useTimeline();
+const pastAppointments = ref<Appointment[]>();
+const upcomingAppointments = ref<Appointment[]>();
 
 const load = async () => {
-    await loadAppointments(
-        props.clientId,
-        props.dateFrom,
-        props.dateTo,
-        props.page,
-        props.pageSize,
-    );
+    await Promise.all([
+        loadPastAppointments(),
+        loadUpcomingAppointments(),
+    ]);
 };
 
 onMounted(load);
@@ -42,15 +39,16 @@ watch(
 
 </script>
 
-<template><!-- {{ state }} -->
+<template>
+    <!-- {{ state }} -->
     <div v-if="state.isLoading">Loading...</div>
     <div v-if="state.error">Error: {{ state.error.message }}</div>
     <div v-if="!state.isLoading && !state.error">
         <!-- Render appointment data here -->
-        <div v-for="appointment in state.appointments" :key="appointment.id">
+        <div v-for="appointment in state.past" :key="appointment.id">
             <pre>
-                                                                        {{ appointment }}
-                                                                    </pre>
+                                     {{ appointment }}
+                                   </pre>
         </div>
     </div>
 </template>
