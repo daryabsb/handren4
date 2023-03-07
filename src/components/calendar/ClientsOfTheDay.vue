@@ -1,6 +1,6 @@
 <template>
     <div
-        class=" md:mt-0 ml-5 max-h-full min-h-[500px] overflow-hidden pl-10  py-12 sm-col  mx-auto bg-[var(--content-bg)] bg-opacity-10 grow">
+        class="max-h-full min-h-[500px] overflow-auto pl-10  py-12 sm-col  mx-auto bg-[var(--content-bg)] bg-opacity-10 grow">
 
         <h1 class=" font-semibold text-3xl text-[var(--content-title-color)] py-2"><time> {{
             moment(selectedDate).format("MMMM DD, YYYY")

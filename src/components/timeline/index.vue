@@ -42,15 +42,15 @@ watch(
 
 </script>
 
-<template>
+<template><!-- {{ state }} -->
     <div v-if="state.isLoading">Loading...</div>
     <div v-if="state.error">Error: {{ state.error.message }}</div>
     <div v-if="!state.isLoading && !state.error">
         <!-- Render appointment data here -->
-    </div>
-    <div v-for="appointment in state.appointments" :key="appointment.id">
-        <pre>
-                        {{ appointment }}
-                    </pre>
+        <div v-for="appointment in state.appointments" :key="appointment.id">
+            <pre>
+                                                                        {{ appointment }}
+                                                                    </pre>
+        </div>
     </div>
 </template>

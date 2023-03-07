@@ -37,7 +37,7 @@ class ClientSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Client
-        fields = ('id', 'name', 'created', 'updated', 'treatments')
+        fields = ('id', 'name', 'image', 'created', 'updated', 'treatments')
 
 
 class AppointmentSerializer(serializers.ModelSerializer):

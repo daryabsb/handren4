@@ -169,6 +169,7 @@ export interface Prescription {
   medication: Medication;
 }
 export interface TimelineState {
+  data: ReturnedData;
   appointments: Appointment[];
   isLoading: boolean;
   error: any;

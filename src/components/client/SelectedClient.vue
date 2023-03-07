@@ -7,6 +7,7 @@
             <div class="main">
                 <div class="search-bar">
                     <input type="text" placeholder="Search" />
+                    <!-- <q-btn >SEA</q-btn> -->
                     <button class="right-side-button" @click="rightSide = !rightSide">
                         <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"
                             stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
@@ -36,8 +37,8 @@
                     </div>
                 </div>
                 <div class="timeline">
-                    <!--  <div class="timeline-left">
-                       <div class="box p-4">
+                    <div class="timeline-left">
+                        <div class="box p-4">
                             <div class="row justify-between items-center pb-2">
                                 <h2 class="text-xl font-thin">Introduction</h2>
 
@@ -49,7 +50,7 @@
                                         viewBox="0 0 503.889 503.889" fill="currentColor">
                                         <path
                                             d="M453.727 114.266H345.151V70.515c0-20.832-16.948-37.779-37.78-37.779H196.517c-20.832 0-37.78 16.947-37.78 37.779v43.751H50.162C22.502 114.266 0 136.769 0 164.428v256.563c0 27.659 22.502 50.161 50.162 50.161h403.565c27.659 0 50.162-22.502 50.162-50.161V164.428c0-27.659-22.503-50.162-50.162-50.162zm-262.99-43.751a5.786 5.786 0 015.78-5.779h110.854a5.786 5.786 0 015.78 5.779v43.751H190.737zM32 164.428c0-10.015 8.147-18.162 18.162-18.162h403.565c10.014 0 18.162 8.147 18.162 18.162v23.681c0 22.212-14.894 42.061-36.22 48.27l-167.345 48.723a58.482 58.482 0 01-32.76 0L68.22 236.378C46.894 230.169 32 210.321 32 188.109zm421.727 274.725H50.162c-10.014 0-18.162-8.147-18.162-18.161V253.258c8.063 6.232 17.254 10.927 27.274 13.845 184.859 53.822 175.358 52.341 192.67 52.341 17.541 0 7.595 1.544 192.67-52.341 10.021-2.918 19.212-7.613 27.274-13.845v167.733c.001 10.014-8.147 18.162-18.161 18.162z" />
-                                        </svg>
+                                    </svg>
                                     <span>Product Designer at <a href="#">Bravebist</a></span>
                                 </div>
                                 <div class="row items-center text-[var(--theme-color)]">
@@ -70,7 +71,7 @@
                                     Player name <a href="#">Quan Ha</a>
                                 </div>
                             </div>
-                        </div> 
+                        </div>
                         <div class="event box">
                             <div class="event-wrapper">
                                 <img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80"
@@ -83,7 +84,7 @@
                                 <div class="event-subtitle">01st Jan, 2019 07:00AM</div>
                             </div>
                         </div>
-                         <div class="pages box">
+                        <div class="pages box">
                             <div class="intro-title">
                                 Your pages
                                 <button class="intro-menu"></button>
@@ -101,16 +102,16 @@
                             <div class="user">
                                 <img src="https://images.unsplash.com/photo-1546539782-6fc531453083?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
                                     alt="" class="user-img">
-                                    <div class="username">Patrick Watsons</div>
-                                </div>
+                                <div class="username">Patrick Watsons</div>
+                            </div>
                         </div>
-                    </div> -->
-                    <div class="timeline-right h-[35rem]  overflow-auto">
+                    </div>
+                    <div class="timeline-right h-[43rem] pl-2  overflow-auto">
                         <div class="box">
                             <q-tabs v-model="statusUpdateTab" class="text-glossy">
-                                <q-tab name="mails" icon="status" label="Status" class="status-menu-item" />
-                                <q-tab name="alarms" icon="photos" label="Photos" />
-                                <q-tab name="movies" icon="videos" label="Videos" />
+                                <q-tab name="mails" label="Status" class="status-menu-item" />
+                                <q-tab name="alarms" label="Photos" class="status-menu-item" />
+                                <q-tab name="movies" label="Videos" class="status-menu-item" />
                             </q-tabs>
                             <!-- <div class="status-menu">
                                 <a class="status-menu-item active" href="#">Status</a>
@@ -163,54 +164,58 @@
                                 <button class="status-share">Share</button>
                             </div>
                         </div>
-                        <div class="album box">
-                            <div class="status-main">
-                                <img src="https://images.genius.com/2326b69829d58232a2521f09333da1b3.1000x1000x1.jpg"
-                                    class="status-img" />
-                                <div class="album-detail">
-                                    <div class="album-title"><strong>Quan Ha</strong> create new <span>album</span>
+                        <div v-if="state.isLoading">Loading...</div>
+                        <div v-if="state.error">Error: {{ state.error.message }}</div>
+                        <div v-if="!state.isLoading && !state.error" class="album box ">
+                            <div v-for="appointment in state.appointments" :key="appointment.id">
+                                <div class="status-main">
+                                    <img :src="appointment.client.image" class="status-img" />
+                                    <div class="album-detail">
+                                        <div class="album-title"><strong>{{ appointment.client.name }}</strong> create new
+                                            <span>album</span>
+                                        </div>
+                                        <div class="album-date">6 hours ago</div>
                                     </div>
-                                    <div class="album-date">6 hours ago</div>
+                                    <button class="intro-menu"></button>
                                 </div>
-                                <button class="intro-menu"></button>
-                            </div>
-                            <div class="album-content">When the bass drops, so do my problems.
-                                <div class="album-photos">
-                                    <img src="https://images.unsplash.com/photo-1508179719682-dbc62681c355?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2378&q=80"
-                                        alt="" class="album-photo" />
-                                    <div class="album-right">
-                                        <img src="https://images.unsplash.com/photo-1502872364588-894d7d6ddfab?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2250&q=80"
+                                <div class="album-content">When the bass drops, so do my problems.
+                                    <div class="album-photos">
+                                        <img src="https://images.unsplash.com/photo-1508179719682-dbc62681c355?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2378&q=80"
                                             alt="" class="album-photo" />
-                                        <img src="https://images.unsplash.com/photo-1566737236500-c8ac43014a67?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80"
-                                            alt="" class="album-photo" />
+                                        <div class="album-right">
+                                            <img src="https://images.unsplash.com/photo-1502872364588-894d7d6ddfab?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2250&q=80"
+                                                alt="" class="album-photo" />
+                                            <img src="https://images.unsplash.com/photo-1566737236500-c8ac43014a67?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80"
+                                                alt="" class="album-photo" />
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="album-actions">
-                                <a href="#" class="album-action">
-                                    <svg stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"
-                                        stroke-linejoin="round" viewBox="0 0 24 24">
-                                        <path
-                                            d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
-                                    </svg>
-                                    87
-                                </a>
-                                <a href="#" class="album-action">
-                                    <svg stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"
-                                        stroke-linejoin="round" class="css-i6dzq1" viewBox="0 0 24 24">
-                                        <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
-                                    </svg>
-                                    20
-                                </a>
-                                <a href="#" class="album-action">
-                                    <svg stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"
-                                        stroke-linejoin="round" class="css-i6dzq1" viewBox="0 0 24 24">
-                                        <path d="M17 1l4 4-4 4" />
-                                        <path d="M3 11V9a4 4 0 014-4h14M7 23l-4-4 4-4" />
-                                        <path d="M21 13v2a4 4 0 01-4 4H3" />
-                                    </svg>
-                                    13
-                                </a>
+                                <div class="album-actions">
+                                    <a href="#" class="album-action">
+                                        <svg stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"
+                                            stroke-linejoin="round" viewBox="0 0 24 24">
+                                            <path
+                                                d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
+                                        </svg>
+                                        87
+                                    </a>
+                                    <a href="#" class="album-action">
+                                        <svg stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"
+                                            stroke-linejoin="round" class="css-i6dzq1" viewBox="0 0 24 24">
+                                            <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
+                                        </svg>
+                                        20
+                                    </a>
+                                    <a href="#" class="album-action">
+                                        <svg stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"
+                                            stroke-linejoin="round" class="css-i6dzq1" viewBox="0 0 24 24">
+                                            <path d="M17 1l4 4-4 4" />
+                                            <path d="M3 11V9a4 4 0 014-4h14M7 23l-4-4 4-4" />
+                                            <path d="M21 13v2a4 4 0 01-4 4H3" />
+                                        </svg>
+                                        13
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -225,14 +230,26 @@
 
 <script setup lang="ts">
 import { ref, Ref, computed, onMounted, watch } from "vue"
-
+import useTimeline from '@/composables/useTimeline';
 import { Client } from "@/composables/interfaces";
 
 import fetchClientData from "@/composables/useFetchClientDetails"
 
-const props = defineProps<{
-    clientId: number
-}>()
+interface Props {
+    clientId: number;
+    dateFrom?: string;
+    dateTo?: string;
+    page?: number;
+    pageSize?: number;
+}
+
+const props: Props = defineProps({
+    clientId: { type: Number, required: true },
+    dateFrom: { type: String },
+    dateTo: { type: String },
+    page: { type: Number },
+    pageSize: { type: Number },
+});
 
 const rightSide = ref(true)
 const leftSide = ref(true)
@@ -243,6 +260,10 @@ const status = ref<any | null>(null)
 const examination = ref(null)
 const attachments = ref([])
 const details = ref(null)
+
+
+
+
 
 const id = computed(() => props.clientId)
 async function fetchClient() {
@@ -256,8 +277,25 @@ async function fetchClient() {
     details.value = detailsData;
 }
 
-onMounted(fetchClient);
-watch(id, fetchClient)
+// const clientId = props.clientId;
+// const dateFrom = props.dateFrom;
+// const dateTo = props.dateTo;
+// const page = props.page;
+// const pageSize = props.pageSize;
+
+const { state, loadAppointments } = useTimeline();
+const load = async () => {
+    await loadAppointments(
+        props.clientId
+    );
+};
+
+
+onMounted(load);
+watch(
+    () => [props.clientId, props.dateFrom, props.dateTo, props.page, props.pageSize],
+    load,
+);
 
 
 
@@ -651,5 +689,76 @@ watch(id, fetchClient)
     margin-left: auto;
     box-shadow: 0 0 20px #1b86f9;
     cursor: pointer;
+}
+
+.right-side-button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    border: 0;
+    width: 52px;
+    background-color: #1e2031;
+    border-left: 1px solid #272a3a;
+    color: #fff;
+    display: none;
+    cursor: pointer;
+}
+
+.right-side-button:before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    position: absolute;
+    background-color: #1b86f8;
+    border: 2px solid #1e2031;
+    top: 13px;
+    right: 12px;
+}
+
+.right-side-button svg {
+    width: 22px;
+}
+
+@media screen and (max-width: 1210px) {
+    .right-side-button {
+        display: block;
+    }
+}
+
+.left-side-button {
+    display: none;
+}
+
+@media screen and (max-width: 930px) {
+    .left-side-button {
+        display: flex;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        cursor: pointer;
+        height: 60px;
+        background-color: rgba(39, 42, 58, 0.5);
+        border: 0;
+        padding: 0;
+        line-height: 0;
+        color: #fff;
+        border-bottom: 1px solid #272a3a;
+    }
+
+    .left-side-button svg {
+        transition: 0.2s;
+        width: 24px;
+    }
+
+    .left-side-button svg:last-child {
+        position: absolute;
+        left: 50%;
+        transform: translate(100%, -50%);
+        top: 50%;
+        opacity: 0;
+    }
 }
 </style>
