@@ -7,7 +7,8 @@ from core.models import (Appointment, Client, Treatment,
 class AttachmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Attachment
-        fields = '__all__'
+        fields = ('id', 'file', 'page_count',
+                  'file_type', 'client', 'appointment')
 
 
 class MedicationSerializer(serializers.ModelSerializer):
@@ -42,11 +43,12 @@ class ClientSerializer(serializers.ModelSerializer):
 
 class AppointmentSerializer(serializers.ModelSerializer):
     client = ClientSerializer()
+    attachments = AttachmentSerializer(many=True)
 
     class Meta:
         model = Appointment
         fields = ('id', 'title', 'date', 'date_to',
-                  'created', 'updated', 'client')
+                  'created', 'updated', 'client', 'attachments')
 
 
 class ClinicalExaminationSerializer(serializers.ModelSerializer):

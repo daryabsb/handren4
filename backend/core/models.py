@@ -196,7 +196,12 @@ class Client(BaseModel):
 class Attachment(BaseModel):
     # user = models.ForeignKey("User", on_delete=models.CASCADE)
     client = models.ForeignKey(
-        "Client", on_delete=models.CASCADE, related_name="attachments", db_index=True
+        "Client", on_delete=models.SET_NULL, related_name="attachments",
+        null=True, blank=True, db_index=True
+    )
+    appointment = models.ForeignKey(
+        "Appointment", on_delete=models.SET_NULL, related_name="attachments",
+        null=True, blank=True, db_index=True
     )
     filename = models.CharField(max_length=120)
     file = models.FileField(upload_to="upload_files")
@@ -246,7 +251,7 @@ class Appointment(BaseModel):
         super(Appointment, self).save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.client.name} - {self.date}"
+        return f"{self.id}: {self.client.name} - {self.date}"
 
 
 class Treatment(BaseModel):

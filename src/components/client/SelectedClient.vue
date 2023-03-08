@@ -112,16 +112,34 @@
                                     <button class="intro-menu"></button>
                                 </div>
                                 <div class="album-content ">When the bass drops, so do my problems.
-                                    <div class="album-photos">
-                                        <img src="https://images.unsplash.com/photo-1508179719682-dbc62681c355?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2378&q=80"
-                                            alt="" class="album-photo" />
-                                        <div class="album-right">
+
+                                    <Vue-PDF :pdf="pdf" :page="1" />
+                                    <div v-if="appointment.attachments.length > 0" class="q-pa-md">
+
+                                        <q-carousel v-model="slide" animated arrows navigation infinite>
+                                            <q-carousel-slide v-for="file in appointment.attachments" :key="file.id"
+                                                :name="file.id" :img-src="file.file" />
+
+                                        </q-carousel>
+                                    </div>
+                                    <!-- 
+                                            <div class="album-photos">
+                                            <img  :src="file.file" alt=""
+                                            class="album-photo" />
+                                        <div v-for="file in appointment.attachments" :key="file.id" class="album-right">
+                                            <img v-if="file.file_type == 'image'" :src="file.file" alt=""
+                                                class="album-photo">
+                                            <div class="username">Chandelio</div>
+                                        </div> -->
+                                    <!-- <div  class="album-right">
                                             <img src="https://images.unsplash.com/photo-1502872364588-894d7d6ddfab?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2250&q=80"
                                                 alt="" class="album-photo" />
                                             <img src="https://images.unsplash.com/photo-1566737236500-c8ac43014a67?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80"
                                                 alt="" class="album-photo" />
-                                        </div>
-                                    </div>
+                                        </div> 
+                                     </div>
+                                    -->
+
                                 </div>
                                 <div class="album-actions">
                                     <a href="#" class="album-action">
@@ -237,8 +255,8 @@ import { useClientStore } from "@/stores/client.js";
 import { Appointment } from "@/composables/interfaces";
 import useTimeline from '@/composables/useTimeline';
 import { Client } from "@/composables/interfaces";
-
 import moment from "moment"
+import { usePDF, VuePDF } from '@tato30/vue-pdf'
 
 import fetchClientData from "@/composables/useFetchClientDetails"
 
@@ -251,9 +269,12 @@ const status = ref<any | null>(null)
 const examination = ref(null)
 const attachments = ref([])
 const details = ref(null)
+const slide = ref(1)
 
 const store = useClientStore();
 const config = store.useConfig;
+const { pdf, pages } = usePDF("https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf");
+// const { pdf, pages, info } = usePDF("https://www.africau.edu/images/default/sample.pdf")
 
 const id = computed(() => props.clientId)
 async function fetchClient() {

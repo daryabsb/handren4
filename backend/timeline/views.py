@@ -36,7 +36,7 @@ class TimelineViewset(viewsets.ReadOnlyModelViewSet):
             queryset = queryset.filter(date__range=[date_from, date_to])
         return queryset.prefetch_related(
             'treatments', 'prescriptions', 'prescriptions__medication'
-            # 'attachments',
+            'attachments',
         )
 
 
