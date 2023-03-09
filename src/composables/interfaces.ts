@@ -182,3 +182,12 @@ export interface TimelineParams {
   page?: number;
   pageSize?: number;
 }
+
+export interface Attachment {
+  id: number;
+  file: string;
+  page_count: number;
+  file_type: "image" | "pdf" | string;
+  client: number; // you can replace this with the actual type
+  appointment: number;
+}

@@ -101,72 +101,20 @@
                         <div v-if="!state.isLoading && !state.error" class="album box ">
                             <div v-for="appointment in state.past" :key="appointment.id">
                                 <div class="status-main ">
-                                    <img :src="appointment.client.image" class="status-img" />
-                                    <div class="album-detail">
-                                        <div class="album-title non-selectable"><strong>{{ appointment.client.name
-                                        }}</strong> create new
-                                            <span>album</span>
+                                    <img :src="appointment.client.image" class="w-12 h-12 rounded-full mr-2" />
+                                    <h2 class="text-xl font-thin leading-6">
+                                        <div class="album-title non-selectable">{{ appointment.client.name
+                                        }}
                                         </div>
                                         <div class="album-date">{{ moment(appointment.date).fromNow() }}</div>
-                                    </div>
+                                    </h2>
                                     <button class="intro-menu"></button>
                                 </div>
-                                <div class="album-content ">When the bass drops, so do my problems.
+                                <div class="ml-14 album-content ">When the bass drops, so do my problems.
 
-                                    <Vue-PDF :pdf="pdf" :page="1" />
-                                    <div v-if="appointment.attachments.length > 0" class="q-pa-md">
-
-                                        <q-carousel v-model="slide" animated arrows navigation infinite>
-                                            <q-carousel-slide v-for="file in appointment.attachments" :key="file.id"
-                                                :name="file.id" :img-src="file.file" />
-
-                                        </q-carousel>
-                                    </div>
-                                    <!-- 
-                                            <div class="album-photos">
-                                            <img  :src="file.file" alt=""
-                                            class="album-photo" />
-                                        <div v-for="file in appointment.attachments" :key="file.id" class="album-right">
-                                            <img v-if="file.file_type == 'image'" :src="file.file" alt=""
-                                                class="album-photo">
-                                            <div class="username">Chandelio</div>
-                                        </div> -->
-                                    <!-- <div  class="album-right">
-                                            <img src="https://images.unsplash.com/photo-1502872364588-894d7d6ddfab?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2250&q=80"
-                                                alt="" class="album-photo" />
-                                            <img src="https://images.unsplash.com/photo-1566737236500-c8ac43014a67?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80"
-                                                alt="" class="album-photo" />
-                                        </div> 
-                                     </div>
-                                    -->
-
+                                    <FileViewer :files="appointment.attachments" />
                                 </div>
-                                <div class="album-actions">
-                                    <a href="#" class="album-action">
-                                        <svg stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"
-                                            stroke-linejoin="round" viewBox="0 0 24 24">
-                                            <path
-                                                d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
-                                        </svg>
-                                        87
-                                    </a>
-                                    <a href="#" class="album-action">
-                                        <svg stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"
-                                            stroke-linejoin="round" class="css-i6dzq1" viewBox="0 0 24 24">
-                                            <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
-                                        </svg>
-                                        20
-                                    </a>
-                                    <a href="#" class="album-action">
-                                        <svg stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"
-                                            stroke-linejoin="round" class="css-i6dzq1" viewBox="0 0 24 24">
-                                            <path d="M17 1l4 4-4 4" />
-                                            <path d="M3 11V9a4 4 0 014-4h14M7 23l-4-4 4-4" />
-                                            <path d="M21 13v2a4 4 0 01-4 4H3" />
-                                        </svg>
-                                        13
-                                    </a>
-                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -246,6 +194,34 @@
             </div>
         </q-layout>
     </div>
+
+    <!-- <Vue-PDF :pdf="pdf" :page="1" /> -->
+    <!--   <div v-if="appointment.attachments.length > 0" class="q-pa-md">
+
+                                        <q-carousel v-model="slide" animated arrows navigation infinite>
+                                            <q-carousel-slide v-for="file in appointment.attachments" :key="file.id"
+                                                :name="file.id" :img-src="file.file" />
+
+                                        </q-carousel> 
+                                    </div>-->
+
+    <!-- 
+                                            <div class="album-photos">
+                                            <img  :src="file.file" alt=""
+                                            class="album-photo" />
+                                        <div v-for="file in appointment.attachments" :key="file.id" class="album-right">
+                                            <img v-if="file.file_type == 'image'" :src="file.file" alt=""
+                                                class="album-photo">
+                                            <div class="username">Chandelio</div>
+                                        </div> -->
+    <!-- <div  class="album-right">
+                                            <img src="https://images.unsplash.com/photo-1502872364588-894d7d6ddfab?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2250&q=80"
+                                                alt="" class="album-photo" />
+                                            <img src="https://images.unsplash.com/photo-1566737236500-c8ac43014a67?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80"
+                                                alt="" class="album-photo" />
+                                        </div> 
+                                     </div>
+                                    -->
 </template>
 
 <script setup lang="ts">
@@ -259,7 +235,7 @@ import moment from "moment"
 import { usePDF, VuePDF } from '@tato30/vue-pdf'
 
 import fetchClientData from "@/composables/useFetchClientDetails"
-
+import FileViewer from "@/components/shared/FileViewer.vue";
 const rightSide = ref(true)
 const leftSide = ref(true)
 const profileTab = ref('timeline')
@@ -320,6 +296,7 @@ const load = async () => {
 };
 
 onMounted(load);
+
 
 
 const appointments = ref<Appointment[]>([]);
@@ -513,7 +490,7 @@ watch(
 // }
 
 .album-content {
-    padding: 0 20px 20px;
+    padding: 0 10px 10px;
 }
 
 .album {
