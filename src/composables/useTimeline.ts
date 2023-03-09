@@ -3,6 +3,7 @@ import axios from "axios";
 import { useClientStore } from "@/stores/client.js";
 import { Appointment, TimelineState } from "./interfaces";
 
+
 export default function useTimeline() {
   const state = ref<TimelineState>({
     past: [],

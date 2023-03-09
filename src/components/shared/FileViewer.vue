@@ -32,10 +32,10 @@
                     class=" w-[80vw] h-[450px] shadow-1 rounded-borders">
                     <q-carousel-slide v-for="file in pdfs" :key="file.id" :name="file.id">
 
-                        <!-- <VuePDF :pdf="file.file" :page="1" /> -->
-                        <div class="q-mt-md text-center">
+                        <Vue-PDF :pdf="file.file" :page="1" />
+                        <!-- <div class="q-mt-md text-center">
                             {{ loadPdf(file.file) }}
-                        </div>
+                        </div> -->
                     </q-carousel-slide>
                 </q-carousel>
                 <div class="w-[80vw] h-[450px] shadow-1 rounded-borders" v-else> THERE IS NO IMAGES AMONG THE ATTACHMENTS
