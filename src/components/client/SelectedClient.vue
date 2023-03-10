@@ -110,8 +110,8 @@
                                     </h2>
                                     <button class="intro-menu"></button>
                                 </div>
+                                <!-- <Vue-PDF :pdf="pdf" :page="1" /> -->
                                 <div class="ml-14 album-content ">When the bass drops, so do my problems.
-
                                     <FileViewer :files="appointment.attachments" />
                                 </div>
 
@@ -232,7 +232,6 @@ import { Appointment } from "@/composables/interfaces";
 import useTimeline from '@/composables/useTimeline';
 import { Client } from "@/composables/interfaces";
 import moment from "moment"
-import { usePDF, VuePDF } from '@tato30/vue-pdf'
 
 import fetchClientData from "@/composables/useFetchClientDetails"
 import FileViewer from "@/components/shared/FileViewer.vue";
@@ -249,8 +248,6 @@ const slide = ref(1)
 
 const store = useClientStore();
 const config = store.useConfig;
-const { pdf, pages } = usePDF("https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf");
-// const { pdf, pages, info } = usePDF("https://www.africau.edu/images/default/sample.pdf")
 
 const id = computed(() => props.clientId)
 async function fetchClient() {
@@ -297,7 +294,7 @@ const load = async () => {
 
 onMounted(load);
 
-
+// const { pdf, pages } = usePDF("https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf");
 
 const appointments = ref<Appointment[]>([]);
 const loading = ref<boolean>(false);

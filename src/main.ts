@@ -9,6 +9,8 @@ import moment from "moment";
 import VueCal from "vue-cal";
 import "vue-cal/dist/vuecal.css";
 
+import VuePdf from "vue3-pdfjs";
+
 // import {
 //   Loading,
 
@@ -83,5 +85,6 @@ app
   })
   .use(pinia)
   .component("vue-cal", VueCal)
+  .use(VuePdf)
   .use(router)
   .mount("#app");

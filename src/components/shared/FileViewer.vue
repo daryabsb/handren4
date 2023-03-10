@@ -7,10 +7,14 @@
             <q-icon name="images" outline size="18px" />
             {{ images.length }}
         </button>
-        <button href="#" class="album-action" @click="togglePdfs">
+        <button v-if="pdfs" href="#" class="album-action" @click="togglePdfs">
             <q-icon name="attachments" outline size="18px" />
+
+
             {{ pdfs.length }}
+
         </button>
+
         <div class="q-pa-md q-gutter-sm">
             <q-dialog v-model="openImages">
                 <q-carousel v-if="images.length > 0" transition-prev="slide-right" transition-next="slide-left" swipeable
@@ -18,6 +22,7 @@
                     class="bg-white z-50 w-[80vw] h-[450px] shadow-1 rounded-borders">
                     <q-carousel-slide v-for="image in images" :key="image.id" :name="image.id">
                         <q-img class="w-full h-full object-cover" :src="image.file" />
+
                         <!-- <div class="q-mt-md text-center">
                         {{ lorem }}
                     </div> -->
@@ -27,20 +32,15 @@
                 </div>
             </q-dialog>
             <q-dialog v-model="openPdfs">
-                <q-carousel v-if="pdfs.length > 0" transition-prev="slide-right" transition-next="slide-left" swipeable
-                    animated v-model="slide" control-color="primary" navigation-icon="radio_button_unchecked" navigation
-                    class=" w-[80vw] h-[450px] shadow-1 rounded-borders">
-                    <q-carousel-slide v-for="file in pdfs" :key="file.id" :name="file.id">
-
-                        <Vue-PDF :pdf="file.file" :page="1" />
-                        <!-- <div class="q-mt-md text-center">
-                            {{ loadPdf(file.file) }}
-                        </div> -->
-                    </q-carousel-slide>
-                </q-carousel>
-                <div class="w-[80vw] h-[450px] shadow-1 rounded-borders" v-else> THERE IS NO IMAGES AMONG THE ATTACHMENTS
-                </div>
+                <!-- <q-carousel-slide v-for="file in pdfs" :key="file.id" :name="file.id"> -->
+                <!-- <iframe src="http://127.0.0.1:8000/media/upload_files/JABAL_BAZYAN_EJARI_1.pdf" height="1200"
+                        width="800"></iframe> -->
+                <OpenPdf />
+                <!-- </q-carousel-slide> -->
+                <!-- <vue-pdf-app style="height: 100vh;"
+                    pdf="https://file-examples-com.github.io/uploads/2017/10/file-example_PDF_1MB.pdf"></vue-pdf-app> -->
             </q-dialog>
+
             <q-dialog v-model="card">
                 <q-card class="my-card">
                     <q-img src="https://cdn.quasar.dev/img/chicken-salad.jpg" />
@@ -122,24 +122,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { Attachment } from "@/composables/interfaces"
 import useAttachments from '@/composables/useAttachments';
-import { usePDF, VuePDF } from '@tato30/vue-pdf'
+import OpenPdf from './OpenPdf.vue';
 
-export interface Props {
+interface Props {
     files: Attachment[]
-    // openImages?: boolean
-    // openPdfs?: boolean
-    // openOthers?: boolean
 }
 
-const props = withDefaults(defineProps<Props>(), {
-    // openImages: false,
-    // openPdfs: false,
-    // openOthers: false,
-    //   labels: () => ['one', 'two']
-})
+const props = withDefaults(defineProps<Props>(), {})
 
 // const emit = defineEmits<{
 //     (e: 'update:openImages', value: boolean): void,
@@ -147,11 +139,34 @@ const props = withDefaults(defineProps<Props>(), {
 // }>()
 
 
-// const attachments = ref([...]); // your list of attachments here
 const { attachmentLists, uploadAttachment } = useAttachments(props.files);
 
 const images = computed(() => attachmentLists.value.images.attachments)
 const pdfs = computed(() => attachmentLists.value.pdfs.attachments)
+
+
+// const pdfRef = ref()
+// const isLoading = ref(true)
+// const page = ref()
+// const pageCount = ref(1)
+// const pdfSource = ref('https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf')
+// const showAllPages = ref(true)
+
+// watch(showAllPages, () => {
+
+//     page.value = showAllPages.value ? null : 1
+
+// })
+// function handleDocumentRender(args: any) {
+//     console.log(args)
+//     isLoading.value = false
+//     pageCount.value = pdfRef.value.pageCount
+// }
+// function handlePasswordRequest(callback: any, retry: boolean) {
+//     callback(prompt(retry ? 'Enter password again' : 'Enter password'))
+// }
+
+
 
 const openImages = ref(false)
 const openPdfs = ref(false)
@@ -166,6 +181,7 @@ const card = ref(false)
 const sliders = ref(false)
 
 const slide = ref(1)
+const fileSlide = ref(1)
 const lorem = 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus, ratione eum minus fuga, quasi dicta facilis corporis magnam, suscipit at quo nostrum!'
 
 const stars = ref(3)
@@ -177,10 +193,8 @@ const slideVibration = ref(63)
 // COOK THE PDF HERE
 function loadPdf(file: string) {
     // const { pdf, pages } = usePDF(file);
-    const { pdf, pages } = usePDF("https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf");
-    console.log(file, pdf);
 
-    return pdf
+    return file
 }
 
 </script>

@@ -6,7 +6,7 @@ import renderer from "vite-plugin-electron-renderer";
 import pkg from "./package.json";
 import { quasar, transformAssetUrls } from "@quasar/vite-plugin";
 
-import { manualChunksPlugin } from 'vite-plugin-webpackchunkname'
+import { manualChunksPlugin } from "vite-plugin-webpackchunkname";
 
 rmSync("dist-electron", { recursive: true, force: true });
 const sourcemap = !!process.env.VSCODE_DEBUG;
